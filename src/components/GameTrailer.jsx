@@ -36,31 +36,52 @@ export default function GameTrailer({ gameTitle }) {
       clearTimeout(timer);
     };
   }, [gameTitle, showTrailer]);
-  console.log("game title and showTrailer", gameTitle, showTrailer);
-  if (status === "loading") return <p>Searching YouTube…</p>;
-  if (status === "error") return <p>Couldn’t load a video right now.</p>;
-  if (status === "empty") return <p>No embeddable results found.</p>;
-
+  if (status === "loading")
+    return (
+      <p className="text-cyan-400 animate-pulse text-center mt-4">
+        🔎 Searching YouTube…
+      </p>
+    );
+  if (status === "error")
+    return (
+      <p className="text-red-500 text-center mt-4">
+        ❌ Couldn’t load a video right now.
+      </p>
+    );
+  if (status === "empty")
+    return (
+      <p className="text-gray-400 text-center mt-4">
+        ⚠️ No embeddable results found.
+      </p>
+    );
   //   return <YouTubeEmbed videoId={videoId} title={`${gameTitle} trailer`} />;
   const currentVideoId = videoIds[currentIndex];
 
   return (
-    <div>
-      <YouTubeEmbed videoId={currentVideoId} title={`${gameTitle} trailer`} />
+    <div className="mt-6 bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4 max-w-3xl mx-auto">
+      <h2 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
+        🎬 {gameTitle} Trailer
+      </h2>
+
+      <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
+        <YouTubeEmbed videoId={currentVideoId} title={`${gameTitle} trailer`} />
+      </div>
 
       {videoIds.length > 1 && (
-        <div>
+        <div className="flex justify-between mt-4">
           <button
             onClick={() =>
               setCurrentIndex(i => (i > 0 ? i - 1 : videoIds.length - 1))
-            }>
-            Previous
+            }
+            className="px-4 py-2 rounded-xl bg-gray-800 text-cyan-400 hover:bg-cyan-600 hover:text-white shadow-md transition">
+            ⬅️ Previous
           </button>
           <button
             onClick={() =>
               setCurrentIndex(i => (i < videoIds.length - 1 ? i + 1 : 0))
-            }>
-            Next
+            }
+            className="px-4 py-2 rounded-xl bg-gray-800 text-cyan-400 hover:bg-cyan-600 hover:text-white shadow-md transition">
+            Next ➡️
           </button>
         </div>
       )}

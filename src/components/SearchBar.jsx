@@ -59,99 +59,159 @@ export default function SearchBar({
     [setGenres]
   );
 
-  return (
-    <div className="layout-container">
-      <label htmlFor="enable-dates">Enable search by dates</label>
-      <input
-        type="checkbox"
-        id="enable-dates"
-        checked={dates}
-        onChange={e => setDates(e.target.checked)}
-      />
-      <DateRangePicker
-        endDate={endDate}
-        setEndDate={setEndDate}
-        startDate={startDate}
-        setStartDate={setStartDate}
-        disabled={disabled}
-      />
-      <label htmlFor="game-name">Insert game name</label>
-      <input
-        type="text"
-        value={gameName}
-        id="game-name"
-        onChange={e => setGameName(e.target.value)}
-      />
+   return (
+    <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 rounded-2xl shadow-xl border border-cyan-500/40 space-y-6 max-w-4xl mx-auto">
+      {/* Search by dates */}
+      <div className="flex items-center gap-3">
+        <input
+          type="checkbox"
+          id="enable-dates"
+          checked={dates}
+          onChange={(e) => setDates(e.target.checked)}
+          className="w-4 h-4 accent-cyan-500 cursor-pointer"
+        />
+        <label htmlFor="enable-dates" className="text-cyan-400 text-sm">
+          Enable search by dates
+        </label>
+      </div>
+      {dates && (
+        <DateRangePicker
+          endDate={endDate}
+          setEndDate={setEndDate}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          disabled={disabled}
+        />
+      )}
+
+      {/* Game name */}
+      <div>
+        <label
+          htmlFor="game-name"
+          className="block text-sm text-cyan-400 mb-1"
+        >
+          Insert game name
+        </label>
+        <input
+          type="text"
+          value={gameName}
+          id="game-name"
+          onChange={(e) => setGameName(e.target.value)}
+          className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          placeholder="e.g. The Witcher"
+        />
+      </div>
+
+      {/* Search button */}
       <button
         type="button"
-        className="search-btn"
-        onClick={() => handleFetch()}>
-        Search games
+        onClick={() => handleFetch()}
+        className="w-full py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold shadow-lg shadow-cyan-500/30 transition"
+      >
+        🔍 Search games
       </button>
-      {/* <ul className="game-list">
-        {results.map(game => (
-          <li key={game.id}>
-            {game.name} <br />
-            released: {game.released || "N/A"} <br />
-            rating: {game.rating || "N/A"}
-          </li>
-        ))}
-      </ul> */}
 
-      {genresCheckboxes.map(genre => (
-        <div key={genre}>
-          <label htmlFor={genre}>{genre}</label>
-          <input
-            type="checkbox"
-            id={genre}
-            value={genre}
-            onChange={handleCheckboxes}
-            checked={genres.includes(genre.toLowerCase())}
-          />
+      {/* Genres */}
+      <div>
+        <h3 className="text-cyan-400 text-sm mb-2">Genres</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+          {genresCheckboxes.map((genre) => (
+            <label
+              key={genre}
+              htmlFor={genre}
+              className="flex items-center gap-2 bg-gray-800 px-2 py-1 rounded-lg border border-gray-700 cursor-pointer hover:border-cyan-400 transition"
+            >
+              <input
+                type="checkbox"
+                id={genre}
+                value={genre}
+                onChange={handleCheckboxes}
+                checked={genres.includes(genre.toLowerCase())}
+                className="w-4 h-4 accent-cyan-500 cursor-pointer"
+              />
+              <span className="text-gray-200 text-sm">{genre}</span>
+            </label>
+          ))}
         </div>
-      ))}
-      <label htmlFor="exact-search">Exact match</label>
-      <input
-        type="checkbox"
-        checked={exactSearch}
-        id="exact-search"
-        onChange={e => setExactSearch(e.target.checked)}
-      />
+      </div>
 
-      <label htmlFor="is-sorting">Enable sorting</label>
-      <input
-        id="is-sorting"
-        type="checkbox"
-        checked={isSorting}
-        onChange={e => {
-          const enabled = e.target.checked;
-          setIsSorting(enabled);
-          if (!enabled) setSort(null);
-        }}
-      />
-      <label htmlFor="radio-rating">rating</label>
-      <input
-        type="radio"
-        id="radio-rating"
-        value="rating"
-        checked={sort === "-rating"}
-        name="radio-btn"
-        onChange={() => setSort("-rating")}
-        disabled={!isSorting}
-      />
-      <label htmlFor="radio-released">released</label>
-      <input
-        type="radio"
-        id="radio-released"
-        value="released"
-        checked={sort === "-released"}
-        name="radio-btn"
-        onChange={() => setSort("-released")}
-        disabled={!isSorting}
-      />
+      {/* Exact match */}
+      <div className="flex items-center gap-3">
+        <input
+          type="checkbox"
+          checked={exactSearch}
+          id="exact-search"
+          onChange={(e) => setExactSearch(e.target.checked)}
+          className="w-4 h-4 accent-cyan-500 cursor-pointer"
+        />
+        <label htmlFor="exact-search" className="text-cyan-400 text-sm">
+          Exact match
+        </label>
+      </div>
 
-      <button type="button" className="reset-btn" onClick={handleReset}>
-        Reset
+      {/* Sorting */}
+      <div>
+        <div className="flex items-center gap-3">
+          <input
+            id="is-sorting"
+            type="checkbox"
+            checked={isSorting}
+            onChange={(e) => {
+              const enabled = e.target.checked;
+              setIsSorting(enabled);
+              if (!enabled) setSort(null);
+            }}
+            className="w-4 h-4 accent-cyan-500 cursor-pointer"
+          />
+          <label htmlFor="is-sorting" className="text-cyan-400 text-sm">
+            Enable sorting
+          </label>
+        </div>
+
+        {isSorting && (
+          <div className="flex gap-6 mt-3">
+            <label
+              htmlFor="radio-rating"
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <input
+                type="radio"
+                id="radio-rating"
+                value="rating"
+                checked={sort === "-rating"}
+                name="radio-btn"
+                onChange={() => setSort("-rating")}
+                className="accent-cyan-500 cursor-pointer"
+              />
+              <span className="text-gray-200 text-sm">By Rating</span>
+            </label>
+
+            <label
+              htmlFor="radio-released"
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <input
+                type="radio"
+                id="radio-released"
+                value="released"
+                checked={sort === "-released"}
+                name="radio-btn"
+                onChange={() => setSort("-released")}
+                className="accent-cyan-500 cursor-pointer"
+              />
+              <span className="text-gray-200 text-sm">By Release Date</span>
+            </label>
+          </div>
+        )}
+      </div>
+
+      {/* Reset button */}
+      <button
+        type="button"
+        onClick={handleReset}
+        className="w-full py-2 rounded-xl bg-gray-700 hover:bg-red-500 text-white font-semibold shadow-lg transition"
+      >
+        ♻️ Reset
       </button>
     </div>
   );
