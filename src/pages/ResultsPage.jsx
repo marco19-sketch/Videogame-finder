@@ -1,6 +1,7 @@
 import { useContext, useCallback,  useEffect } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
+import  '../styles/ResultsPage.css'
 
 export default function ResultsPage() {
   const { results, page, setPage, handleFetch } = useContext(AppContext);
@@ -19,11 +20,11 @@ export default function ResultsPage() {
     handleFetch(page);
   }, [page, handleFetch]);
 
-  console.log("page", page);
+  // console.log("results screenshot", results[0].short_screenshots[0].image);
 
   return (
     <div className="layout-container">
-      <Link to="/home" onClick={() => setPage(1)}>
+      <Link className='new-search' to="/home" onClick={() => setPage(1)}>
         New search
       </Link>
       <ul className="game-list">
@@ -34,6 +35,10 @@ export default function ResultsPage() {
               {game.id} <br />
               released: {game.released || "N/A"} <br />
               rating: {game.rating || "N/A"}
+             
+              <img className='results-img' src={game.short_screenshots[0].image} alt={`screenshot of${game.name}`} />
+              {/* {game.short_screenshots.map(pic => (
+              <img src={pic.image} key={pic.id} alt={`screenshot of${game.name}`} />))} */}
             </Link>
           </li>
         ))}

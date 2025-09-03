@@ -1,12 +1,11 @@
 import { useMemo, useState, useCallback } from "react";
 import { AppContext, AuthContext } from "./contextsCreation";
 import { useNavigate } from "react-router-dom";
+const rawgKey = import.meta.env.VITE_RAWG_API_KEY;
 
 export default function ContextProvider({ children }) {
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
-  const key = "key=f3ea5ddf24ad48c2a58bda496fbb43c8";
-
   const [gameName, setGameName] = useState("");
   const [genres, setGenres] = useState([]);
   const [sort, setSort] = useState("");
@@ -16,13 +15,13 @@ export default function ContextProvider({ children }) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const navigate = useNavigate();
+  const [showTrailer, setShowTrailer] = useState(false);
 
   ///Main fetch, get the list of games searched
   const handleFetch = useCallback(
     async (pageToFetch = page) => {
       navigate("/results-page");
-      let url = `https://api.rawg.io/api/games?${key}&page=${pageToFetch}&page_size=20&search=${encodeURIComponent(
-        // let url = `https://api.rawg.io/api/games?${key}&page=1&page_size=20&search=${encodeURIComponent(
+      let url = `https://api.rawg.io/api/games?key=${rawgKey}&page=${pageToFetch}&page_size=8&search=${encodeURIComponent(
         gameName
       )}`;
 
@@ -44,7 +43,6 @@ export default function ContextProvider({ children }) {
       try {
         const res = await fetch(url);
         const data = await res.json();
-        console.log("results", data.results);
         setResults(data.results);
       } catch (err) {
         console.error("Error trying to fetch data:", err);
@@ -60,7 +58,6 @@ export default function ContextProvider({ children }) {
       startDate,
       navigate,
       setResults,
-      key,
       page,
     ]
   );
@@ -69,7 +66,7 @@ export default function ContextProvider({ children }) {
     () => ({
       results,
       setResults,
-      key,
+      rawgKey,
       page,
       setPage,
       gameName,
@@ -89,6 +86,8 @@ export default function ContextProvider({ children }) {
       endDate,
       setEndDate,
       handleFetch,
+      showTrailer,
+      setShowTrailer
     }),
     [
       results,
@@ -112,6 +111,8 @@ export default function ContextProvider({ children }) {
       endDate,
       setEndDate,
       handleFetch,
+      showTrailer,
+      setShowTrailer
     ]
   );
   const AuthContextValues = useMemo(() => {}, []);
