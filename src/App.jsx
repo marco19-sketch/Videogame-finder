@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import ResultsPage from "./pages/ResultsPage";
 import DetailsPage from "./pages/DetailsPage";
 import TrendingPage from "./pages/TrendingPage";
+import FavoritesPage from './pages/FavoritesPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/results-page" element={<ResultsPage />} />
           <Route path="/details-page/:id" element={<DetailsPage />} />
+          <Route path='/favorites-page' element={<FavoritesPage />} />
         </Routes>
       </main>
     </div>

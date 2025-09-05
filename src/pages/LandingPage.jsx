@@ -16,6 +16,11 @@ export default function LandingPage() {
           className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           See what's trending now
         </NavLink>
+        <NavLink to='/favorites-page'
+        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+          Go to My List
+        </NavLink>
+
       </div>
     );
     

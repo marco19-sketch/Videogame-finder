@@ -1,6 +1,6 @@
 import { useMemo, useState, useCallback } from "react";
 import { AppContext, AuthContext } from "./contextsCreation";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 const rawgKey = import.meta.env.VITE_RAWG_API_KEY;
 
 export default function ContextProvider({ children }) {
@@ -17,10 +17,21 @@ export default function ContextProvider({ children }) {
   const navigate = useNavigate();
   const [showTrailer, setShowTrailer] = useState(false);
   const [trendingGames, setTrendingGames] = useState([]);
-  // const [gamePlay, setGamePlay] = useState(false);
+  const location = useLocation();
+const [favorites, setFavorites] = useState(() => {
+  const saved = localStorage.getItem("savedGames");
+  try {
+    const parsed = saved ? JSON.parse(saved) : [];
+    // filter out any null or invalid entries
+    return Array.isArray(parsed) ? parsed.filter(f => f && f.id) : [];
+  } catch {
+    return [];
+  }
+});
 
-  // console.log('gameplay from contextProvider', gamePlay)
-  ///Main fetch, get the list of games searched
+  console.log('results from context', results)
+  const isFavoritesPage = location.pathname === '/favorites-page';
+
   const handleFetch = useCallback(
     async (pageToFetch = page) => {
       navigate("/results-page");
@@ -46,7 +57,7 @@ export default function ContextProvider({ children }) {
       try {
         const res = await fetch(url);
         const data = await res.json();
-        console.log('DATA', data)
+        console.log("DATA", data);
         setResults(data.results);
       } catch (err) {
         console.error("Error trying to fetch data:", err);
@@ -96,6 +107,9 @@ export default function ContextProvider({ children }) {
       setTrendingGames,
       // gamePlay,
       // setGamePlay,
+      favorites,
+      setFavorites,
+      isFavoritesPage,
     }),
     [
       results,
@@ -125,9 +139,14 @@ export default function ContextProvider({ children }) {
       setTrendingGames,
       // gamePlay,
       // setGamePlay,
+      favorites,
+      setFavorites,
+      isFavoritesPage,
     ]
   );
   const AuthContextValues = useMemo(() => {}, []);
+
+  console.log('favorites from context', favorites)
 
   return (
     <AuthContext.Provider value={AuthContextValues}>
