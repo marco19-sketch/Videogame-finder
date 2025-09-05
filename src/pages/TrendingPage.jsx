@@ -1,10 +1,14 @@
-import { useContext, useCallback,  useEffect } from "react";
+import { useContext, useCallback, useEffect, useState } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
+import { getTrending } from "../lib/getTrending";
 
-
-export default function ResultsPage() {
-  const { results, page, setPage, handleFetch } = useContext(AppContext);
+export default function TrendingPage(sortBy) {
+  // const { page, setPage, trendingGames, setTrendingGames } = useContext(AppContext);
+  const { trendingGames, setTrendingGames } = useContext(AppContext);
+  const [page, setPage] = useState(1);
+  
+sortBy = 'rating';
 
   const handlePrevious = useCallback(() => {
     if (page > 1) {
@@ -13,17 +17,29 @@ export default function ResultsPage() {
   }, [page, setPage]);
 
   const handleNext = useCallback(() => {
-    setPage(prevPage => prevPage + 1);
-  }, [setPage]);
+    if (page <= 3) {
+      setPage(prevPage => prevPage + 1);
+    }
+  }, [setPage, page]);
 
   useEffect(() => {
-    handleFetch(page);
-  }, [page, handleFetch]);
+    async function fetchTrending() {
+      const data = await getTrending(sortBy, page);
+      setTrendingGames(data);
 
-  // console.log("results screenshot", results[0].short_screenshots[0].image);
+      console.log("page from trending page", page);
+      console.log("data from TrendingPage", data);
+      // console.log("results screenshot", results[0].short_screenshots[0].image);
+    }
+    fetchTrending();
+  }, [page, setTrendingGames, sortBy]);
 
+  console.log('trendingGames array', trendingGames)
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
+      <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">
+        Best games right now
+      </h1>
       {/* Link back to Home */}
       <Link
         to="/home"
@@ -34,7 +50,7 @@ export default function ResultsPage() {
 
       {/* Games grid */}
       <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
-        {results.map(game => (
+        {trendingGames?.map(game => (
           <li
             key={game.id}
             className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 transition duration-300 transform hover:-translate-y-1 hover:scale-105">
@@ -60,6 +76,7 @@ export default function ResultsPage() {
                     {game.released || "N/A"}
                   </span>
                 </p>
+
                 <p className="text-sm text-gray-300 flex items-center gap-1">
                   Rating:{" "}
                   <span className="font-medium text-yellow-400 flex items-center gap-1">
@@ -91,22 +108,15 @@ export default function ResultsPage() {
         <button
           type="button"
           onClick={handleNext}
-          className="px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
+          disabled={page === 3}
+          className={`px-6 py-2 rounded-lg font-semibold transition-colors duration-300 ${
+            page === 3
+              ? "bg-gray-600 text-gray-300 cursor-not-allowed"
+              : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500"
+          }`}>
           Next ➡️
         </button>
       </div>
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-

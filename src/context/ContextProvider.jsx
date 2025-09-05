@@ -16,7 +16,10 @@ export default function ContextProvider({ children }) {
   const [endDate, setEndDate] = useState(null);
   const navigate = useNavigate();
   const [showTrailer, setShowTrailer] = useState(false);
+  const [trendingGames, setTrendingGames] = useState([]);
+  // const [gamePlay, setGamePlay] = useState(false);
 
+  // console.log('gameplay from contextProvider', gamePlay)
   ///Main fetch, get the list of games searched
   const handleFetch = useCallback(
     async (pageToFetch = page) => {
@@ -43,6 +46,7 @@ export default function ContextProvider({ children }) {
       try {
         const res = await fetch(url);
         const data = await res.json();
+        console.log('DATA', data)
         setResults(data.results);
       } catch (err) {
         console.error("Error trying to fetch data:", err);
@@ -87,7 +91,11 @@ export default function ContextProvider({ children }) {
       setEndDate,
       handleFetch,
       showTrailer,
-      setShowTrailer
+      setShowTrailer,
+      trendingGames,
+      setTrendingGames,
+      // gamePlay,
+      // setGamePlay,
     }),
     [
       results,
@@ -112,7 +120,11 @@ export default function ContextProvider({ children }) {
       setEndDate,
       handleFetch,
       showTrailer,
-      setShowTrailer
+      setShowTrailer,
+      trendingGames,
+      setTrendingGames,
+      // gamePlay,
+      // setGamePlay,
     ]
   );
   const AuthContextValues = useMemo(() => {}, []);

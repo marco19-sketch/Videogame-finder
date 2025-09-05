@@ -2,30 +2,34 @@ import { useContext, useState, useCallback } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { useParams, Link } from "react-router-dom";
 import GameTrailer from "../components/GameTrailer";
+import GameDetails from "../components/GameDetails";
+import Modal from "../components/Modal";
 
 export default function DetailsPage() {
-  const { results, rawgKey, showTrailer, setShowTrailer } =
-    useContext(AppContext);
+  const {
+    results,
+    rawgKey,
+    showTrailer,
+    setShowTrailer,
+    trendingGames,
+    // gamePlay,
+    // setGamePlay,
+  } = useContext(AppContext);
+  // console.log("gamePlay from DetailsPage", gamePlay);
   const { id } = useParams();
-  const game = results?.find(g => g.id === Number(id));
+  const game =
+    results?.find(g => g.id === Number(id)) ||
+    trendingGames?.find(g => g.id === Number(id));
   const [trailers, setTrailers] = useState([]);
   const [index, setIndex] = useState(0);
-
-  const [youTube, setYouTube] = useState(false);
+  // const [youTube, setYouTube] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [gamePlay, setGamePlay] = useState(false);
 
   //Getting trailers using gameId
-
   const handleFetchTrailers = useCallback(async () => {
-    console.log("handle fetch fires");
-    if (!game) return
-    // if (!game) {
-    //   return (
-    //     <div className="layout-container">
-    //       <p>Loading game details...</p>
-    //     </div>
-    //   );
-    // }
-   
+    if (!game) return;
+    console.log("game from handleFetch", game);
     try {
       const res = await fetch(
         `https://api.rawg.io/api/games/${game.id}/movies?key=${rawgKey}`
@@ -34,99 +38,193 @@ export default function DetailsPage() {
 
       setTrailers(data.results);
       if (data.results.length === 0 || !data.results) {
-        setYouTube(true);
+        // setYouTube(true);
         setShowTrailer(false);
       } else {
-        setYouTube(false);
+        // setYouTube(false);
         setShowTrailer(true);
       }
+
+      setShowModal(true);
     } catch (err) {
       console.error("Error trying to fetch game trailers:", err);
     }
   }, [rawgKey, game, setShowTrailer]);
 
-  console.log("youtube, showTrailer", youTube, showTrailer);
-
- if (!game) {
-   return (
-     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
-       <p className="text-lg animate-pulse">Loading game details...</p>
-     </div>
-   );
- }
+  if (!game) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
+        <p className="text-lg animate-pulse">Loading game details...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white flex flex-col items-center py-10 px-4">
-      {/* Navigation */}
-      <div className="flex gap-6 mb-8 text-cyan-400 font-semibold">
-        <Link to="/results-page" className="hover:text-cyan-300 transition">
-          ⬅️ Results
-        </Link>
-        <Link to="/home" className="hover:text-cyan-300 transition">
-          🏠 Home
-        </Link>
+    <div
+      className="relative min-h-screen py-10 px-4 text-white bg-cover bg-center"
+      style={{ backgroundImage: `url(${game.background_image})` }}>
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-gray-900/70 to-black/90"></div>
+
+      {/* Content */}
+      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center">
+        <div className="flex gap-6 mb-8 text-cyan-400 font-semibold">
+          <Link to="/results-page" className="hover:text-cyan-300 transition">
+            ⬅️ Results
+          </Link>
+          <Link to="/home" className="hover:text-cyan-300 transition">
+            🏠 Home
+          </Link>
+          <Link to="/trending-page" className="hover:text-cyan-300 transition">
+            Trending now
+          </Link>
+        </div>
+
+        {/* Title */}
+        <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">
+          {game.name}
+        </h1>
+
+        {/* Game Info */}
+        <p className="text-sm text-gray-300">
+          Genres:{" "}
+          {game.genres.map(g => (
+            <span key={g.id} className="font-medium text-white">
+              {g.name || "N/A"}
+              {", "}
+            </span>
+          ))}
+        </p>
+        <p className="text-sm text-gray-300">
+          Platforms:{" "}
+          {game.parent_platforms.map(p => (
+            <span key={p.platform.id} className="font-medium text-white">
+              {p.platform.name || "N/A"},{" "}
+            </span>
+          ))}
+        </p>
+        <p className="text-sm text-gray-300">
+          Playtime:{" "}
+          <span className="font-medium text-white">
+            {game.playtime || "N/A"} hours
+          </span>
+        </p>
+        <p className="text-sm text-gray-300">
+          Rating:{" "}
+          <span className="font-medium text-white">
+            {game.rating || "N/A"}{" "}
+            <span className="ml-1 text-yellow-400">★</span>
+          </span>
+        </p>
+        <p className="text-sm text-gray-300">
+          Released:{" "}
+          <span className="font-medium text-white">
+            {game.released || "N/A"}
+          </span>
+        </p>
+        <p className="text-sm text-gray-300">
+          Reviews count:{" "}
+          <span className="font-medium text-white">
+            {game.reviews_count || "N/A"}
+          </span>
+        </p>
+        <GameDetails gameId={game.id} />
+        {/* Watch Trailer Button */}
+        <button
+          type="button"
+          onClick={() => {
+            setGamePlay(false);
+            handleFetchTrailers();
+          }}
+          className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
+          🎬 Watch trailers
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            setGamePlay(true);
+            handleFetchTrailers();
+            console.log("game from the button", game);
+          }}
+          className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
+          🎮 Watch Gameplay
+        </button>
+
+        {/* Modal */}
+        {showModal && (
+          <Modal
+            onClose={() => {
+              setShowModal(false);
+              setGamePlay(false);
+            }}
+            className="z-50">
+            {showTrailer && trailers.length > 0 && !gamePlay ? (
+              // {showTrailer && trailers.length > 0 ? (
+              <div className=" bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4 max-w-3xl mx-auto">
+                {/* <div className="w-full max-w-3xl flex flex-col items-center gap-4"> */}
+
+                <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
+                  {trailers[index]?.name}
+                </h3>
+                <div className="w-full max-w-3xl aspect-video rounded-xl overflow-hidden shadow-lg">
+                  <video
+                    controls
+                    width="100%"
+                    key={trailers[index]?.id}
+                    className="w-auto h-auto">
+                    {/* className="rounded-lg shadow-lg border border-gray-700"> */}
+                    <source
+                      src={trailers[index]?.data["480"]}
+                      type="video/mp4"
+                    />
+                  </video>
+                </div>
+                <div className="flex justify-between mt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIndex(Math.max(0, index - 1))}
+                    disabled={index === 0}
+                    className={`px-5 py-2 rounded-lg font-semibold transition ${
+                      index === 0
+                        ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                        : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500"
+                    }`}>
+                    ⬅️ Previous
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIndex(index + 1)}
+                    disabled={index === trailers.length - 1}
+                    className={`px-5 py-2 rounded-lg font-semibold transition ${
+                      index === trailers.length - 1
+                        ? "bg-gray-600 text-gray-400 cursor-not-allowed"
+                        : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500"
+                    }`}>
+                    Next ➡️
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <GameTrailer
+                key={gamePlay ? "gameplay" : "trailer"}
+                gameTitle={game.name}
+                mode={gamePlay ? "gameplay" : "trailer"}
+              />
+            )}
+          </Modal>
+        )}
+        {/* {showModal && gamePlay && (
+          <Modal onClose={() => setShowModal(false)}>
+            {
+              <GameTrailer
+                key={gamePlay ? "gameplay" : "trailer"}
+                gameTitle={game.name}
+              />
+            }
+          </Modal>
+        )} */}
       </div>
-
-      {/* Title */}
-      <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">
-        {game.name}
-      </h1>
-
-      {/* Button to fetch trailers */}
-      <button
-        type="button"
-        onClick={handleFetchTrailers}
-        className="mb-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
-        🎬 Watch trailers
-      </button>
-
-      {/* Trailer player */}
-      {showTrailer && (
-        <div className="w-full max-w-3xl flex flex-col items-center gap-4">
-          <h3 className="text-xl font-semibold text-yellow-400">
-            {trailers[index]?.name}
-          </h3>
-          <video
-            controls
-            width="100%"
-            key={trailers[index]?.id}
-            className="rounded-lg shadow-lg border border-gray-700">
-            <source src={trailers[index]?.data["480"]} type="video/mp4" />
-          </video>
-
-          <div className="flex gap-4 mt-4">
-            <button
-              type="button"
-              onClick={() => setIndex(Math.max(0, index - 1))}
-              disabled={index === 0}
-              className={`px-5 py-2 rounded-lg font-semibold transition ${
-                index === 0
-                  ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500"
-              }`}>
-              ⬅️ Previous
-            </button>
-            <button
-              type="button"
-              onClick={() => setIndex(index + 1)}
-              disabled={index === trailers.length - 1}
-              className={`px-5 py-2 rounded-lg font-semibold transition ${
-                index === trailers.length - 1
-                  ? "bg-gray-600 text-gray-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500"
-              }`}>
-              Next ➡️
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Fallback YouTube trailer */}
-      {youTube && !showTrailer && (
-        <div className="mt-8 w-full max-w-3xl">
-          <GameTrailer gameTitle={game.name} />
-        </div>
-      )}
     </div>
   );
 }

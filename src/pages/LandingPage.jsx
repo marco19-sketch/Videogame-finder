@@ -11,6 +11,11 @@ export default function LandingPage() {
           className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Start your search
         </NavLink>
+        <NavLink
+          to="/trending-page"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+          See what's trending now
+        </NavLink>
       </div>
     );
     
