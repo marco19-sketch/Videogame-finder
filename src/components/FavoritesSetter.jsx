@@ -22,7 +22,6 @@ export default function FavoritesSetter({ game }) {
         setFavorites(prev =>
           prev.map(
             fav => (fav.id === game.id ? { ...fav, removing: true } : fav)
-            // fav.id === selectedGame.id ? { ...fav, removing: true } : fav
           )
         );
         //physical removal after delay

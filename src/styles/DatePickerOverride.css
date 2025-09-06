@@ -16,6 +16,10 @@
   color: #22d3ee; /* cyan-400 */
 }
 
+.react-datepicker__current-month {
+  color: #22d3ee;
+}
+
 /* Giorni della settimana */
 .react-datepicker__day-name {
   color: #22d3ee; /* cyan-400 */

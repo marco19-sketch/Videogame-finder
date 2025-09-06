@@ -2,7 +2,7 @@ import { useContext, useCallback } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
 import FavoritesSetter from '../components/FavoritesSetter';
-
+import clsx from 'clsx';
 
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
@@ -39,7 +39,8 @@ console.log('favorites from favorites page', favorites)
         {favorites?.map(fav => (
           <li
             key={fav.id}
-            className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 transition duration-300 transform hover:-translate-y-1 hover:scale-105">
+            className={clsx("relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 transition duration-300 transform hover:-translate-y-1 hover:scale-105",
+            fav.removing && 'opacity-0 scale-95 transition-all duration-300')}>
             <Link to={`/details-page/${fav.id}`} className="block">
               <div className="relative">
                 <img

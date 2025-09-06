@@ -6,6 +6,7 @@ import ResultsPage from "./pages/ResultsPage";
 import DetailsPage from "./pages/DetailsPage";
 import TrendingPage from "./pages/TrendingPage";
 import FavoritesPage from './pages/FavoritesPage';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <h1 className="text-3xl font-extrabold text-cyan-400 tracking-wide">
           🎮 Videogame Finder
         </h1>
+        <NavBar />
       </header>
 
       <main className="px-6 py-8">

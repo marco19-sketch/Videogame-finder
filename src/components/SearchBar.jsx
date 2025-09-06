@@ -1,5 +1,4 @@
 import { useCallback } from "react";
-import { AppContext } from "../context/contextsCreation";
 import DateRangePicker from "./DateRangePicker";
 
 const genresCheckboxes = [
@@ -97,7 +96,7 @@ export default function SearchBar({
           value={gameName}
           id="game-name"
           onChange={(e) => setGameName(e.target.value)}
-          className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          className="text-base text-cyan-400 font-semibold w-full px-4 py-2 rounded-lg bg-gray-700  placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           placeholder="e.g. The Witcher"
         />
       </div>
