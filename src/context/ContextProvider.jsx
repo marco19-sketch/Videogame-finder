@@ -18,6 +18,7 @@ export default function ContextProvider({ children }) {
   const [showTrailer, setShowTrailer] = useState(false);
   const [trendingGames, setTrendingGames] = useState([]);
   const location = useLocation();
+  const [randomBg, setRandomBg] = useState(null);
 const [favorites, setFavorites] = useState(() => {
   const saved = localStorage.getItem("savedGames");
   try {
@@ -34,7 +35,9 @@ const [favorites, setFavorites] = useState(() => {
 
   const handleFetch = useCallback(
     async (pageToFetch = page) => {
+      if (location.pathname === '/home') {
       navigate("/results-page");
+      }
       let url = `https://api.rawg.io/api/games?key=${rawgKey}&page=${pageToFetch}&page_size=8&search=${encodeURIComponent(
         gameName
       )}`;
@@ -57,7 +60,6 @@ const [favorites, setFavorites] = useState(() => {
       try {
         const res = await fetch(url);
         const data = await res.json();
-        console.log("DATA", data);
         setResults(data.results);
       } catch (err) {
         console.error("Error trying to fetch data:", err);
@@ -74,6 +76,7 @@ const [favorites, setFavorites] = useState(() => {
       navigate,
       setResults,
       page,
+      location.pathname
     ]
   );
 
@@ -105,11 +108,11 @@ const [favorites, setFavorites] = useState(() => {
       setShowTrailer,
       trendingGames,
       setTrendingGames,
-      // gamePlay,
-      // setGamePlay,
       favorites,
       setFavorites,
       isFavoritesPage,
+      randomBg,
+      setRandomBg,
     }),
     [
       results,
@@ -137,11 +140,11 @@ const [favorites, setFavorites] = useState(() => {
       setShowTrailer,
       trendingGames,
       setTrendingGames,
-      // gamePlay,
-      // setGamePlay,
       favorites,
       setFavorites,
       isFavoritesPage,
+      randomBg,
+      setRandomBg,
     ]
   );
   const AuthContextValues = useMemo(() => {}, []);

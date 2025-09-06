@@ -1,27 +1,60 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { AppContext } from "../context/contextsCreation";
+// import getRandomBg from "../lib/getRandomBg";
 
 export default function LandingPage() {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-indigo-100 to-indigo-300">
-        <h1 className="text-5xl font-extrabold text-slate-800 mb-6 text-center">
-          Welcome to Video Game Finder 🎮
-        </h1>
-        <NavLink
-          to="/home"
-          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
-          Start your search
-        </NavLink>
-        <NavLink
-          to="/trending-page"
-          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
-          See what's trending now
-        </NavLink>
-        <NavLink to='/favorites-page'
-        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
-          Go to My List
-        </NavLink>
+  const { results, handleFetch } = useContext(AppContext);
+  // const [randomBg, setRandomBg] = useState('')
+  // const randomBg = getRandomBg(results);
 
-      </div>
-    );
-    
+  console.log(
+    "results from landing page & array length",
+    results,
+    results.length,
+    results[1]?.background_image,
+    // randomBg
+  );
+
+  useEffect(() => {
+    handleFetch();
+    // getRandomBg(results);
+  }, [handleFetch]);
+
+  return (
+    <div
+      className='min-h-screen min-w-screen bg-cover bg-center'
+      //   style={{ 
+      //     backgroundImage: randomBg
+      //     ? `url(${randomBg})` 
+      //     : 'linear-gradient(to bottom, #e0e7ff, #c7d2fe)',
+      // }}
+      >
+    {/* <div
+      className={`min-h-screen min-w-screen ${
+        randomBg
+          ? `bg-[url('${randomBg}')] bg-cover bg-center`
+          : `bg-gradient-to-b from-indigo-100 to-indigo-300`
+      } `}> */}
+      {/* <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-indigo-100 to-indigo-300">  */}
+      <h1 className="text-5xl font-extrabold text-slate-800 mb-6 text-center">
+        Welcome to Video Game Finder 🎮
+      </h1>
+      <NavLink
+        to="/home"
+        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+        Start your search
+      </NavLink>
+      <NavLink
+        to="/trending-page"
+        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+        See what's trending now
+      </NavLink>
+      <NavLink
+        to="/favorites-page"
+        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+        Go to My List
+      </NavLink>
+    </div>
+  );
 }

@@ -7,7 +7,6 @@
         if (!res) throw new Error('Failed fetching json');
 
         const data = await res.json();
-        console.log('DATA FROM HELPER', data);
         return data
     } catch(err) {
         console.error('Error trying to fetch game details from helper function:', err)

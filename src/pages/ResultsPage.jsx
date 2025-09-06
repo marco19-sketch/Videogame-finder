@@ -5,7 +5,9 @@ import FavoritesSetter from '../components/FavoritesSetter';
 
 
 export default function ResultsPage() {
-  const { results, page, setPage, handleFetch } = useContext(AppContext);
+  const { results, page, setPage, handleFetch, randomBg } = useContext(AppContext);
+
+  console.log('results from results page', results)
 
   const handlePrevious = useCallback(() => {
     if (page > 1) {
@@ -24,7 +26,14 @@ export default function ResultsPage() {
   
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
+    <div
+      className={`min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white
+     ${
+       randomBg
+         ? "bg-cover bg-center"
+         : "bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100"
+     }`}
+      style={randomBg ? { backgroundImage: `url('${randomBg}')` } : {}}>
       {/* Link back to Home */}
       <Link
         to="/home"
@@ -49,8 +58,7 @@ export default function ResultsPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
               </div>
-              <FavoritesSetter game={game}/>
-              
+              <FavoritesSetter game={game} />
 
               {/* Info card */}
               <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">

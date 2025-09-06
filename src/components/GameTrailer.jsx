@@ -7,12 +7,9 @@ export default function GameTrailer({ gameTitle, mode }) {
   const [videoIds, setVideoIds] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [status, setStatus] = useState("idle"); // idle | loading | empty | error
-  // const { gamePlay } = useContext(AppContext);
-  // const { showTrailer, gamePlay } = useContext(AppContext);
-  // console.log("GameTrailer gameplay true?", gamePlay);
+ 
 
   useEffect(() => {
-    // if (!gameTitle || showTrailer) return;
     if (!gameTitle) return;
 
     const controller = new AbortController();
@@ -22,15 +19,9 @@ export default function GameTrailer({ gameTitle, mode }) {
         // Nudge relevance by appending "trailer"
 
         const ids = await findVideoIds(gameTitle, mode);
-        // const ids = await findVideoIds(gameTitle + "trailer");
-        // console.log("gameplay true?", gamePlay);
-        console.log("ids from gameTrailer", ids);
-        console.log("Effect triggered, gameTitle:", gameTitle, mode);
         setVideoIds(ids);
         setCurrentIndex(0);
-
         setStatus("idle");
-
         setStatus(ids.length ? "idle" : "empty");
       } catch {
         setStatus("error");

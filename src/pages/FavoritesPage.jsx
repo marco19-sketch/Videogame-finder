@@ -1,13 +1,12 @@
 import { useContext, useCallback } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
-import FavoritesSetter from '../components/FavoritesSetter';
-import clsx from 'clsx';
+import FavoritesSetter from "../components/FavoritesSetter";
+import clsx from "clsx";
 
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
   const { page, setPage, favorites } = useContext(AppContext);
-  
 
   const handlePrevious = useCallback(() => {
     if (page > 1) {
@@ -18,8 +17,8 @@ export default function MyListPage() {
   const handleNext = useCallback(() => {
     setPage(prevPage => prevPage + 1);
   }, [setPage]);
- 
-console.log('favorites from favorites page', favorites)
+
+  console.log("favorites from favorites page", favorites);
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
       {/* Link back to Home */}
@@ -39,8 +38,10 @@ console.log('favorites from favorites page', favorites)
         {favorites?.map(fav => (
           <li
             key={fav.id}
-            className={clsx("relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 transition duration-300 transform hover:-translate-y-1 hover:scale-105",
-            fav.removing && 'opacity-0 scale-95 transition-all duration-300')}>
+            className={clsx(
+              "relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 transition duration-300 transform hover:-translate-y-1 hover:scale-105",
+              fav.removing && "opacity-0 scale-95 transition-all duration-300"
+            )}>
             <Link to={`/details-page/${fav.id}`} className="block">
               <div className="relative">
                 <img
@@ -49,6 +50,7 @@ console.log('favorites from favorites page', favorites)
                   alt={`screenshot of ${fav.name}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
+                <FavoritesSetter game={fav} />
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
                   <h2 className="text-lg font-bold text-cyan-400 group-hover:text-white transition truncate">
                     {fav.name}
@@ -60,7 +62,6 @@ console.log('favorites from favorites page', favorites)
                       {fav.rating || "N/A"}
                     </span>
                   </p>
-                  <FavoritesSetter game={fav} />
                 </div>
               </div>
             </Link>

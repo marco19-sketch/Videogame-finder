@@ -3,19 +3,14 @@ import { AppContext } from "../context/contextsCreation";
 
 export default function FavoritesSetter({ game }) {
   const { setFavorites, favorites, isFavoritesPage } = useContext(AppContext);
+const isAlreadyFavorite = favorites?.some(fav => fav.id === game.id);
 
   useEffect(() => {
     localStorage.setItem("savedGames", JSON.stringify(favorites));
   }, [favorites]);
 
   const toggleFavorite = game => {
-    //   const toggleFavorite = selectedGame => {
-    console.log("toggleFavorites fired");
-    const isAlreadyFavorite = favorites?.some(
-      fav => fav.id === game.id
-      //   fav => fav.id === selectedGame.id
-    );
-    console.log("isAlreadyFavorite", isAlreadyFavorite);
+   
     if (isAlreadyFavorite) {
       if (isFavoritesPage) {
         //flags book for removal animation
@@ -40,19 +35,17 @@ export default function FavoritesSetter({ game }) {
         console.warn("Tried to add invalid game:", game);
         return;
       }
-      console.log('game object from favSett', game)
       setFavorites(prev => [...prev, game]);
     }
   };
-  console.log("Game prop received in FavoritesSetter:", game.name);
 
-  console.log("favorite from favorite setter", favorites);
 
   return (
     <>
       {/*add to my list button */}
       <button
-        className="absolute top-1 right-1 z-100"
+        className="absolute top-1 right-1 z-100  bg-gradient-to-b from-cyan-500 to-blue-600 rounded-sm
+         hover:from-cyan-400 hover:to-500 hover:scale-110 transition-all duration-300 cursor-pointer"
         type="button"
         onClick={e => {
           console.log("You clicked My List button");
@@ -64,7 +57,7 @@ export default function FavoritesSetter({ game }) {
           }
           toggleFavorite(game);
         }}>
-        ➕
+        {isAlreadyFavorite ? "✔️" : "➕"}{" "}
       </button>
     </>
   );
