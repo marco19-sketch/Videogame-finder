@@ -4,11 +4,12 @@ import { useParams, Link } from "react-router-dom";
 import GameTrailer from "../components/GameTrailer";
 import GameDetails from "../components/GameDetails";
 import Modal from "../components/Modal";
+import {fetchRAWG } from '../api/apiClient';
 
 export default function DetailsPage() {
   const {
     results,
-    rawgKey,
+    // rawgKey,
     showTrailer,
     setShowTrailer,
     trendingGames,
@@ -28,10 +29,12 @@ export default function DetailsPage() {
     if (!game) return;
     
     try {
-      const res = await fetch(
-        `https://api.rawg.io/api/games/${game.id}/movies?key=${rawgKey}`
-      );
-      const data = await res.json();
+      // const res = await fetch(
+      //   `https://api.rawg.io/api/games/${game.id}/movies?key=${rawgKey}`
+      // );
+      // const data = await res.json();
+       const data = await fetchRAWG(`/games/${game.id}/movies`);
+       
 
       setTrailers(data.results);
       if (data.results.length === 0 || !data.results) {
@@ -46,7 +49,7 @@ export default function DetailsPage() {
     } catch (err) {
       console.error("Error trying to fetch game trailers:", err);
     }
-  }, [rawgKey, game, setShowTrailer]);
+  }, [ game, setShowTrailer]);
 
   if (!game) {
     return (

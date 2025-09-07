@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { findVideoIds } from "../lib/youtube";
 import YouTubeEmbed from "./YouTubeEmbed";
-import { AppContext } from "../context/contextsCreation";
+
 
 export default function GameTrailer({ gameTitle, mode }) {
   const [videoIds, setVideoIds] = useState([]);
@@ -19,6 +19,7 @@ export default function GameTrailer({ gameTitle, mode }) {
         // Nudge relevance by appending "trailer"
 
         const ids = await findVideoIds(gameTitle, mode);
+        console.log('mode from GameTrailer', mode)
         setVideoIds(ids);
         setCurrentIndex(0);
         setStatus("idle");
@@ -55,15 +56,15 @@ export default function GameTrailer({ gameTitle, mode }) {
     );
 
   const currentVideoId = videoIds[currentIndex];
-
+    console.log('mode from gameTrailer', mode)
   return (
     <div className=" bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4 max-w-3xl mx-auto">
       <h2 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
-        🎬 {gameTitle} Trailer
+        {`🎬 ${gameTitle} ${mode === 'gameplay' ? 'Gameplay' : 'Trailer'}`}
       </h2>
 
       <div className="aspect-video w-full rounded-xl overflow-hidden shadow-lg">
-        <YouTubeEmbed videoId={currentVideoId} title={`${gameTitle} trailer`} />
+        <YouTubeEmbed videoId={currentVideoId} title={`${gameTitle} ${mode === 'gameplay' ? 'gameplay' : 'trailer'}`} />
         {/* <YouTubeEmbed videoId={videoId} title={`${gameTitle} gameplay`} />;*/}
       </div>
 

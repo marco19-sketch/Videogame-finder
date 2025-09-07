@@ -5,7 +5,8 @@ import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { useNavigate, useLocation } from "react-router-dom";
-const rawgKey = import.meta.env.VITE_RAWG_API_KEY;
+// const rawgKey = import.meta.env.VITE_RAWG_API_KEY;
+import { fetchRAWG } from '../api/apiClient';
 
 export default function ContextProvider({ children }) {
   // authentication context
@@ -29,6 +30,7 @@ export default function ContextProvider({ children }) {
   const [trendingGames, setTrendingGames] = useState([]);
   const location = useLocation();
   const [randomBg, setRandomBg] = useState(null);
+  // const [gamePlay, setGamePlay] = useState(false);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -56,28 +58,33 @@ export default function ContextProvider({ children }) {
       if (location.pathname === "/home") {
         navigate("/results-page");
       }
-      let url = `https://api.rawg.io/api/games?key=${rawgKey}&page=${pageToFetch}&page_size=16&search=${encodeURIComponent(
+      // let url = `https://api.rawg.io/api/games?key=${rawgKey}&page=${pageToFetch}&page_size=16&search=${encodeURIComponent(
+      //   gameName
+      // )}`;
+      // Creiamo i parametri per RAWG come query string
+      let query = `page=${pageToFetch}&page_size=16&search=${encodeURIComponent(
         gameName
-      )}`;
+      )}`; 
 
       if (genres.length !== 0) {
-        url += `&genres=${genres}`;
+        query += `&genres=${genres}`;
       }
       if (sort) {
-        url += `&ordering=${sort}`;
+        query += `&ordering=${sort}`;
       }
       if (exactSearch) {
-        url += `&search_exact=${exactSearch}`;
+        query += `&search_exact=${exactSearch}`;
       }
       if (dates) {
         const formattedStart = startDate?.toISOString().split("T")[0];
         const formattedEnd = endDate?.toISOString().split("T")[0];
-        url += `&dates=${formattedStart},${formattedEnd}`;
+        query += `&dates=${formattedStart},${formattedEnd}`;
       }
 
       try {
-        const res = await fetch(url);
-        const data = await res.json();
+        // const res = await fetch(url);
+        // const data = await res.json();
+         const data = await fetchRAWG("games", query);
         setResults(data.results);
       } catch (err) {
         console.error("Error trying to fetch data:", err);
@@ -102,7 +109,7 @@ export default function ContextProvider({ children }) {
     () => ({
       results,
       setResults,
-      rawgKey,
+      // rawgKey,
       page,
       setPage,
       gameName,
