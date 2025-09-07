@@ -30,7 +30,7 @@ const [favorites, setFavorites] = useState(() => {
   }
 });
 
-  console.log('results from context', results)
+  
   const isFavoritesPage = location.pathname === '/favorites-page';
 
   const handleFetch = useCallback(
@@ -38,7 +38,7 @@ const [favorites, setFavorites] = useState(() => {
       if (location.pathname === '/home') {
       navigate("/results-page");
       }
-      let url = `https://api.rawg.io/api/games?key=${rawgKey}&page=${pageToFetch}&page_size=8&search=${encodeURIComponent(
+      let url = `https://api.rawg.io/api/games?key=${rawgKey}&page=${pageToFetch}&page_size=16&search=${encodeURIComponent(
         gameName
       )}`;
 
@@ -56,7 +56,7 @@ const [favorites, setFavorites] = useState(() => {
         const formattedEnd = endDate?.toISOString().split("T")[0];
         url += `&dates=${formattedStart},${formattedEnd}`;
       }
-      console.log("url", url);
+      
       try {
         const res = await fetch(url);
         const data = await res.json();
@@ -149,7 +149,7 @@ const [favorites, setFavorites] = useState(() => {
   );
   const AuthContextValues = useMemo(() => {}, []);
 
-  console.log('favorites from context', favorites)
+  
 
   return (
     <AuthContext.Provider value={AuthContextValues}>

@@ -4,7 +4,7 @@ export default async function getRandomBg(url) {
     if (!res) throw new Error("Invalid json for randomBg");
 
     const data = await res.json();
-    console.log("data.results from getRandomBg", data.results);
+   
     return data.results[Math.floor(Math.random() * data.results.length)]
       ?.background_image;
     //   return data.results;

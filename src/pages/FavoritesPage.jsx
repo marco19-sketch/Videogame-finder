@@ -8,6 +8,12 @@ export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
   const { page, setPage, favorites } = useContext(AppContext);
 
+  const gamesPerPage = 16;
+  const start = (page - 1) * 16;
+  const end = start + gamesPerPage;
+  const visibleFavorites = favorites.slice(start, end);
+  const lastPage = end >= favorites.length;
+
   const handlePrevious = useCallback(() => {
     if (page > 1) {
       setPage(prevPage => prevPage - 1);
@@ -18,7 +24,9 @@ export default function MyListPage() {
     setPage(prevPage => prevPage + 1);
   }, [setPage]);
 
-  console.log("favorites from favorites page", favorites);
+  
+
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
       {/* Link back to Home */}
@@ -35,7 +43,7 @@ export default function MyListPage() {
       {/* Games grid */}
 
       <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
-        {favorites?.map(fav => (
+        {visibleFavorites?.map(fav => (
           <li
             key={fav.id}
             className={clsx(
@@ -84,8 +92,13 @@ export default function MyListPage() {
         </button>
         <button
           type="button"
+          disabled={lastPage}
           onClick={handleNext}
-          className="px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
+          className={`px-6 py-2 rounded-lg font-semibold transition-colors duration-300 ${
+            lastPage 
+              ? "bg-gray-600 text-gray-300 cursor-not-allowed"
+              : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500"
+          }`}>
           Next ➡️
         </button>
       </div>

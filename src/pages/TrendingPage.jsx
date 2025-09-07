@@ -7,8 +7,8 @@ export default function TrendingPage(sortBy) {
   // const { page, setPage, trendingGames, setTrendingGames } = useContext(AppContext);
   const { trendingGames, setTrendingGames, results } = useContext(AppContext);
   const [page, setPage] = useState(1);
-  
-sortBy = 'rating';
+
+  sortBy = "rating";
 
   const handlePrevious = useCallback(() => {
     if (page > 1) {
@@ -26,15 +26,10 @@ sortBy = 'rating';
     async function fetchTrending() {
       const data = await getTrending(sortBy, page);
       setTrendingGames(data);
-
-      
-      console.log("data from TrendingPage", data);
-      console.log("results screenshot from trending page", results[0].short_screenshots[0].image);
     }
     fetchTrending();
   }, [page, setTrendingGames, sortBy, results]);
 
-  console.log('trendingGames array', trendingGames)
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
       <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">

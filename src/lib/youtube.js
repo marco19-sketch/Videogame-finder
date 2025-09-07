@@ -24,6 +24,6 @@ export async function findVideoIds(query) {
   );
   if (!res.ok) throw new Error(`YouTube search failed: ${res.status}`);
   const data = await res.json();
-  console.log('you tube data items', data?.items)
+  
   return data?.items?.map(item => item.id?.videoId).filter(Boolean);
 }

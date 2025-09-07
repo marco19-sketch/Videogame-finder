@@ -10,7 +10,7 @@ export default function GameDetails({ gameId }) {
       try {
         const data = await getDetails(gameId);
         setDetails(data);
-        console.log("details from GameDetails", data);
+
       } catch (err) {
         console.error("Error fetching details from GameDetails", err);
       }

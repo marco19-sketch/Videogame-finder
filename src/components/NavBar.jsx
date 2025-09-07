@@ -8,7 +8,7 @@ export default function NavBar() {
         to="/home"
         className={({ isActive }) =>
           clsx(
-            "hover:text-cyan-300 transition",
+            "hover:text-cyan-300 transition  w-60 text-center",
             isActive ? "underline decoration-4 decoration-cyan-400" : ""
           )
         }>
@@ -18,7 +18,7 @@ export default function NavBar() {
         to="/favorites-page"
         className={({ isActive }) =>
           clsx(
-            "hover:text-cyan-300 transition ",
+            "hover:text-cyan-300 transition  w-60 text-center",
             isActive ? "underline decoration-4 decoration-cyan-400" : ""
           )
         }>
@@ -28,11 +28,11 @@ export default function NavBar() {
         to="/trending-page"
         className={({ isActive }) =>
           clsx(
-            "hover:text-cyan-300 transition ",
+            "hover:text-cyan-300 transition  w-60 text-center",
             isActive ? "underline decoration-4 decoration-cyan-400" : ""
           )
         }>
-        Trending Now
+        Best Games
       </NavLink>
     </nav>
   );

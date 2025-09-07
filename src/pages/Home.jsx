@@ -24,10 +24,10 @@ export default function Home() {
     startDate,
     endDate,
     handleFetch,
-    randomBg
+    // randomBg
   } = useContext(AppContext);
 
-  console.log('results from home page', results)
+  
 
   const handleReset = useCallback(() => {
     setGameName("");
@@ -51,13 +51,14 @@ export default function Home() {
 
   return (
     <div
-      className={`min-h-screen bg-gray-100 flex flex-col items-center p-6"
-    ${
-      randomBg
-        ? "bg-cover bg-center"
-        : "bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100"
-    }`}
-      style={randomBg ? { backgroundImage: `url('${randomBg}')` } : {}}>
+      className='min-h-screen bg-gray-100 flex flex-col items-center p-6'
+    // ${
+    //   randomBg
+    //     ? "bg-cover bg-center"
+    //     : "bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100"
+    // }`}
+    //   style={randomBg ? { backgroundImage: `url('${randomBg}')` } : {}}
+      >
       {/* Page Title */}
       <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-8 text-center">
         Video Game Finder

@@ -1,34 +1,43 @@
 import { useEffect, useContext } from "react";
 import { AppContext } from "../context/contextsCreation";
+import  useSound  from '../customHooks/useSound';
+import addSound from '../assets/sounds/add-to-favorite.mp3'
+import removeSound from "../assets/sounds/whoosh_zapsplat.mp3";
+
 
 export default function FavoritesSetter({ game }) {
   const { setFavorites, favorites, isFavoritesPage } = useContext(AppContext);
-const isAlreadyFavorite = favorites?.some(fav => fav.id === game.id);
+  const isAlreadyFavorite = favorites?.some(fav => fav.id === game.id);
+  const [playAdd, AddAudio] = useSound(addSound)
+  const [playRemove, RemoveAudio] = useSound(removeSound)
+ 
 
   useEffect(() => {
     localStorage.setItem("savedGames", JSON.stringify(favorites));
   }, [favorites]);
 
   const toggleFavorite = game => {
-   
     if (isAlreadyFavorite) {
       if (isFavoritesPage) {
         //flags book for removal animation
         setFavorites(prev =>
-          prev.map(
-            fav => (fav.id === game.id ? { ...fav, removing: true } : fav)
+          prev.map(fav =>
+            fav.id === game.id ? { ...fav, removing: true } : fav
           )
         );
+        playRemove();
         //physical removal after delay
         const timer = setTimeout(() => {
           setFavorites(prev => prev.filter(fav => fav.id !== game.id));
-          //   setFavorites(prev => prev.filter(fav => fav.id !== selectedGame.id));
+          
+          
         }, 300);
         return () => clearTimeout(timer);
       } else {
         //remove immediately in every other page
         setFavorites(prev => prev.filter(fav => fav.id !== game.id));
-        // setFavorites(prev => prev.filter(fav => fav.id !== selectedGame.id));
+        playRemove();
+      
       }
     } else {
       if (!game || !game.id) {
@@ -36,9 +45,9 @@ const isAlreadyFavorite = favorites?.some(fav => fav.id === game.id);
         return;
       }
       setFavorites(prev => [...prev, game]);
+      playAdd();
     }
   };
-
 
   return (
     <>
@@ -48,7 +57,6 @@ const isAlreadyFavorite = favorites?.some(fav => fav.id === game.id);
          hover:from-cyan-400 hover:to-500 hover:scale-110 transition-all duration-300 cursor-pointer"
         type="button"
         onClick={e => {
-          console.log("You clicked My List button");
           e.preventDefault();
           e.stopPropagation();
           if (!game) {
@@ -59,6 +67,8 @@ const isAlreadyFavorite = favorites?.some(fav => fav.id === game.id);
         }}>
         {isAlreadyFavorite ? "✔️" : "➕"}{" "}
       </button>
+      {AddAudio}
+      {RemoveAudio}
     </>
   );
 }

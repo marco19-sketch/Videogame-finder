@@ -1,13 +1,11 @@
-import { useContext, useCallback,  useEffect } from "react";
+import { useContext, useCallback, useEffect } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
-import FavoritesSetter from '../components/FavoritesSetter';
-
+import FavoritesSetter from "../components/FavoritesSetter";
 
 export default function ResultsPage() {
-  const { results, page, setPage, handleFetch, randomBg } = useContext(AppContext);
-
-  console.log('results from results page', results)
+  const { results, page, setPage, handleFetch } =
+    useContext(AppContext);
 
   const handlePrevious = useCallback(() => {
     if (page > 1) {
@@ -23,17 +21,8 @@ export default function ResultsPage() {
     handleFetch(page);
   }, [page, handleFetch]);
 
-  
-
   return (
-    <div
-      className={`min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white
-     ${
-       randomBg
-         ? "bg-cover bg-center"
-         : "bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100"
-     }`}
-      style={randomBg ? { backgroundImage: `url('${randomBg}')` } : {}}>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
       {/* Link back to Home */}
       <Link
         to="/home"
@@ -109,15 +98,3 @@ export default function ResultsPage() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
