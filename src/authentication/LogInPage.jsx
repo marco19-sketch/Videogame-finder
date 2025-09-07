@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import LogInFunction from './LogInFunction';
 import { useNavigate } from 'react-router-dom';
-import authErrorToMessage from './authErrorToMessage';
+// import authErrorToMessage from './authErrorToMessage';
 
 export default function LogInPage() {
     const [error, setError] = useState('');

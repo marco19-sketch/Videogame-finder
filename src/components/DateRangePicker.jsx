@@ -1,7 +1,7 @@
 // import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import '../styles/DatePIckerOverride.css';
+import '../styles/DatePickerOverride.css';
 
 const DateRangePicker = ({startDate, setStartDate, endDate, setEndDate, disabled}) => {
 

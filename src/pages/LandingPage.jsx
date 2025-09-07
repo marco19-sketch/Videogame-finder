@@ -1,15 +1,23 @@
 import { NavLink } from "react-router-dom";
-import { useContext, useEffect } from "react";
+// import { useContext, useEffect } from "react";
+import { useCallback } from 'react';
 import { AppContext } from "../context/contextsCreation";
+import useLogOut from '../authentication/useLogOut';
 // import getRandomBg from "../lib/getRandomBg";
 
 export default function LandingPage() {
-  const { handleFetch } = useContext(AppContext);
+  // const { handleFetch } = useContext(AppContext);
+  const logOut = useLogOut();
 
-  useEffect(() => {
-    handleFetch();
+  // useEffect(() => {
+  //   handleFetch();
     // getRandomBg(results);
-  }, [handleFetch]);
+  // }, [handleFetch]);
+
+  const handleLogOut = useCallback((e) => {
+    e.stopPropagation();
+    logOut();
+  }, [logOut])
 
   return (
     // <div
@@ -51,6 +59,19 @@ export default function LandingPage() {
         className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Log in
          </NavLink>
+        <NavLink to='/reset-password-page'
+        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+          Forgot password
+         </NavLink>
+        <NavLink to='/update-password-page'
+        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+          Update password
+         </NavLink>
+        <button type='button' onClick={handleLogOut}
+        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+          Log out
+         </button>
+         
       </div>
     </div>
   );

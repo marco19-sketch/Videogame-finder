@@ -9,6 +9,8 @@ import FavoritesPage from "./pages/FavoritesPage";
 import NavBar from "./components/NavBar";
 import SignUpPage from './authentication/SignUpPage';
 import LogInPage from './authentication/LogInPage';
+import ResetPasswordPage from './authentication/ResetPasswordPage';
+import UpdatePasswordPage from './authentication/UpdatePasswordPage';
 // import { useEffect, useContext } from "react";
 // import { AppContext } from './context/contextsCreation';
 // import getRandomBg from "./lib/getRandomBg";
@@ -61,6 +63,8 @@ function App() {
           <Route path="/favorites-page" element={<FavoritesPage />} />
           <Route path='/sign-up-page' element={<SignUpPage />} />  
           <Route path='/log-in-page' element={<LogInPage />} />
+          <Route path='/reset-password-page' element={<ResetPasswordPage />} />
+          <Route path='/update-password-page' element={<UpdatePasswordPage />} />
         </Routes>
       </main>
     </div>
