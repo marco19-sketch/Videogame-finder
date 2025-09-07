@@ -34,6 +34,13 @@ export default function NavBar() {
         }>
         Best Games
       </NavLink>
+      <NavLink to='/'
+       className={({ isActive }) =>
+          clsx(
+            "hover:text-cyan-300 transition  w-60 text-center",
+            isActive ? "underline decoration-4 decoration-cyan-400" : ""
+          )
+        }>Landing</NavLink>
     </nav>
   );
 }

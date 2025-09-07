@@ -8,6 +8,7 @@ import TrendingPage from "./pages/TrendingPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import NavBar from "./components/NavBar";
 import SignUpPage from './authentication/SignUpPage';
+import LogInPage from './authentication/LogInPage';
 // import { useEffect, useContext } from "react";
 // import { AppContext } from './context/contextsCreation';
 // import getRandomBg from "./lib/getRandomBg";
@@ -59,6 +60,7 @@ function App() {
           <Route path="/details-page/:id" element={<DetailsPage />} />
           <Route path="/favorites-page" element={<FavoritesPage />} />
           <Route path='/sign-up-page' element={<SignUpPage />} />  
+          <Route path='/log-in-page' element={<LogInPage />} />
         </Routes>
       </main>
     </div>

@@ -1,9 +1,19 @@
-import { useMemo, useState, useCallback } from "react";
+import { useMemo, useState, useCallback, useEffect } from "react";
 import { AppContext, AuthContext } from "./contextsCreation";
+//auth context
+import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+
 import { useNavigate, useLocation } from "react-router-dom";
 const rawgKey = import.meta.env.VITE_RAWG_API_KEY;
 
 export default function ContextProvider({ children }) {
+  // authentication context
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
   const [gameName, setGameName] = useState("");
@@ -19,24 +29,32 @@ export default function ContextProvider({ children }) {
   const [trendingGames, setTrendingGames] = useState([]);
   const location = useLocation();
   const [randomBg, setRandomBg] = useState(null);
-const [favorites, setFavorites] = useState(() => {
-  const saved = localStorage.getItem("savedGames");
-  try {
-    const parsed = saved ? JSON.parse(saved) : [];
-    // filter out any null or invalid entries
-    return Array.isArray(parsed) ? parsed.filter(f => f && f.id) : [];
-  } catch {
-    return [];
-  }
-});
+  const [favorites, setFavorites] = useState(() => {
+    const saved = localStorage.getItem("savedGames");
+    try {
+      const parsed = saved ? JSON.parse(saved) : [];
+      // filter out any null or invalid entries
+      return Array.isArray(parsed) ? parsed.filter(f => f && f.id) : [];
+    } catch {
+      return [];
+    }
+  });
 
-  
-  const isFavoritesPage = location.pathname === '/favorites-page';
+  //authentication context
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, u => {
+      setUser(u);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  const isFavoritesPage = location.pathname === "/favorites-page";
 
   const handleFetch = useCallback(
     async (pageToFetch = page) => {
-      if (location.pathname === '/home') {
-      navigate("/results-page");
+      if (location.pathname === "/home") {
+        navigate("/results-page");
       }
       let url = `https://api.rawg.io/api/games?key=${rawgKey}&page=${pageToFetch}&page_size=16&search=${encodeURIComponent(
         gameName
@@ -56,7 +74,7 @@ const [favorites, setFavorites] = useState(() => {
         const formattedEnd = endDate?.toISOString().split("T")[0];
         url += `&dates=${formattedStart},${formattedEnd}`;
       }
-      
+
       try {
         const res = await fetch(url);
         const data = await res.json();
@@ -76,7 +94,7 @@ const [favorites, setFavorites] = useState(() => {
       navigate,
       setResults,
       page,
-      location.pathname
+      location.pathname,
     ]
   );
 
@@ -147,9 +165,19 @@ const [favorites, setFavorites] = useState(() => {
       setRandomBg,
     ]
   );
-  const AuthContextValues = useMemo(() => {}, []);
 
-  
+  const AuthContextValues = useMemo(() => {
+    user, setUser, loading, setLoading, email, setEmail, password, setPassword;
+  }, [
+    user,
+    setUser,
+    loading,
+    setLoading,
+    email,
+    setEmail,
+    password,
+    setPassword,
+  ]);
 
   return (
     <AuthContext.Provider value={AuthContextValues}>
