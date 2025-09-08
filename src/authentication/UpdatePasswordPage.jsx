@@ -17,7 +17,7 @@ export default function UpdatePasswordPage() {
     e.preventDefault();
     setError("");
     setMessage("");
-
+    console.log('logging just to trigger a deploy on dev branch')
     try {
       await confirmPasswordReset(auth, oobCode, newPassword);
       const timer = setTimeout(() => {
