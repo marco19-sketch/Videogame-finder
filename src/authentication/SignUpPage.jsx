@@ -6,6 +6,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(false);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -15,9 +16,10 @@ export default function SignUpPage() {
     try {
       const user = await SignUpFunction(email, password);
       console.log("User signed up", user);
+      setMessage(true)
     } catch (err) {
       console.error("Error signing up:", err);
-      setError(err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -40,10 +42,15 @@ export default function SignUpPage() {
           value={password}
           onChange={e => setPassword(e.target.value)}
         />
-        {loading && (<p>Loading...</p>)}
-        {error && (<p>{error}</p>)}
-        <button type='submit'>Sign Up</button>
+        {loading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
+        <button type="submit">Sign Up</button>
       </form>
+      {message && (
+        <p>
+          Registration successful!<br /> To verify your email, check your inbox.
+        </p>
+      )}
     </>
   );
 }

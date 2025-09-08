@@ -43,6 +43,7 @@ export default function LogInPage() {
             >{loading ? '...' : 'Log In'}</button>
             {error && <p>{error}</p>}
         </form>
+        
         </>
     )
 }
