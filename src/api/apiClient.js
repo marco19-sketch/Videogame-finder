@@ -25,7 +25,7 @@ export async function fetchYouTube(gameTitle, mode = '') {
       gameTitle
     )}&mode=${encodeURIComponent(mode)}`
   );
-  console.log('query from apiClient', gameTitle, mode, queryString)
+  
   if (!res.ok) throw new Error("Failed to fetch YouTube");
   return res.json();
 }

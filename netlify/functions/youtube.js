@@ -25,7 +25,7 @@ export async function handler(event) {
       `https://www.googleapis.com/youtube/v3/search?${params}`
     );
     const data = await res.json();
-    console.log("params and query from youtube.js", params.toString(), gameTitle, mode);
+    
     return { statusCode: 200, body: JSON.stringify(data) };
   } catch (err) {
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
