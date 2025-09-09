@@ -16,7 +16,7 @@ export default function LogInPage() {
         setError('');
         setLoading(true);
         try {
-            await LogInFunction(email, password);
+            const user = await LogInFunction(email, password);
             if (!user.emailVerified) {
                 setError('Email not verified, please check your inbox');
                 console.log('error from login page', error)
