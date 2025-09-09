@@ -17,6 +17,9 @@ export default function LogInPage() {
         setLoading(true);
         try {
             await LogInFunction(email, password);
+            if (!user.emailVerified) {
+                setError('Email not verified, please check your inbox')
+            }
             navigate('/favorites-page');
         } catch (err) {
             setError(err?.code)

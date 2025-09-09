@@ -55,9 +55,11 @@ export default function ContextProvider({ children }) {
 
   const handleFetch = useCallback(
     async (pageToFetch = page) => {
+      //  setLoading(true);
       if (location.pathname === "/home") {
         navigate("/results-page");
       }
+      
       // let url = `https://api.rawg.io/api/games?key=${rawgKey}&page=${pageToFetch}&page_size=16&search=${encodeURIComponent(
       //   gameName
       // )}`;
@@ -84,10 +86,14 @@ export default function ContextProvider({ children }) {
       try {
         // const res = await fetch(url);
         // const data = await res.json();
+        setLoading(true);
          const data = await fetchRAWG("games", query);
         setResults(data.results);
+        
       } catch (err) {
         console.error("Error trying to fetch data:", err);
+      } finally {
+        setLoading(false);
       }
     },
     [
@@ -104,6 +110,7 @@ export default function ContextProvider({ children }) {
       location.pathname,
     ]
   );
+
 
   const AppContextValues = useMemo(
     () => ({
@@ -138,6 +145,8 @@ export default function ContextProvider({ children }) {
       isFavoritesPage,
       randomBg,
       setRandomBg,
+      loading,
+      setLoading
     }),
     [
       results,
@@ -170,6 +179,8 @@ export default function ContextProvider({ children }) {
       isFavoritesPage,
       randomBg,
       setRandomBg,
+      loading,
+      setLoading
     ]
   );
 

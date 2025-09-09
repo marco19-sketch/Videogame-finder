@@ -19,9 +19,9 @@ if (!endpoint) throw new Error("Missing RAWG endpoint");
 export async function fetchYouTube(gameTitle, mode = '') {
     if (!gameTitle) return null;
 
-    const queryString = `${gameTitle} ${mode}`.trim(); 
+
   const res = await fetch(
-    `/.netlify/functions/youtube?gameTitle=${encodeURIComponent(
+    `/.netlify/functions/youtubeNet?gameTitle=${encodeURIComponent(
       gameTitle
     )}&mode=${encodeURIComponent(mode)}`
   );

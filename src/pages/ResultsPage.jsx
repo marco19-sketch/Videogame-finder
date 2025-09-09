@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import FavoritesSetter from "../components/FavoritesSetter";
 
 export default function ResultsPage() {
-  const { results, page, setPage, handleFetch } =
+  const { results, page, setPage, handleFetch, loading } =
     useContext(AppContext);
 
   const handlePrevious = useCallback(() => {
@@ -18,11 +18,23 @@ export default function ResultsPage() {
   }, [setPage]);
 
   useEffect(() => {
+    const timer = setTimeout(() => {
     handleFetch(page);
+    }, 2000);
+    return () => clearTimeout(timer);
   }, [page, handleFetch]);
+
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 cursor-wait">
+          <p className="text-white text-lg font-semibold  cursor-progress ">
+            Loading...
+          </p>
+        </div>
+      )}
       {/* Link back to Home */}
       <Link
         to="/home"

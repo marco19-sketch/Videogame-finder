@@ -13,6 +13,8 @@ export default function DetailsPage() {
     showTrailer,
     setShowTrailer,
     trendingGames,
+    loading,
+    setLoading
   } = useContext(AppContext);
   
   const { id } = useParams();
@@ -23,12 +25,15 @@ export default function DetailsPage() {
   const [index, setIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [gamePlay, setGamePlay] = useState(false);
+  console.log("loading from details page", loading);
 
   //Getting trailers using gameId
   const handleFetchTrailers = useCallback(async () => {
     if (!game) return;
     
     try {
+      setLoading(true);
+      
       // const res = await fetch(
       //   `https://api.rawg.io/api/games/${game.id}/movies?key=${rawgKey}`
       // );
@@ -40,16 +45,23 @@ export default function DetailsPage() {
       if (data.results.length === 0 || !data.results) {
         // setYouTube(true);
         setShowTrailer(false);
+        
       } else {
         // setYouTube(false);
         setShowTrailer(true);
+        
       }
 
       setShowModal(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+      
     } catch (err) {
       console.error("Error trying to fetch game trailers:", err);
+      setLoading(false);
     }
-  }, [ game, setShowTrailer]);
+  }, [ game, setShowTrailer, setLoading]);
 
   if (!game) {
     return (
@@ -63,6 +75,12 @@ export default function DetailsPage() {
     <div
       className="relative min-h-screen py-10 px-4 text-white bg-cover bg-center"
       style={{ backgroundImage: `url(${game.background_image})` }}>
+        {/*loading skeleton */}
+      {loading && (
+        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 cursor-wait">
+          <p className="text-white text-lg font-semibold animate-pulse">Loading...</p>
+        </div>
+      )}
       {/* Overlay gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-gray-900/70 to-black/90"></div>
 
@@ -145,7 +163,6 @@ export default function DetailsPage() {
           onClick={() => {
             setGamePlay(true);
             handleFetchTrailers();
-            
           }}
           className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
           🎮 Watch Gameplay
@@ -158,7 +175,7 @@ export default function DetailsPage() {
               setShowModal(false);
               setGamePlay(false);
             }}
-            className="z-50">
+            className="z-20">
             {showTrailer && trailers.length > 0 && !gamePlay ? (
               // {showTrailer && trailers.length > 0 ? (
               <div className=" bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4 max-w-3xl mx-auto">
@@ -168,6 +185,7 @@ export default function DetailsPage() {
                   {trailers[index]?.name}
                 </h3>
                 <div className="w-full max-w-3xl aspect-video rounded-xl overflow-hidden shadow-lg">
+                 
                   <video
                     controls
                     width="100%"
