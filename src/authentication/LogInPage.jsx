@@ -16,20 +16,15 @@ export default function LogInPage() {
         setError('');
         setLoading(true);
         try {
-            const user = await LogInFunction(email, password);
-            if (!user.emailVerified) {
-                setError('Email not verified, please check your inbox');
-                console.log('error from login page')
-                return;
-            }
+             await LogInFunction(email, password);
+           
             navigate('/favorites-page');
         } catch (err) {
-            setError(err?.code)
-            // setError(authErrorToMessage(err?.code))
-            //  const code = err?.code;
-            //  if (code === 'auth/wrong-password') setError('Wrong password');
-            //  else if (code === 'auth/user-not-found') setError('User not found');
-            //  else if (code === 'auth/invalid-email') setError('Invalid email');
+           if (err.code === "auth/email-not-verified") {
+             setError("Email not verified, please check your inbox.");
+           } else {
+             setError(err.code || "Unexpected error");
+           }
         } finally {
             setLoading(false);
         }
