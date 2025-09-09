@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import LogInFunction from './LogInFunction';
 import { useNavigate } from 'react-router-dom';
-// import authErrorToMessage from './authErrorToMessage';
+import authErrorToMessage from './authErrorToMessage';
+import GoogleButton from './GoogleButton';
 
 export default function LogInPage() {
     const [error, setError] = useState('');
@@ -20,11 +21,12 @@ export default function LogInPage() {
            
             navigate('/favorites-page');
         } catch (err) {
-           if (err.code === "auth/email-not-verified") {
-             setError("Email not verified, please check your inbox.");
-           } else {
-             setError(err.code || "Unexpected error");
-           }
+        //    if (err.code === "auth/email-not-verified") {
+        //      setError("Email not verified, please check your inbox.");
+        //    } else {
+        //      setError(err.code || "Unexpected error");
+        //    }
+        setError(authErrorToMessage(err.code));
         } finally {
             setLoading(false);
         }
@@ -43,7 +45,7 @@ export default function LogInPage() {
             >{loading ? '...' : 'Log In'}</button>
             {error && <p>{error}</p>}
         </form>
-        
+        <GoogleButton />
         </>
     )
 }
