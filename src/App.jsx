@@ -10,27 +10,11 @@ import NavBar from "./components/NavBar";
 import SignUpPage from './authentication/SignUpPage';
 import LogInPage from './authentication/LogInPage';
 import ResetPasswordPage from './authentication/ResetPasswordPage';
-import UpdatePasswordPage from './authentication/UpdatePasswordPage';
-import EmailVerificationPage from './authentication/EmailVerificationPage';
 import ActionPage from './authentication/ActionPage';
-// import { useEffect, useContext } from "react";
-// import { AppContext } from './context/contextsCreation';
-// import getRandomBg from "./lib/getRandomBg";
-// const rawgKey = import.meta.env.VITE_RAWG_API_KEY;
+
 
 function App() {
-  // const { randomBg, setRandomBg } = useContext(AppContext);
-  // const location = useLocation();
-  // const url = `https://api.rawg.io/api/games?key=${rawgKey}&page=1&page_size=40&ordering=-rating`;
 
-
-  // useEffect(() => {
-  //   const fetchBg = async () => {
-  //     const bg = await getRandomBg(url);
-  //     setRandomBg(bg);
-  //   };
-  //   fetchBg();
-  // }, [location, url, setRandomBg]);
 
   return (
     // <div
@@ -66,8 +50,6 @@ function App() {
           <Route path='/sign-up-page' element={<SignUpPage />} />  
           <Route path='/log-in-page' element={<LogInPage />} />
           <Route path='/reset-password-page' element={<ResetPasswordPage />} />
-          <Route path='/update-password-page' element={<UpdatePasswordPage />} />
-          <Route path='/email-verification-page' element={<EmailVerificationPage />} />
           <Route path='/action' element={<ActionPage />} />
         </Routes>
       </main>
