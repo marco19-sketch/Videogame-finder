@@ -19,7 +19,7 @@ export default function LogInPage() {
             const user = await LogInFunction(email, password);
             if (!user.emailVerified) {
                 setError('Email not verified, please check your inbox');
-                console.log('error from login page', error)
+                console.log('error from login page')
                 return;
             }
             navigate('/favorites-page');
