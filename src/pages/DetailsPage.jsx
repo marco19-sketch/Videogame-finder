@@ -1,67 +1,70 @@
-import { useContext, useState, useCallback } from "react";
+import { useContext } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { useParams, Link } from "react-router-dom";
 import GameTrailer from "../components/GameTrailer";
 import GameDetails from "../components/GameDetails";
 import Modal from "../components/Modal";
-import {fetchRAWG } from '../api/apiClient';
+// import {fetchRAWG } from '../api/apiClient';
 
 export default function DetailsPage() {
   const {
-    results,
-    // rawgKey,
     showTrailer,
-    setShowTrailer,
-    trendingGames,
     loading,
-    setLoading
-  } = useContext(AppContext);
+    handleFetchTrailers,
+    setGamePlay,
+    showModal,
+    setShowModal,
+    trailers,
+    gamePlay,
+    index,
+    setIndex,
+    results,
+    trendingGames
+     } = useContext(AppContext);
   
   const { id } = useParams();
   const game =
     results?.find(g => g.id === Number(id)) ||
     trendingGames?.find(g => g.id === Number(id));
-  const [trailers, setTrailers] = useState([]);
-  const [index, setIndex] = useState(0);
-  const [showModal, setShowModal] = useState(false);
-  const [gamePlay, setGamePlay] = useState(false);
-  console.log("loading from details page", loading);
+    console.log('game from Details page', game)
+//   const [trailers, setTrailers] = useState([]);
+//   const [index, setIndex] = useState(0);
+//   const [showModal, setShowModal] = useState(false);
+//   const [gamePlay, setGamePlay] = useState(false);
+ 
 
   //Getting trailers using gameId
-  const handleFetchTrailers = useCallback(async () => {
-    if (!game) return;
+//   const handleFetchTrailers = useCallback(async () => {
+//     if (!game) return;
     
-    try {
-      setLoading(true);
+//     try {
+//       setLoading(true);
       
-      // const res = await fetch(
-      //   `https://api.rawg.io/api/games/${game.id}/movies?key=${rawgKey}`
-      // );
-      // const data = await res.json();
-       const data = await fetchRAWG(`/games/${game.id}/movies`);
+    
+//        const data = await fetchRAWG(`/games/${game.id}/movies`);
        
 
-      setTrailers(data.results);
-      if (data.results.length === 0 || !data.results) {
-        // setYouTube(true);
-        setShowTrailer(false);
+//       setTrailers(data.results);
+//       if (data.results.length === 0 || !data.results) {
         
-      } else {
-        // setYouTube(false);
-        setShowTrailer(true);
+//         setShowTrailer(false);
         
-      }
+//       } else {
+     
+//         setShowTrailer(true);
+        
+//       }
 
-      setShowModal(true);
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
+//       setShowModal(true);
+//       setTimeout(() => {
+//         setLoading(false);
+//       }, 1000);
       
-    } catch (err) {
-      console.error("Error trying to fetch game trailers:", err);
-      setLoading(false);
-    }
-  }, [ game, setShowTrailer, setLoading]);
+//     } catch (err) {
+//       console.error("Error trying to fetch game trailers:", err);
+//       setLoading(false);
+//     }
+//   }, [ game, setShowTrailer, setLoading]);
 
   if (!game) {
     return (
@@ -152,7 +155,7 @@ export default function DetailsPage() {
           type="button"
           onClick={() => {
             setGamePlay(false);
-            handleFetchTrailers();
+            handleFetchTrailers(game);
           }}
           className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
           🎬 Watch trailers
@@ -162,7 +165,7 @@ export default function DetailsPage() {
           type="button"
           onClick={() => {
             setGamePlay(true);
-            handleFetchTrailers();
+            handleFetchTrailers(game);
           }}
           className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
           🎮 Watch Gameplay
@@ -232,16 +235,7 @@ export default function DetailsPage() {
             )}
           </Modal>
         )}
-        {/* {showModal && gamePlay && (
-          <Modal onClose={() => setShowModal(false)}>
-            {
-              <GameTrailer
-                key={gamePlay ? "gameplay" : "trailer"}
-                gameTitle={game.name}
-              />
-            }
-          </Modal>
-        )} */}
+        
       </div>
     </div>
   );

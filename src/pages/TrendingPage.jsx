@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import { getTrending } from "../lib/getTrending";
 
 export default function TrendingPage(sortBy) {
-  // const { page, setPage, trendingGames, setTrendingGames } = useContext(AppContext);
+  
   const { trendingGames, setTrendingGames, results } = useContext(AppContext);
   const [page, setPage] = useState(1);
 
-  sortBy = "rating";
+  sortBy = "-rating";
 
   const handlePrevious = useCallback(() => {
     if (page > 1) {

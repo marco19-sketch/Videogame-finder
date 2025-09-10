@@ -1,23 +1,49 @@
 import { NavLink } from "react-router-dom";
-// import { useContext, useEffect } from "react";
-import { useCallback } from 'react';
+import { useCallback, useEffect, useContext, useMemo, useState } from "react";
 import { AppContext } from "../context/contextsCreation";
-import useLogOut from '../authentication/useLogOut';
+
+import useLogOut from "../authentication/useLogOut";
 // import getRandomBg from "../lib/getRandomBg";
 
 export default function LandingPage() {
-  // const { handleFetch } = useContext(AppContext);
+  const [trailer, setTrailer] = useState("");
+  const featuredGame = useMemo(() => {
+    return { name: "Grand Theft Auto V", id: 3498 };
+  }, []);
+  const [loaded, setLoaded] = useState(false);
+
+  const { handleFetchTrailers, setLandingPageCall, landingPageCall } = useContext(AppContext);
+
   const logOut = useLogOut();
 
-  // useEffect(() => {
-  //   handleFetch();
-    // getRandomBg(results);
-  // }, [handleFetch]);
+  const handleLoadedData = () => {
+    setLoaded(true);
+  };
 
-  const handleLogOut = useCallback((e) => {
-    e.stopPropagation();
-    logOut();
-  }, [logOut])
+  useEffect(() => {
+    const fetchTrailer = async () => {
+      setLandingPageCall(true);
+      const url = await handleFetchTrailers(featuredGame);
+      
+      if (url) {
+        setTrailer(url);
+        
+        console.log('url and landingPageCall', url, landingPageCall)
+      }
+    };
+    fetchTrailer();
+  }, [handleFetchTrailers, featuredGame, setLandingPageCall, landingPageCall]);
+
+  
+  const handleLogOut = useCallback(
+    e => {
+      e.stopPropagation();
+      logOut();
+    },
+    [logOut]
+  );
+
+  
 
   return (
     // <div
@@ -55,24 +81,47 @@ export default function LandingPage() {
           className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Sign Up
         </NavLink>
-        <NavLink to='/log-in-page'
-        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+        <NavLink
+          to="/log-in-page"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Log in
-         </NavLink>
-        <NavLink to='/reset-password-page'
-        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+        </NavLink>
+        <NavLink
+          to="/reset-password-page"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Forgot password
-         </NavLink>
-        <NavLink to='/update-password-page'
-        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+        </NavLink>
+        <NavLink
+          to="/update-password-page"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Update password
-         </NavLink>
-        <button type='button' onClick={handleLogOut}
-        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+        </NavLink>
+        <NavLink
+          to="/parallax-page"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+          Parallax Page
+        </NavLink>
+        <button
+          type="button"
+          onClick={handleLogOut}
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Log out
-         </button>
-         
+        </button>
       </div>
+      <video
+        controls
+        autoPlay
+        muted
+        width="100%"
+        key={trailer}
+        onLoadedData={handleLoadedData} // fires when video is ready to play
+        className={`w-auto h-auto transition-opacity duration-1000 ${
+          loaded ? "opacity-100" : "opacity-0"
+        }`}>
+        {/* className="rounded-lg shadow-lg border border-gray-700"> */}
+        <source src={trailer} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
     </div>
   );
 }

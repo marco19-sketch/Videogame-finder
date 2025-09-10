@@ -11,6 +11,8 @@ import SignUpPage from './authentication/SignUpPage';
 import LogInPage from './authentication/LogInPage';
 import ResetPasswordPage from './authentication/ResetPasswordPage';
 import ActionPage from './authentication/ActionPage';
+import Footer from './components/Footer';
+import ParallaxVideoPage from "./pages/ParallaxVideoPage";
 
 
 function App() {
@@ -51,8 +53,10 @@ function App() {
           <Route path='/log-in-page' element={<LogInPage />} />
           <Route path='/reset-password-page' element={<ResetPasswordPage />} />
           <Route path='/action' element={<ActionPage />} />
+          <Route path='/parallax-page' element={<ParallaxVideoPage />} />
         </Routes>
       </main>
+      <Footer />
     </div>
   );
 }

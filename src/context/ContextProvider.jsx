@@ -1,20 +1,15 @@
 import { useMemo, useState, useCallback, useEffect } from "react";
 import { AppContext, AuthContext } from "./contextsCreation";
-//auth context
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
-
 import { useNavigate, useLocation } from "react-router-dom";
-// const rawgKey = import.meta.env.VITE_RAWG_API_KEY;
-import { fetchRAWG } from '../api/apiClient';
+import { fetchRAWG } from "../api/apiClient";
 
 export default function ContextProvider({ children }) {
-  // authentication context
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
   const [gameName, setGameName] = useState("");
@@ -30,7 +25,12 @@ export default function ContextProvider({ children }) {
   const [trendingGames, setTrendingGames] = useState([]);
   const location = useLocation();
   const [randomBg, setRandomBg] = useState(null);
-  // const [gamePlay, setGamePlay] = useState(false);
+  const [landingPageCall, setLandingPageCall] = useState(false);
+
+  const [trailers, setTrailers] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [gamePlay, setGamePlay] = useState(false);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -41,6 +41,41 @@ export default function ContextProvider({ children }) {
       return [];
     }
   });
+
+  //Getting trailers using gameId
+  const handleFetchTrailers = useCallback(
+    async game => {
+      if (!game) return;
+
+      try {
+        setLoading(true);
+
+        const data = await fetchRAWG(`/games/${game.id}/movies`);
+        console.log('data results & landingPageCall from context', data.results, landingPageCall)
+        setTrailers(data.results);
+
+        if (data.results && landingPageCall) {
+          console.log('ladingPageCall from context', landingPageCall)
+          return data.results[0].data.max;
+        }
+
+        if (data.results.length === 0 || !data.results) {
+          setShowTrailer(false);
+        } else {
+          setShowTrailer(true);
+        }
+
+        setShowModal(true);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      } catch (err) {
+        console.error("Error trying to fetch game trailers:", err);
+        setLoading(false);
+      }
+    },
+    [setShowTrailer, setLoading, landingPageCall]
+  );
 
   //authentication context
   useEffect(() => {
@@ -59,14 +94,14 @@ export default function ContextProvider({ children }) {
       if (location.pathname === "/home") {
         navigate("/results-page");
       }
-      
+
       // let url = `https://api.rawg.io/api/games?key=${rawgKey}&page=${pageToFetch}&page_size=16&search=${encodeURIComponent(
       //   gameName
       // )}`;
       // Creiamo i parametri per RAWG come query string
       let query = `page=${pageToFetch}&page_size=16&search=${encodeURIComponent(
         gameName
-      )}`; 
+      )}`;
 
       if (genres.length !== 0) {
         query += `&genres=${genres}`;
@@ -87,9 +122,8 @@ export default function ContextProvider({ children }) {
         // const res = await fetch(url);
         // const data = await res.json();
         setLoading(true);
-         const data = await fetchRAWG("games", query);
+        const data = await fetchRAWG("games", query);
         setResults(data.results);
-        
       } catch (err) {
         console.error("Error trying to fetch data:", err);
       } finally {
@@ -111,12 +145,10 @@ export default function ContextProvider({ children }) {
     ]
   );
 
-
   const AppContextValues = useMemo(
     () => ({
       results,
       setResults,
-      // rawgKey,
       page,
       setPage,
       gameName,
@@ -146,7 +178,17 @@ export default function ContextProvider({ children }) {
       randomBg,
       setRandomBg,
       loading,
-      setLoading
+      setLoading,
+      trailers,
+      index,
+      setIndex,
+      showModal,
+      setShowModal,
+      gamePlay,
+      setGamePlay,
+      handleFetchTrailers,
+      setLandingPageCall,
+      landingPageCall
     }),
     [
       results,
@@ -180,7 +222,17 @@ export default function ContextProvider({ children }) {
       randomBg,
       setRandomBg,
       loading,
-      setLoading
+      setLoading,
+      trailers,
+      index,
+      setIndex,
+      showModal,
+      setShowModal,
+      gamePlay,
+      setGamePlay,
+      handleFetchTrailers,
+      setLandingPageCall,
+      landingPageCall
     ]
   );
 
