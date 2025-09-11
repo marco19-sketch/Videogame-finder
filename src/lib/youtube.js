@@ -10,6 +10,6 @@ export async function findVideoIds(gameTitle, mode) {
 
 
    const data = await fetchYouTube(gameTitle, mode);
-
+  console.log('data from youtube.js', data)
   return data?.items?.map(item => item.id?.videoId).filter(Boolean);
 }

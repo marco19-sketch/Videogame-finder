@@ -1,70 +1,100 @@
-import { useEffect, useRef, useContext, useState, useMemo } from "react";
+import { useEffect, useRef, useContext, useState } from "react";
 import { AppContext } from "../context/contextsCreation";
+import { getTrending } from "../lib/getTrending";
+import YouTubeEmbed from "../components/YouTubeEmbed";
+import { findVideoIds } from "../lib/youtube";
 
 export default function ParallaxVideoPage() {
   const videoRef = useRef(null);
+  const parallaxDivRef = useRef(null);
   const [trailer, setTrailer] = useState("");
-  const featuredGame = useMemo(() => {
-    return { name: "Grand Theft Auto V", id: 3498 };
-  }, []);
-
-  const { handleFetchTrailers, setLandingPageCall } = useContext(AppContext);
+  const [ids, setIds] = useState([]);
+  const [featuredGame, setFeaturedGame] = useState(0);
+  const { handleFetchTrailers, setLandingPageCall, setTrendingGames } =
+    useContext(AppContext);
 
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY * 0.4; // adjust parallax speed
-      if (videoRef.current) {
-        videoRef.current.style.transform = `translateY(${offset}px)`;
+      if (parallaxDivRef.current) {
+        parallaxDivRef.current.style.transform = `translateY(${offset}px)`;
       }
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  console.log("trailer from parallax page", trailer);
+  useEffect(() => {
+    async function fetchTrending() {
+      const data = await getTrending("-added", 1);
+      // const data = await getTrending("-rating", 1);
+
+      setFeaturedGame(data[Math.floor(Math.random() * data.length)]);
+    }
+    fetchTrending();
+  }, [setTrendingGames]);
 
   useEffect(() => {
     const fetchTrailer = async () => {
-      setLandingPageCall(true);
-      const url = await handleFetchTrailers(featuredGame);
-      console.log("url from parallax", url);
-      if (url) {
-        setTimeout(() => {
-          setTrailer(url);
-        }, 1000);
+      if (!featuredGame || !featuredGame.id) return;
+
+      const trailers = await handleFetchTrailers(featuredGame);
+
+      if (trailers && trailers.length > 0) {
+        const url = trailers[0].data.max || trailers[0].data["480"];
+        setTrailer(url);
+        setIds([]);
+      } else {
+        const videoIds = await findVideoIds(`${featuredGame.name}trailer`);
+        if (videoIds && videoIds.length > 0) {
+          setTrailer(null);
+          setIds(videoIds);
+        } else {
+          setIds([]);
+          setTrailer(
+            "https://steamcdn-a.akamaihd.net/steam/apps/256693661/movie_max.mp4"
+          );
+          console.log("No YouTube videoIds trailer found");
+        }
       }
     };
     fetchTrailer();
   }, [handleFetchTrailers, featuredGame, setLandingPageCall]);
 
   useEffect(() => {
+    let playPromise;
     if (videoRef.current && trailer) {
-      const playPromise = videoRef.current.play();
+      playPromise = videoRef.current.play();
       if (playPromise !== undefined) {
         playPromise.catch(err => {
           console.warn("Autoplay prevented:", err);
         });
       }
     }
-  }, [trailer]);
+  }, [trailer, featuredGame]);
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Section with parallax video */}
       <section className="relative h-screen overflow-hidden">
         {/* Background video */}
-        <video
-          ref={videoRef}
-          key={trailer} //this force the React to update the source after mounting
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute top-0 left-0 w-full h-full object-cover will-change-transform">
-          <source src={trailer} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-
+        <div ref={parallaxDivRef}>
+          {trailer ? (
+            <video
+              ref={videoRef}
+              key={trailer} //this force the React to update the source after mounting
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute top-0 left-0 w-full h-full object-cover will-change-transform">
+              <source src={trailer} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ) : (
+            <YouTubeEmbed videoId={ids[0]} title="YouTube video" />
+          )}
+        </div>
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/40" />
 

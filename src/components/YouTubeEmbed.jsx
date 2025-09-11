@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-export default function YouTubeEmbed({ videoId, title = "YouTube video" }) {
+export default function YouTubeEmbed({ videoId, title = "YouTube video", unMuted }) {
   const [loading, setLoading] = useState(true);
   if (!videoId) return null;
+  
 
   return (
     <div className="aspect-video w-full rounded-xl overflow-hidden">
@@ -14,7 +15,7 @@ export default function YouTubeEmbed({ videoId, title = "YouTube video" }) {
     {/*<div className="relative w-full  rounded-xl overflow-hidden shadow-lg shadow-cyan-500/20 border border-gray-700"> */}
     {/* <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg shadow-cyan-500/20 border border-gray-700"> */}
       <iframe
-        src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+        src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&${unMuted ? '' : 'mute=1'}`}
         title={title}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen

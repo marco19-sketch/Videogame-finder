@@ -45,20 +45,15 @@ export default function ContextProvider({ children }) {
   //Getting trailers using gameId
   const handleFetchTrailers = useCallback(
     async game => {
-      if (!game) return;
-
+      if (!game || !game.id) return null;
+      console.log("game from context", game);
       try {
         setLoading(true);
 
         const data = await fetchRAWG(`/games/${game.id}/movies`);
-        console.log('data results & landingPageCall from context', data.results, landingPageCall)
+
         setTrailers(data.results);
-
-        if (data.results && landingPageCall) {
-          console.log('ladingPageCall from context', landingPageCall)
-          return data.results[0].data.max;
-        }
-
+        console.log('rawg data from context', data)
         if (data.results.length === 0 || !data.results) {
           setShowTrailer(false);
         } else {
@@ -69,13 +64,17 @@ export default function ContextProvider({ children }) {
         setTimeout(() => {
           setLoading(false);
         }, 1000);
+        return data.results;
       } catch (err) {
         console.error("Error trying to fetch game trailers:", err);
         setLoading(false);
       }
     },
-    [setShowTrailer, setLoading, landingPageCall]
+    [setShowTrailer, setLoading]
+    // [setShowTrailer, setLoading, landingPageCall]
   );
+
+  console.log("data trailers from context", trailers);
 
   //authentication context
   useEffect(() => {
@@ -188,7 +187,7 @@ export default function ContextProvider({ children }) {
       setGamePlay,
       handleFetchTrailers,
       setLandingPageCall,
-      landingPageCall
+      landingPageCall,
     }),
     [
       results,
@@ -232,7 +231,7 @@ export default function ContextProvider({ children }) {
       setGamePlay,
       handleFetchTrailers,
       setLandingPageCall,
-      landingPageCall
+      landingPageCall,
     ]
   );
 

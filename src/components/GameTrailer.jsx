@@ -7,8 +7,9 @@ export default function GameTrailer({ gameTitle, mode }) {
   const [videoIds, setVideoIds] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [status, setStatus] = useState("idle"); // idle | loading | empty | error
- 
+  const [unMuted, setUnMuted] = useState(false);
 
+console.log('videoIds from GameTrailer', videoIds)
   useEffect(() => {
     if (!gameTitle) return;
 
@@ -24,6 +25,7 @@ export default function GameTrailer({ gameTitle, mode }) {
         setCurrentIndex(0);
         setStatus("idle");
         setStatus(ids.length ? "idle" : "empty");
+        setUnMuted(true)
       } catch {
         setStatus("error");
       }
@@ -64,7 +66,7 @@ export default function GameTrailer({ gameTitle, mode }) {
       </h2>
 
       <div className="aspect-video w-full rounded-xl overflow-hidden shadow-lg">
-        <YouTubeEmbed videoId={currentVideoId} title={`${gameTitle} ${mode === 'gameplay' ? 'gameplay' : 'trailer'}`} />
+        <YouTubeEmbed unMuted={unMuted} videoId={currentVideoId} title={`${gameTitle} ${mode === 'gameplay' ? 'gameplay' : 'trailer'}`} />
         {/* <YouTubeEmbed videoId={videoId} title={`${gameTitle} gameplay`} />;*/}
       </div>
 
