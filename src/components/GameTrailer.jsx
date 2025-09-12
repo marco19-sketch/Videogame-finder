@@ -9,7 +9,7 @@ export default function GameTrailer({ gameTitle, mode }) {
   const [status, setStatus] = useState("idle"); // idle | loading | empty | error
   const [unMuted, setUnMuted] = useState(false);
 
-console.log('videoIds from GameTrailer', videoIds)
+
   useEffect(() => {
     if (!gameTitle) return;
 

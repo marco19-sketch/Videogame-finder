@@ -1,40 +1,11 @@
 import { NavLink } from "react-router-dom";
-import { useCallback, useEffect, useContext, useMemo, useState } from "react";
-import { AppContext } from "../context/contextsCreation";
+import { useCallback } from "react";
 
 import useLogOut from "../authentication/useLogOut";
-// import getRandomBg from "../lib/getRandomBg";
 
 export default function LandingPage() {
-  const [trailer, setTrailer] = useState("");
-  const featuredGame = useMemo(() => {
-    return { name: "Grand Theft Auto V", id: 3498 };
-  }, []);
-  const [loaded, setLoaded] = useState(false);
-
-  const { handleFetchTrailers, setLandingPageCall, landingPageCall } = useContext(AppContext);
-
   const logOut = useLogOut();
 
-  const handleLoadedData = () => {
-    setLoaded(true);
-  };
-
-  useEffect(() => {
-    const fetchTrailer = async () => {
-      setLandingPageCall(true);
-      const url = await handleFetchTrailers(featuredGame);
-      
-      if (url) {
-        setTrailer(url);
-        
-        console.log('url and landingPageCall', url, landingPageCall)
-      }
-    };
-    fetchTrailer();
-  }, [handleFetchTrailers, featuredGame, setLandingPageCall, landingPageCall]);
-
-  
   const handleLogOut = useCallback(
     e => {
       e.stopPropagation();
@@ -43,17 +14,7 @@ export default function LandingPage() {
     [logOut]
   );
 
-  
-
   return (
-    // <div
-    //   className="min-h-screen min-w-screen bg-cover bg-center">
-    //     style={{
-    //       backgroundImage: randomBg
-    //       ? `url(${randomBg})`
-    //       : 'linear-gradient(to bottom, #e0e7ff, #c7d2fe)',
-    //   }}
-    // >
     <div
       className="min-h-screen min-w-screen 
           bg-gradient-to-b from-indigo-100 to-indigo-300">
@@ -108,20 +69,6 @@ export default function LandingPage() {
           Log out
         </button>
       </div>
-      <video
-        controls
-        autoPlay
-        muted
-        width="100%"
-        key={trailer}
-        onLoadedData={handleLoadedData} // fires when video is ready to play
-        className={`w-auto h-auto transition-opacity duration-1000 ${
-          loaded ? "opacity-100" : "opacity-0"
-        }`}>
-        {/* className="rounded-lg shadow-lg border border-gray-700"> */}
-        <source src={trailer} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
     </div>
   );
 }

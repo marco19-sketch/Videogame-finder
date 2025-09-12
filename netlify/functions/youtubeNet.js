@@ -16,11 +16,11 @@ export async function handler(event) {
       part: "snippet",
       q: `${gameTitle} ${mode}`, // << combine them here
       type: "video",
-      maxResults: "5",
+      maxResults: "2", // to avoid finishing daily quota
       videoEmbeddable: "true",
       order: "relevance",
     });
-
+    console.log('params from youtubeNet', params)
     const res = await fetch(
       `https://www.googleapis.com/youtube/v3/search?${params}`
     );

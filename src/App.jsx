@@ -19,28 +19,16 @@ function App() {
 
 
   return (
-    // <div
-    //   className="min-h-screen w-full text-gray-100 bg-cover bg-center"
-    //   style={{
-    //     backgroundImage: randomBg
-    //       ? `url('${randomBg}')`
-    //       : "bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100",
-    //   }}
-    //   >
       <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100"> 
       <header className="px-6 py-4 border-b border-gray-700">
         <h1 className="text-3xl font-extrabold text-cyan-400 tracking-wide">
-          🎮 Videogame Finder
+          🎮 Game Quest Hub
         </h1>
         <NavBar />
       </header>
       <main
         className="px-6 py-8"
-        // style={{
-        //   backgroundImage: randomBg
-        //     ? `url('${randomBg}')`
-        //     : "bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100",
-        // }}
+  
         >
         <Routes>
           <Route path="/" element={<LandingPage />} />

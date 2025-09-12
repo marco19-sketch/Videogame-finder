@@ -24,8 +24,7 @@ export default function ContextProvider({ children }) {
   const [showTrailer, setShowTrailer] = useState(false);
   const [trendingGames, setTrendingGames] = useState([]);
   const location = useLocation();
-  const [randomBg, setRandomBg] = useState(null);
-  const [landingPageCall, setLandingPageCall] = useState(false);
+ 
 
   const [trailers, setTrailers] = useState([]);
   const [index, setIndex] = useState(0);
@@ -46,14 +45,14 @@ export default function ContextProvider({ children }) {
   const handleFetchTrailers = useCallback(
     async game => {
       if (!game || !game.id) return null;
-      console.log("game from context", game);
+
       try {
         setLoading(true);
 
         const data = await fetchRAWG(`/games/${game.id}/movies`);
 
         setTrailers(data.results);
-        console.log('rawg data from context', data)
+
         if (data.results.length === 0 || !data.results) {
           setShowTrailer(false);
         } else {
@@ -71,10 +70,7 @@ export default function ContextProvider({ children }) {
       }
     },
     [setShowTrailer, setLoading]
-    // [setShowTrailer, setLoading, landingPageCall]
   );
-
-  console.log("data trailers from context", trailers);
 
   //authentication context
   useEffect(() => {
@@ -174,8 +170,6 @@ export default function ContextProvider({ children }) {
       favorites,
       setFavorites,
       isFavoritesPage,
-      randomBg,
-      setRandomBg,
       loading,
       setLoading,
       trailers,
@@ -186,8 +180,6 @@ export default function ContextProvider({ children }) {
       gamePlay,
       setGamePlay,
       handleFetchTrailers,
-      setLandingPageCall,
-      landingPageCall,
     }),
     [
       results,
@@ -218,8 +210,6 @@ export default function ContextProvider({ children }) {
       favorites,
       setFavorites,
       isFavoritesPage,
-      randomBg,
-      setRandomBg,
       loading,
       setLoading,
       trailers,
@@ -229,9 +219,7 @@ export default function ContextProvider({ children }) {
       setShowModal,
       gamePlay,
       setGamePlay,
-      handleFetchTrailers,
-      setLandingPageCall,
-      landingPageCall,
+      handleFetchTrailers
     ]
   );
 

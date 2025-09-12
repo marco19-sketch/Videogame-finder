@@ -10,8 +10,8 @@ export default function ParallaxVideoPage() {
   const [trailer, setTrailer] = useState("");
   const [ids, setIds] = useState([]);
   const [featuredGame, setFeaturedGame] = useState(0);
-  const { handleFetchTrailers, setLandingPageCall, setTrendingGames } =
-    useContext(AppContext);
+  const [videoEnd, setVideoEnd] = useState(false);
+  const { handleFetchTrailers } = useContext(AppContext);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,20 +32,26 @@ export default function ParallaxVideoPage() {
       setFeaturedGame(data[Math.floor(Math.random() * data.length)]);
     }
     fetchTrending();
-  }, [setTrendingGames]);
+  }, [videoEnd]);
 
   useEffect(() => {
     const fetchTrailer = async () => {
       if (!featuredGame || !featuredGame.id) return;
 
       const trailers = await handleFetchTrailers(featuredGame);
-
+      let videoIds;
       if (trailers && trailers.length > 0) {
         const url = trailers[0].data.max || trailers[0].data["480"];
         setTrailer(url);
         setIds([]);
       } else {
-        const videoIds = await findVideoIds(`${featuredGame.name}trailer`);
+        if (import.meta.env.DEV) {
+          // this fires in dev mode
+          videoIds = ["nq1M_Wc4FIc", "yWMu6JeT2g8"]; //mock youtube api call
+          console.log('mock fetch in parallax page')
+        } else {
+          videoIds = await findVideoIds(featuredGame.name, "official trailer");
+        }
         if (videoIds && videoIds.length > 0) {
           setTrailer(null);
           setIds(videoIds);
@@ -59,7 +65,7 @@ export default function ParallaxVideoPage() {
       }
     };
     fetchTrailer();
-  }, [handleFetchTrailers, featuredGame, setLandingPageCall]);
+  }, [handleFetchTrailers, featuredGame]);
 
   useEffect(() => {
     let playPromise;
@@ -78,7 +84,7 @@ export default function ParallaxVideoPage() {
       {/* Section with parallax video */}
       <section className="relative h-screen overflow-hidden">
         {/* Background video */}
-        <div ref={parallaxDivRef}>
+        <div className='absolute inset-0 z-0' ref={parallaxDivRef}>
           {trailer ? (
             <video
               ref={videoRef}
@@ -87,21 +93,38 @@ export default function ParallaxVideoPage() {
               loop
               muted
               playsInline
-              className="absolute top-0 left-0 w-full h-full object-cover will-change-transform">
+              className="absolute inset-0 -z-10 top-0 left-0 w-full h-full object-cover will-change-transform">
+              {/* className="absolute top-0 left-0 w-full h-full object-cover will-change-transform z-0"> */}
               <source src={trailer} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           ) : (
-            <YouTubeEmbed videoId={ids[0]} title="YouTube video" />
+            // trying react-youtube api. (see YouTubeEmbed.jsx for comment)
+            // <YouTubeEmbed videoId={ids[0]} playlistIds={ids} title="YouTube video" />
+
+            <YouTubeEmbed
+              videoId={ids[0]}
+              title="YouTube video"
+              playlist={ids}
+              // onVideoEnd={() => setVideoEnd(true)} // that's the real call
+              onVideoEnd={() => {
+                setVideoEnd(true); // that's for dev mode
+                console.log("video has ended, onVideoEnd fired");
+              }
+              } 
+              // className='h-full w-full absolute top-0 left-0'
+            />
           )}
         </div>
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/40" />
+        
+        <div className="absolute inset-0 bg-black/40 z-0"  />
 
         {/* Foreground content */}
-        <div className="relative z-10 flex items-center justify-center h-full">
-          <h1 className="text-5xl font-extrabold text-white drop-shadow-lg text-center">
-            Parallax Video Background 🚀
+        <div className="relative  flex items-center justify-center h-full bg-black/40">
+          <h1 className="text-5xl  font-semibold text-white drop-shadow-lg text-center ">
+            🎮 Start your Quest! <br />
+            Find your new game!
           </h1>
         </div>
       </section>
