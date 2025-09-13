@@ -4,8 +4,7 @@ import { Link } from "react-router-dom";
 import { getTrending } from "../lib/getTrending";
 
 export default function TrendingPage(sortBy) {
-  
-  const { trendingGames, setTrendingGames, results } = useContext(AppContext);
+  const { trendingGames, setTrendingGames } = useContext(AppContext);
   const [page, setPage] = useState(1);
 
   sortBy = "-rating";
@@ -28,7 +27,7 @@ export default function TrendingPage(sortBy) {
       setTrendingGames(data);
     }
     fetchTrending();
-  }, [page, setTrendingGames, sortBy, results]);
+  }, [page, setTrendingGames, sortBy]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">

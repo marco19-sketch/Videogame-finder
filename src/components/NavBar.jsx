@@ -32,7 +32,7 @@ export default function NavBar() {
             isActive ? "underline decoration-4 decoration-cyan-400" : ""
           )
         }>
-        Best Games
+        Recommended
       </NavLink>
       <NavLink to='/'
        className={({ isActive }) =>

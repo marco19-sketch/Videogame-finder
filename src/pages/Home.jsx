@@ -49,12 +49,10 @@ export default function Home() {
   ]);
 
   return (
-    <div
-      className='min-h-screen bg-gray-100 flex flex-col items-center p-6'
-      >
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
       {/* Page Title */}
       <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-8 text-center">
-        Video Game Finder
+        🎮 Game Quest Hub
       </h1>
 
       {/* Search Bar */}

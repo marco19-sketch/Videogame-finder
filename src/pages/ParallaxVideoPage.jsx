@@ -1,4 +1,5 @@
 import { useEffect, useRef, useContext, useState } from "react";
+import { NavLink } from 'react-router-dom';
 import { AppContext } from "../context/contextsCreation";
 import { getTrending } from "../lib/getTrending";
 import YouTubeEmbed from "../components/YouTubeEmbed";
@@ -122,10 +123,12 @@ export default function ParallaxVideoPage() {
 
         {/* Foreground content */}
         <div className="relative  flex items-center justify-center h-full bg-black/40">
+        <NavLink to='/home'>
           <h1 className="text-5xl  font-semibold text-white drop-shadow-lg text-center ">
             🎮 Start your Quest! <br />
             Find your new game!
           </h1>
+          </NavLink>
         </div>
       </section>
 
