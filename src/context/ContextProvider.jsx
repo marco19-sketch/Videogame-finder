@@ -94,7 +94,7 @@ export default function ContextProvider({ children }) {
       //   gameName
       // )}`;
       // Creiamo i parametri per RAWG come query string
-      let query = `page=${pageToFetch}&page_size=16&search=${encodeURIComponent(
+      let query = `page=${pageToFetch}&page_size=8&search=${encodeURIComponent(
         gameName
       )}`;
 

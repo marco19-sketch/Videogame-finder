@@ -37,6 +37,7 @@ export default function GameTrailer({ gameTitle, mode }) {
     };
   }, [gameTitle, mode]);
   // }, [gameTitle, showTrailer, gamePlay]);
+  console.log('video ids from game trailer', videoIds)
 
   if (status === "loading")
     return (
@@ -58,7 +59,7 @@ export default function GameTrailer({ gameTitle, mode }) {
     );
 
   const currentVideoId = videoIds[currentIndex];
-   
+   console.log('currentVideoId from game trailer', currentVideoId)
   return (
     <div className=" bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4 max-w-3xl mx-auto">
       <h2 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
@@ -66,8 +67,8 @@ export default function GameTrailer({ gameTitle, mode }) {
       </h2>
 
       <div className="aspect-video w-full rounded-xl overflow-hidden shadow-lg">
-        <YouTubeEmbed unMuted={unMuted} videoId={currentVideoId} title={`${gameTitle} ${mode === 'gameplay' ? 'gameplay' : 'trailer'}`} />
-        {/* <YouTubeEmbed videoId={videoId} title={`${gameTitle} gameplay`} />;*/}
+        <YouTubeEmbed customOpts={{playerVars: {start: 0, playlist: null }}} unMuted={unMuted} videoId={currentVideoId} title={`${gameTitle} ${mode === 'gameplay' ? 'gameplay' : 'trailer'}`} />
+        
       </div>
 
       {videoIds.length > 1 && (

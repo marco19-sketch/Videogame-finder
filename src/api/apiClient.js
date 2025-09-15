@@ -10,7 +10,7 @@ if (!endpoint) throw new Error("Missing RAWG endpoint");
   const url = `/.netlify/functions/rawg?endpoint=${encodeURIComponent(
     endpoint
   )}${query ? `&query=${encodeURIComponent(query)}` : ""}`;
-  
+
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch RAWG");
   return res.json();

@@ -37,6 +37,7 @@ export default function Home() {
     setDates(false);
     setStartDate(null);
     setEndDate(null);
+    setExactSearch(false)
   }, [
     setResults,
     setGameName,
@@ -46,6 +47,7 @@ export default function Home() {
     setDates,
     setStartDate,
     setEndDate,
+    setExactSearch
   ]);
 
   return (

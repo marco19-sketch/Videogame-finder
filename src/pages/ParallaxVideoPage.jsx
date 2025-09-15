@@ -1,5 +1,5 @@
 import { useEffect, useRef, useContext, useState } from "react";
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 import { AppContext } from "../context/contextsCreation";
 import { getTrending } from "../lib/getTrending";
 import YouTubeEmbed from "../components/YouTubeEmbed";
@@ -46,23 +46,17 @@ export default function ParallaxVideoPage() {
         setTrailer(url);
         setIds([]);
       } else {
-        if (import.meta.env.DEV) {
-          // this fires in dev mode
-          videoIds = ["nq1M_Wc4FIc", "yWMu6JeT2g8"]; //mock youtube api call
-          console.log('mock fetch in parallax page')
-        } else {
-          videoIds = await findVideoIds(featuredGame.name, "official trailer");
-        }
-        if (videoIds && videoIds.length > 0) {
-          setTrailer(null);
-          setIds(videoIds);
-        } else {
-          setIds([]);
-          setTrailer(
-            "https://steamcdn-a.akamaihd.net/steam/apps/256693661/movie_max.mp4"
-          );
-          console.log("No YouTube videoIds trailer found");
-        }
+        videoIds = await findVideoIds(featuredGame.name, "official trailer");
+      }
+      if (videoIds && videoIds.length > 0) {
+        setTrailer(null);
+        setIds(videoIds);
+      } else {
+        setIds([]);
+        setTrailer(
+          "https://steamcdn-a.akamaihd.net/steam/apps/256693661/movie_max.mp4"
+        );
+        console.log("No YouTube videoIds trailer found");
       }
     };
     fetchTrailer();
@@ -85,7 +79,7 @@ export default function ParallaxVideoPage() {
       {/* Section with parallax video */}
       <section className="relative h-screen overflow-hidden">
         {/* Background video */}
-        <div className='absolute inset-0 z-0' ref={parallaxDivRef}>
+        <div className="absolute inset-0 z-0" ref={parallaxDivRef}>
           {trailer ? (
             <video
               ref={videoRef}
@@ -111,23 +105,22 @@ export default function ParallaxVideoPage() {
               onVideoEnd={() => {
                 setVideoEnd(true); // that's for dev mode
                 console.log("video has ended, onVideoEnd fired");
-              }
-              } 
+              }}
               // className='h-full w-full absolute top-0 left-0'
             />
           )}
         </div>
         {/* Overlay */}
-        
-        <div className="absolute inset-0 bg-black/40 z-0"  />
+
+        <div className="absolute inset-0 bg-black/40 z-0" />
 
         {/* Foreground content */}
         <div className="relative  flex items-center justify-center h-full bg-black/40">
-        <NavLink to='/home'>
-          <h1 className="text-5xl  font-semibold text-white drop-shadow-lg text-center ">
-            🎮 Start your Quest! <br />
-            Find your new game!
-          </h1>
+          <NavLink to="/home">
+            <h1 className="text-5xl  font-semibold text-white drop-shadow-lg text-center ">
+              🎮 Start your Quest! <br />
+              Find your new game!
+            </h1>
           </NavLink>
         </div>
       </section>

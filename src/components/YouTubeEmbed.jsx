@@ -6,15 +6,15 @@ export default function YouTubeEmbed({
   videoId,
   title = "YouTube video",
   unMuted = false,
-  onVideoEnd,
-  
+  onVideoEnd = '',
+  customOpts = {}
 }) {
   
   const [loading, setLoading] = useState(true);
  
   if (!videoId) return null;
 
-  const opts = {
+  const defaultOpts = {
     width: "100%",
     height: "100%",
     playerVars: {
@@ -23,23 +23,32 @@ export default function YouTubeEmbed({
       controls: unMuted ? 1 : 0,
       enablejsapi : 1,
       origin: window.location.origin,
+      rel: 0,
       // loop: 1, //don't need loop + playlist, new fetch on video end.
       playlist: `${videoId},yWMu6JeT2g8`,
       start: 60, // YouTube needs this for loop
     },
   };
 
+   const opts = {
+     ...defaultOpts,
+     playerVars: {
+       ...defaultOpts.playerVars,
+       ...customOpts.playerVars,
+     },
+   };
+
+
   return (
     <div className="aspect-video w-full rounded-xl overflow-hidden">
-      {loading && (
+      {/* {loading && (
         <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-10">
           <p className="text-lg text-white font-semibold animate-pulse">
             Loading...
           </p>
         </div>
-      )}
-      {/*<div className="relative w-full  rounded-xl overflow-hidden shadow-lg shadow-cyan-500/20 border border-gray-700"> */}
-      {/* <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-lg shadow-cyan-500/20 border border-gray-700"> */}
+      )} */}
+      
       {/* trying react-youtube api, which has an onEnd property that can be used to trigger a useEffect or start a function,
        to implement a different-game-trailers-loop instead of a same-game-trailers-loop (with iframe) */}
 

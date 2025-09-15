@@ -62,6 +62,11 @@ export default function LandingPage() {
           className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Parallax Page
         </NavLink>
+        <NavLink
+          to="/recommendations-page"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+          Recommendations
+        </NavLink>
         <button
           type="button"
           onClick={handleLogOut}

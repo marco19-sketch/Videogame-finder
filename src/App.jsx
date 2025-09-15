@@ -13,6 +13,7 @@ import ResetPasswordPage from './authentication/ResetPasswordPage';
 import ActionPage from './authentication/ActionPage';
 import Footer from './components/Footer';
 import ParallaxVideoPage from "./pages/ParallaxVideoPage";
+import RecommendationsPage from './pages/RecommendationsPage';
 
 
 function App() {
@@ -21,9 +22,9 @@ function App() {
   return (
       <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100"> 
       <header className="px-6 py-4 border-b border-gray-700">
-        <h1 className="text-3xl font-extrabold text-cyan-400 tracking-wide">
+        {/* <h1 className="text-3xl font-extrabold text-cyan-400 tracking-wide">
           🎮 Game Quest Hub
-        </h1>
+        </h1> */}
         <NavBar />
       </header>
       <main
@@ -42,6 +43,7 @@ function App() {
           <Route path='/reset-password-page' element={<ResetPasswordPage />} />
           <Route path='/action' element={<ActionPage />} />
           <Route path='/parallax-page' element={<ParallaxVideoPage />} />
+          <Route path='/recommendations-page' element={<RecommendationsPage />} />
         </Routes>
       </main>
       <Footer />
