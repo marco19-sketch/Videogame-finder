@@ -1,14 +1,19 @@
 // src/pages/ActionPage.jsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { confirmPasswordReset, applyActionCode } from "firebase/auth";
 import { auth } from '../firebase';
+import ThemedButton from '../ThemedComponents/ThemedButton';
+import ThemedLabel from '../ThemedComponents/ThemedLabel';
+import ThemedInput from '../ThemedComponents/ThemedInput';
+import ShowPassword from '../ThemedComponents/ShowPassword';
+import { AppContext } from '../context/contextsCreation';
 
 export default function ActionPage() {
   const [status, setStatus] = useState("Processing...");
   const [newPassword, setNewPassword] = useState("");
   const [showResetForm, setShowResetForm] = useState(false);
-
+  const { showPassword } = useContext(AppContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,35 +54,34 @@ export default function ActionPage() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-900">
+    <div className="h-screen w-full flex flex-col justify-center items-center">
       <p className="text-lg text-white mb-4">{status}</p>
 
       {showResetForm && (
         <form
           onSubmit={handlePasswordReset}
-          className="flex flex-col gap-4 bg-gray-800 p-6 rounded-lg shadow-lg">
-          <input
-            type="password"
-            placeholder="New password"
-            value={newPassword}
-            onChange={e => setNewPassword(e.target.value)}
-            className="px-4 py-2 rounded-lg border border-gray-600 bg-gray-700 text-white"
-            required
-          />
-          <button
-            type="submit"
-            className="px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
+          className=" bg-gray-800 mb-4 flex flex-col items-center p-6 rounded-2xl shadow-lg w-full max-w-md mx-auto space-y-4">
+          <ThemedLabel htmlFor="new-password">Enter new password</ThemedLabel>
+          <div className="relative w-full">
+            <ThemedInput
+              id="new-password"
+              type={`${showPassword ? "text" : "password"}`}
+              placeholder="New password"
+              value={newPassword}
+              onChange={e => setNewPassword(e.target.value)}
+              className={`text-${showPassword ? "white" : ""}`}
+            />
+            <ShowPassword className="absolute top-2 right-4" />
+          </div>
+          <ThemedButton type="submit" disabled={newPassword.length === 0}>
             Reset Password
-          </button>
+          </ThemedButton>
         </form>
       )}
 
-      <button
-        className="mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-400 hover:to-pink-500 transition-colors duration-300"
-        type="button"
-        onClick={() => navigate("/")}>
-        Go Home
-      </button>
+      <ThemedButton type="button" onClick={() => navigate("/")}>
+        Home
+      </ThemedButton>
     </div>
   );
 }

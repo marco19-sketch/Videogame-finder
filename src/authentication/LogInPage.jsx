@@ -1,7 +1,8 @@
 // import { AuthContext } from '../context/contextsCreation';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { AppContext } from '../context/contextsCreation';
 import LogInFunction from './LogInFunction';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import authErrorToMessage from './authErrorToMessage';
 import GoogleButton from './GoogleButton';
 import ThemedButton from '../ThemedComponents/ThemedButton';
@@ -15,7 +16,8 @@ export default function LogInPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
-    const [show, setShow] = useState(false);
+    const { showPassword, setShowPassword} = useContext(AppContext);
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -49,25 +51,32 @@ export default function LogInPage() {
           <ThemedLabel htmlFor="password">Password</ThemedLabel>
           <div className="relative w-full">
             <ThemedInput
-              type={show ? "text" : "password"}
+              type={showPassword ? "text" : "password"}
               id="password"
               value={password}
               placeholder="password"
               onChange={e => setPassword(e.target.value)}
-              className={`${show ? 'text-white' : ''}`}
+              className={`${showPassword ? "text-white" : ""}`}
             />
             <ShowPassword
-              show={show}
-              setShow={setShow}
+              showPassword={showPassword}
+              setShow={setShowPassword}
               className="absolute top-2 right-4"
             />
           </div>
           <ThemedButton type="submit" disabled={loading}>
             {loading ? "..." : "Log In"}
           </ThemedButton>
-          {error && <p>{error}</p>}
+          {error && <p>❌{error}</p>}
+          <p>
+            Don't have an account yet?{" "}
+            <NavLink className="text-cyan-400" to="/sign-up-page">
+              Sign up
+            </NavLink>
+          </p>
+          <p>Or</p>
+          <GoogleButton />
         </form>
-        <GoogleButton />
       </div>
     );
 }

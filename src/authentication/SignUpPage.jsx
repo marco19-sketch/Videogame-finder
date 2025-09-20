@@ -1,6 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import SignUpFunction from "./SignUpFunction";
-import { useNavigate } from "react-router-dom";
+import { AppContext } from '../context/contextsCreation';
+import { useNavigate, NavLink } from "react-router-dom";
+import GoogleButton from "./GoogleButton";
+import ThemedButton from "../ThemedComponents/ThemedButton";
+import ThemedLabel from "../ThemedComponents/ThemedLabel";
+import ThemedInput from "../ThemedComponents/ThemedInput";
+import ShowPassword from "../ThemedComponents/ShowPassword";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -9,31 +15,20 @@ export default function SignUpPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(false);
-  // const [retry, setRetry] = useState(false);
   const navigate = useNavigate();
-  // const [disabled, setDisabled] = useState(true);
-  const disabled = password !== passwordConfirm || password === '';
-  console.log("password and passwordConfirm and disabled", password, passwordConfirm, disabled);
+  const disabled = password !== passwordConfirm || password === "";
+  const { showPassword } = useContext(AppContext);
+  console.log(
+    "password and passwordConfirm and disabled",
+    password,
+    passwordConfirm,
+    disabled
+  );
 
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
     setError("");
-    // setDisabled(true);
-    // setRetry(false);
-
-    // if (password === passwordConfirm) {
-    //   setPassword(password);
-    //   setDisabled(false);
-    // } else {
-    //   setError("Passwords don't match");
-    //   // setRetry(true);
-    //   setPassword("");
-    //   setPasswordConfirm("");
-    //   setPassword("");
-    //   return;
-    // }
-    
 
     try {
       const user = await SignUpFunction(email, password);
@@ -49,80 +44,82 @@ export default function SignUpPage() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
-        <input
+    <div className="h-screen w-full flex flex-col justify-center items-center">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-gray-800 mb-4 flex flex-col items-center p-6 rounded-2xl shadow-lg w-full max-w-md mx-auto space-y-4">
+        <ThemedLabel htmlFor="email">Email</ThemedLabel>
+        <ThemedInput
           type="email"
           id="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          // value={password}
-          // onChange={e => setPassword(e.target.value)}
-        />
-        <label htmlFor="password-confirm">Confirm password</label>
-        <input
-        className='border-2 rounded-sm'
-          style={{borderColor: passwordConfirm === '' ? 'gray' : password !== passwordConfirm ? 'red' : 'green'}}
+        <ThemedLabel htmlFor="password">Password</ThemedLabel>
+        <div className="relative w-full">
+          <ThemedInput
+            type={`${showPassword ? "text" : "password"}`}
+            id="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            className={`text-${showPassword ? 'white' : ''}`}
+          />
+          <ShowPassword className="absolute top-2 right-4" />
+        </div>
+        <ThemedLabel htmlFor="password-confirm">Confirm password</ThemedLabel>
+        <ThemedInput
+          className="border-2 rounded-sm"
+          style={{
+            borderColor:
+              passwordConfirm === ""
+                ? "gray"
+                : password !== passwordConfirm
+                ? "red"
+                : "green",
+          }}
           id="password-confirm"
           type="password"
           value={passwordConfirm}
           onChange={e => setPasswordConfirm(e.target.value)}
         />
         {loading && <p>Loading...</p>}
-        {error && <p>{error}</p>}
-        <button
+        {error && <p>❌{error}</p>}
+        {passwordConfirm && disabled && (
+          <p className="text-red-500 text-xl mb-4">Passwords don't match</p>
+        )}
+        {message && (
+          <p>
+            Registration successful!
+            <br /> To verify your email, check your inbox.
+          </p>
+        )}
+
+        <ThemedButton
           type="submit"
-          className="mt-6 px-6 py-2 rounded-lg font-semibold "
-          // "bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-400 hover:to-pink-500 transition-colors duration-300"
           style={{
-            background: disabled
-              ?  "gray"
-              : "linear-gradient(to right,  #8b5cf6, #db2777)",
-              
-            color: "white",
-            borderRadius: "0.5rem",
-            fontWeight: "600",
-            padding: "0.5rem 1.5rem", // py-2 px-6
-            marginTop: "1.5rem", // mt-6
-            transition: "background-color 300ms, color 300ms",
-            cursor: disabled ? "not-allowed" : "pointer",
-            opacity: disabled ? 0.7 : 1
+            background: disabled ? "gray" : "",
           }}
           disabled={disabled}>
           Sign Up
-        </button>
-        {/* {retry && (
-          <button
-            className="mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-400 hover:to-pink-500 transition-colors duration-300"
-            type="submit">
-            Retry
-          </button>
-        )} */}
-      </form>
-      {message && (
+        </ThemedButton>
         <p>
-          Registration successful!
-          <br /> To verify your email, check your inbox.
+          Have already an account?{" "}
+          <NavLink to="/log-in-page" className="text-cyan-400">
+            Sign in
+          </NavLink>
         </p>
-      )}
-      {passwordConfirm && disabled && <p>Passwords don't match</p>}
-      <button
-        className="mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-400 hover:to-pink-500 transition-colors duration-300"
+        <p>Or</p>
+        <GoogleButton />
+      </form>
+
+      <ThemedButton
         type="button"
         onClick={e => {
           e.stopPropagation();
           navigate("/home-page");
         }}>
         Home
-      </button>
-    </>
+      </ThemedButton>
+    </div>
   );
 }

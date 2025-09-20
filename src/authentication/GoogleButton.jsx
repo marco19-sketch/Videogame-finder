@@ -32,6 +32,7 @@ function Login() {
     <div>
       <ThemedButton
         className={`flex justify-between w-54`}
+        type='button'
         onClick={handleGoogleSignIn}
         disabled={loading}
         style={{ padding: "10px 20px" }}>

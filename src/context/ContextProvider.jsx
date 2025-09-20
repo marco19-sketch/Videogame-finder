@@ -28,6 +28,7 @@ export default function ContextProvider({ children }) {
   const [indexA, setIndexA] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [gamePlay, setGamePlay] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -191,6 +192,8 @@ export default function ContextProvider({ children }) {
       gamePlay,
       setGamePlay,
       handleFetchTrailers,
+      showPassword,
+      setShowPassword
     }),
     [
       results,
@@ -231,6 +234,8 @@ export default function ContextProvider({ children }) {
       gamePlay,
       setGamePlay,
       handleFetchTrailers,
+      showPassword,
+      setShowPassword
     ]
   );
 
