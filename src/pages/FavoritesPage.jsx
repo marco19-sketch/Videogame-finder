@@ -34,7 +34,7 @@ export default function MyListPage() {
         My List
       </h1>
       <Link
-        to="/home"
+        to="/home-page"
         onClick={() => setPage(1)}
         className="mb-6 text-cyan-400 font-semibold hover:text-cyan-300 transition">
         ⬅️ New search

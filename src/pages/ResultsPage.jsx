@@ -13,7 +13,7 @@ export default function ResultsPage() {
   const [lastPage, setLastPage] = useState(false);
   const [animationLeft, setAnimationLeft] = useState(false);
 
-  
+
   const handlePrevious = useCallback(() => {
     if (page > 1) {
       setPage(prevPage => prevPage - 1);
@@ -39,20 +39,20 @@ export default function ResultsPage() {
     return () => clearTimeout(timer);
   }, [page, handleFetch]);
 
-  console.log('animationLeft & page from results page', animationLeft, page)
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
-      {loading && (
+      {/* {loading && (
         <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 cursor-wait">
           <p className="text-white text-lg font-semibold  cursor-progress ">
             Loading...
           </p>
         </div>
-      )}
+      )} */}
       {/* Link back to Home */}
       <Link
-        to="/home"
+        to="/home-page"
         onClick={() => setPage(1)}
         className="mb-6 text-cyan-400 font-semibold hover:text-cyan-300 transition">
         ⬅️ New search
@@ -84,6 +84,7 @@ export default function ResultsPage() {
           {/* Games grid */}
           <ul className="basis-10/12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
             {results.map(game => (
+              
               <li
                 key={game.id}
                 className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 transition duration-300 transform hover:-translate-y-1 hover:scale-105">
@@ -93,7 +94,7 @@ export default function ResultsPage() {
                     <img
                       className="w-full h-52 object-cover"
                       src={
-                        Array.isArray(game?.short_screenshot)
+                        Array.isArray(game?.short_screenshots)
                           ? game?.short_screenshots[0]?.image
                           : undefined
                       }
@@ -147,8 +148,6 @@ export default function ResultsPage() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Pagination buttons */}
-      <div className="flex gap-4 mt-10"></div>
     </div>
   );
 }

@@ -16,7 +16,7 @@ export async function handler(event) {
       part: "snippet",
       q: `${gameTitle} ${mode}`, // << combine them here
       type: "video",
-      maxResults: "2", // to avoid finishing daily quota
+      maxResults: "4", // to avoid finishing daily quota
       videoEmbeddable: "true",
       order: "relevance",
     });

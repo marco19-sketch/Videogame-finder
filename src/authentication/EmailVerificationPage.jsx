@@ -38,7 +38,7 @@ export default function EmailVerificationPage() {
          from-cyan-500 to-blue-600 text-white hover:from-cyan-400
           hover:to-blue-500 transition-colors duration-300"
         type="button"
-        onClick={() => navigate("/home")}>
+        onClick={() => navigate("/home-page")}>
         Home
       </button>
     </div>

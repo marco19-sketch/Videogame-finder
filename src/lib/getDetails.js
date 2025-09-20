@@ -4,10 +4,7 @@ import { fetchRAWG } from "../api/apiClient";
  export async function getDetails(gameId) {
     if (!gameId) throw new Error('Invalid or missing game ID')
     try {
-        // const res = await fetch(`https://api.rawg.io/api/games/${gameId}?key=${rawgKey}`);
-        // if (!res) throw new Error('Failed fetching json');
 
-        // const data = await res.json();
          const data = await fetchRAWG(`games/${gameId}`, "");
 
         return data

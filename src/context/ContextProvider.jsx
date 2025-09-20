@@ -24,10 +24,8 @@ export default function ContextProvider({ children }) {
   const [showTrailer, setShowTrailer] = useState(false);
   const [trendingGames, setTrendingGames] = useState([]);
   const location = useLocation();
- 
-
   const [trailers, setTrailers] = useState([]);
-  const [index, setIndex] = useState(0);
+  const [indexA, setIndexA] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [gamePlay, setGamePlay] = useState(false);
   const [favorites, setFavorites] = useState(() => {
@@ -50,19 +48,17 @@ export default function ContextProvider({ children }) {
         setLoading(true);
 
         const data = await fetchRAWG(`/games/${game.id}/movies`);
-
         setTrailers(data.results);
-
+      
         if (data.results.length === 0 || !data.results) {
           setShowTrailer(false);
         } else {
           setShowTrailer(true);
         }
-
         setShowModal(true);
         setTimeout(() => {
           setLoading(false);
-        }, 1000);
+        }, 300);
         return data.results;
       } catch (err) {
         console.error("Error trying to fetch game trailers:", err);
@@ -86,7 +82,7 @@ export default function ContextProvider({ children }) {
   const handleFetch = useCallback(
     async (pageToFetch = page) => {
       //  setLoading(true);
-      if (location.pathname === "/home") {
+      if (location.pathname === "/home-page") {
         navigate("/results-page");
       }
 
@@ -118,6 +114,7 @@ export default function ContextProvider({ children }) {
         // const data = await res.json();
         setLoading(true);
         const data = await fetchRAWG("games", query);
+
         setResults(data.results);
       } catch (err) {
         console.error("Error trying to fetch data:", err);
@@ -173,8 +170,8 @@ export default function ContextProvider({ children }) {
       loading,
       setLoading,
       trailers,
-      index,
-      setIndex,
+      indexA,
+      setIndexA,
       showModal,
       setShowModal,
       gamePlay,
@@ -213,13 +210,13 @@ export default function ContextProvider({ children }) {
       loading,
       setLoading,
       trailers,
-      index,
-      setIndex,
+      indexA,
+      setIndexA,
       showModal,
       setShowModal,
       gamePlay,
       setGamePlay,
-      handleFetchTrailers
+      handleFetchTrailers,
     ]
   );
 

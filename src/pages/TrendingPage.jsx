@@ -36,7 +36,7 @@ export default function TrendingPage(sortBy) {
       </h1>
       {/* Link back to Home */}
       <Link
-        to="/home"
+        to="/home-page"
         onClick={() => setPage(1)}
         className="mb-6 text-cyan-400 font-semibold hover:text-cyan-300 transition">
         ⬅️ New search

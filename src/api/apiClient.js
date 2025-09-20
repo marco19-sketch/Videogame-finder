@@ -25,6 +25,7 @@ export async function fetchYouTube(gameTitle, mode = '') {
       gameTitle
     )} ${encodeURIComponent(mode)}&videoCategory=20`
   );
+ 
   
   if (!res.ok) throw new Error("Failed to fetch YouTube");
 

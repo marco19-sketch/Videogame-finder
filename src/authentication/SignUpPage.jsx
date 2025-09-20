@@ -119,7 +119,7 @@ export default function SignUpPage() {
         type="button"
         onClick={e => {
           e.stopPropagation();
-          navigate("/home");
+          navigate("/home-page");
         }}>
         Home
       </button>

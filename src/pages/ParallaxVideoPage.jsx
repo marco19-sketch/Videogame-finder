@@ -4,6 +4,9 @@ import { AppContext } from "../context/contextsCreation";
 import { getTrending } from "../lib/getTrending";
 import YouTubeEmbed from "../components/YouTubeEmbed";
 import { findVideoIds } from "../lib/youtube";
+import CustomButton from '../components/CustomButton';
+
+
 
 export default function ParallaxVideoPage() {
   const videoRef = useRef(null);
@@ -115,13 +118,26 @@ export default function ParallaxVideoPage() {
         <div className="absolute inset-0 bg-black/40 z-0" />
 
         {/* Foreground content */}
-        <div className="relative  flex items-center justify-center h-full bg-black/40">
-          <NavLink to="/home">
+        <div className="relative  flex flex-col items-center justify-center h-full bg-black/40">
+          <NavLink to="/home-page">
             <h1 className="text-5xl  font-semibold text-white drop-shadow-lg text-center ">
               🎮 Start your Quest! <br />
               Find your new game!
             </h1>
           </NavLink>
+          {/*navigation*/}
+        
+          <div className="flex items-center justify-between">
+            <NavLink to="/trending-page">
+            <CustomButton text='trending' />
+            </NavLink>
+            <NavLink to="/recommendations-page">
+              <p>Recommended</p>
+            </NavLink>
+            <NavLink to="/home-page">
+              <p>Search</p>
+            </NavLink>
+          </div>
         </div>
       </section>
 

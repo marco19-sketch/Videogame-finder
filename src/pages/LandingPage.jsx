@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { useCallback } from "react";
 
+
 import useLogOut from "../authentication/useLogOut";
 
 export default function LandingPage() {
@@ -23,7 +24,7 @@ export default function LandingPage() {
           Welcome to Video Game Finder 🎮
         </h1>
         <NavLink
-          to="/home"
+          to="/home-page"
           className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Start your search
         </NavLink>
@@ -67,12 +68,23 @@ export default function LandingPage() {
           className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Recommendations
         </NavLink>
+        <NavLink
+          to="/fullscreen-page"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+          Fullscreen
+        </NavLink>
         <button
           type="button"
           onClick={handleLogOut}
           className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
           Log out
         </button>
+
+        <NavLink
+          to="/test-page"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 transition">
+          TestPage with navigation bar comp.
+        </NavLink>
       </div>
     </div>
   );

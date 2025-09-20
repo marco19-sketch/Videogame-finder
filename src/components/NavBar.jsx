@@ -5,7 +5,7 @@ export default function NavBar() {
   return (
     <nav className="text-3xl font-bold text-cyan-400 mb-3 mt-3 border-1 p-4 rounded-2xl drop-shadow-lg flex flex-4 justify-between w-full">
       <NavLink
-        to="/home"
+        to="/home-page"
         className={({ isActive }) =>
           clsx(
             "hover:text-cyan-300 transition  w-60 text-center",
@@ -32,7 +32,7 @@ export default function NavBar() {
             isActive ? "underline decoration-4 decoration-cyan-400" : ""
           )
         }>
-        Recommended
+        Trending
       </NavLink>
       <NavLink to='/'
        className={({ isActive }) =>
