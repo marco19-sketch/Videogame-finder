@@ -70,6 +70,7 @@ export default function ResultsPage() {
             onClick={() => {
               setAnimationLeft(true);
               handlePrevious();
+              console.log('animate and key from results page', animationLeft, results[0].id);
             }}
             disabled={page === 1}>
             {/* ⬅️ Previous */}
@@ -135,6 +136,11 @@ export default function ResultsPage() {
             onClick={() => {
               setAnimationLeft(false);
               handleNext();
+              console.log(
+                "animate and key from results page",
+                animationLeft,
+                results[0].id
+              );
             }}
             // className="basis-1/12 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
           >

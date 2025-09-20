@@ -97,7 +97,7 @@ export default function DetailsPage() {
               setShowModal(false);
               setGamePlay(false);
             }}
-            className="z-20">
+            className="z-20 ">
             {showTrailer && trailers.length > 0 && !gamePlay ? (
               <RawgVideos />
             ) : (

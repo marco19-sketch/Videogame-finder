@@ -44,28 +44,42 @@ export default function ContextProvider({ children }) {
     async game => {
       if (!game || !game.id) return null;
 
-      try {
-        setLoading(true);
+      const controller = new AbortController();
+      const timer = setTimeout(async () => {
+        try {
+          setLoading(true);
 
-        const data = await fetchRAWG(`/games/${game.id}/movies`);
-        setTrailers(data.results);
-      
-        if (data.results.length === 0 || !data.results) {
-          setShowTrailer(false);
-        } else {
-          setShowTrailer(true);
-        }
-        setShowModal(true);
-        setTimeout(() => {
+          const data = await fetchRAWG(`/games/${game.id}/movies`, {
+            signal: controller.signal,
+          });
+          setTrailers(data.results);
+
+          setShowTrailer(Boolean(data.results?.length));
+          // if (data.results.length === 0 || !data.results) {
+          //   setShowTrailer(false);
+          // } else {
+          // setShowTrailer(true);
+          // }
+          setShowModal(true);
+          setTimeout(() => {
+            setLoading(false);
+          }, 300);
+          return data.results;
+        } catch (err) {
+          // console.error("Error trying to fetch game trailers:", err);
+          if (err.name === "AbortError") return; // fetch was cancelled
+          console.error("Error trying to fetch game trailers:", err);
+        } finally {
           setLoading(false);
-        }, 300);
-        return data.results;
-      } catch (err) {
-        console.error("Error trying to fetch game trailers:", err);
-        setLoading(false);
-      }
+        }
+      }, 300); //debounce
+
+      return () => {
+        controller.abort();
+        clearTimeout(timer);
+      };
     },
-    [setShowTrailer, setLoading]
+    [setShowTrailer, setLoading, setShowModal, setTrailers]
   );
 
   //authentication context

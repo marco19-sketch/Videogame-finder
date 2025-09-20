@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { findVideoIds } from "../lib/youtube";
 import YouTubeEmbed from "./YouTubeEmbed";
-import screenfull from "screenfull";
+// import screenfull from "screenfull";
+import FullScreenBtn from "./FullScreenBtn";
 import RelatedYtVideos from "./RelatedYtVideos";
 
 export default function YouTubeVideos({
@@ -23,11 +24,11 @@ export default function YouTubeVideos({
     playerRef.current = event.target;
   }, []);
 
-  const toggleFullscreen = useCallback(() => {
-    if (screenfull.isEnabled) {
-      screenfull.toggle(containerRef.current);
-    }
-  }, []);
+  // const toggleFullscreen = useCallback(() => {
+  //   if (screenfull.isEnabled) {
+  //     screenfull.toggle(containerRef.current);
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (!gameTitle) return;
@@ -42,8 +43,8 @@ export default function YouTubeVideos({
 
         setVideoIds(ids);
         setCurrentIndex(0);
-        setStatus("idle");
-        setStatus(ids.length ? "idle" : "empty");
+        // setStatus("idle");
+        // setStatus(ids.length ? "idle" : "empty");
         setUnMuted(true);
       } catch {
         setStatus("error");
@@ -56,32 +57,13 @@ export default function YouTubeVideos({
     };
   }, [gameTitle, mode]);
 
-  if (status === "loading")
-    return (
-      <p className="text-cyan-400 animate-pulse text-center mt-4">
-        🔎 Searching YouTube…
-      </p>
-    );
-  if (status === "error")
-    return (
-      <p className="text-red-500 text-center mt-4">
-        ❌ Couldn’t load a video right now.
-      </p>
-    );
-  if (status === "empty")
-    return (
-      <p className="text-gray-400 text-center mt-4">
-        ⚠️ No embeddable results found.
-      </p>
-    );
-
   return (
     <div className="w-full h-full bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4  mx-auto">
       <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
         {`🎬 ${gameTitle} ${mode === "gameplay" ? "Gameplay" : "Trailer"}`}
       </h3>
       <div ref={containerRef}>
-        <div className="relative aspect-video w-auto h-auto mx-auto overflow-hidden rounded-xl shadow-lg">
+        <div className="relative aspect-video w-auto mx-auto overflow-hidden rounded-xl shadow-lg">
           <YouTubeEmbed
             customOpts={{ playerVars: { start: 0, autoplay, playlist: null } }}
             unMuted={unMuted}
@@ -120,12 +102,7 @@ export default function YouTubeVideos({
             />
           )}
         </div>
-        {/* Custom fullscreen toggle */}
-        <button
-          className="absolute bottom-2 right-2 z-20"
-          onClick={toggleFullscreen}>
-          ⛶
-        </button>
+        <FullScreenBtn container={containerRef} />
       </div>
     </div>
   );

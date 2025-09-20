@@ -12,9 +12,8 @@ export default function YouTubeEmbed({
   onReady,
 }) {
   const [loading, setLoading] = useState(true);
-  
 
-  if (!videoId) return null;
+  // if (!videoId) return null;
 
   const defaultOpts = {
     width: "100%",
@@ -45,12 +44,10 @@ export default function YouTubeEmbed({
     if (typeof onReady === "function") onReady(event); // forward it
   };
 
-  
-
   return (
-    <div className="relative aspect-video w-full overflow-hidden bg-black">
+    <div className="relative aspect-video w-full h-full overflow-hidden bg-black">
       {loading && (
-        <div className="absolute inset-0 bg-black/40 flex justify-center items-center z-10">
+        <div className="absolute aspect-video inset-0 bg-black/40 flex justify-center items-center z-10">
           <p className="text-lg text-white font-semibold animate-pulse">
             Loading...
           </p>
@@ -58,18 +55,17 @@ export default function YouTubeEmbed({
       )}
       {/* trying react-youtube api, which has an onEnd property that can be used to trigger a useEffect or start a function,
        to implement a different-game-trailers-loop instead of a same-game-trailers-loop (with iframe) and using a thumbnail as a video preview */}
-   
-        <YouTube
-          videoId={videoId}
-        //   className="top-0 left-0 w-full h-full rounded-xl"
-          className="absolute top-0 left-0 w-full h-full"
-          opts={opts}
-          onReady={handleReady}
-          onEnd={onVideoEnd}
-          onStateChange={onStateChange}
-          title={title}
-        />
-      
+
+      <YouTube
+        videoId={videoId}
+        className=" w-full h-full"
+        opts={opts}
+        onReady={handleReady}
+        onEnd={onVideoEnd}
+        onStateChange={onStateChange}
+        title={title}
+      />
+
       {/* <iframe
         src={`https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1${
           unMuted

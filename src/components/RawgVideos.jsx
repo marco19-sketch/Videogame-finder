@@ -1,7 +1,7 @@
 import { useContext, useRef, useCallback, useState } from 'react';
 import { AppContext } from '../context/contextsCreation';
-import screenfull from "screenfull";
 import RelatedRawgVideos from "./RelatedRawgVideos";
+import FullScreenBtn from './FullScreenBtn';
 
 export default function RawgVideos() {
     const { trailers, indexA, setIndexA, results } = useContext(AppContext);
@@ -17,19 +17,12 @@ export default function RawgVideos() {
      }, []);
 
 
-    const toggleFullscreen = () => {
-      if (screenfull.isEnabled) {
-        screenfull.toggle(containerRef.current);
-      }
-    };
-
-
   return (
     <div className=" bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4 max-w-3xl mx-auto">
       <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
         {trailers[indexA]?.name}
       </h3>
-      <div ref={containerRef}>
+      <div ref={containerRef}>  
         <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg">
           <video
             ref={videoRef}
@@ -47,7 +40,7 @@ export default function RawgVideos() {
             {/* className="w-auto h-auto"> */}
 
             <source
-              src={trailers[currentIndex]?.data["480"]}
+              src={trailers[currentIndex]?.data["max"]}
               type="video/mp4"
             />
           </video>
@@ -65,11 +58,7 @@ export default function RawgVideos() {
             />
           )}
         </div>
-        <button
-          className="absolute bottom-2 right-2 z-20"
-          onClick={toggleFullscreen}>
-          ⛶
-        </button>
+        <FullScreenBtn container={containerRef} />
       </div>
     </div>
   );
