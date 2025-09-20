@@ -4,6 +4,10 @@ import LogInFunction from './LogInFunction';
 import { useNavigate } from 'react-router-dom';
 import authErrorToMessage from './authErrorToMessage';
 import GoogleButton from './GoogleButton';
+import ThemedButton from '../ThemedComponents/ThemedButton';
+import ThemedLabel from '../ThemedComponents/ThemedLabel';
+import ThemedInput from '../ThemedComponents/ThemedInput';
+import ShowPassword from '../ThemedComponents/ShowPassword';
 
 export default function LogInPage() {
     const [error, setError] = useState('');
@@ -11,6 +15,7 @@ export default function LogInPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const [show, setShow] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,11 +26,7 @@ export default function LogInPage() {
            
             navigate('/favorites-page');
         } catch (err) {
-        //    if (err.code === "auth/email-not-verified") {
-        //      setError("Email not verified, please check your inbox.");
-        //    } else {
-        //      setError(err.code || "Unexpected error");
-        //    }
+        
         setError(authErrorToMessage(err.code));
         } finally {
             setLoading(false);
@@ -33,19 +34,40 @@ export default function LogInPage() {
     }
 
     return (
-        <>
-        <form onSubmit={handleSubmit}>
-            <label htmlFor='email'>Email</label>
-            <input type='email' id='email' value={email} 
-            onChange={(e) => setEmail(e.target.value)} />
-            <label htmlFor='password'>Password</label>
-            <input type='password' id='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button type='submit' 
-            disabled={loading}
-            >{loading ? '...' : 'Log In'}</button>
-            {error && <p>{error}</p>}
+      <div className="h-screen w-full flex flex-col justify-center items-center">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-800 mb-4 flex flex-col items-center p-6 rounded-2xl shadow-lg w-full max-w-md mx-auto space-y-4">
+          <ThemedLabel htmlFor="email">Email</ThemedLabel>
+          <ThemedInput
+            type="email"
+            id="email"
+            value={email}
+            placeholder="email"
+            onChange={e => setEmail(e.target.value)}
+          />
+          <ThemedLabel htmlFor="password">Password</ThemedLabel>
+          <div className="relative w-full">
+            <ThemedInput
+              type={show ? "text" : "password"}
+              id="password"
+              value={password}
+              placeholder="password"
+              onChange={e => setPassword(e.target.value)}
+              className={`${show ? 'text-white' : ''}`}
+            />
+            <ShowPassword
+              show={show}
+              setShow={setShow}
+              className="absolute top-2 right-4"
+            />
+          </div>
+          <ThemedButton type="submit" disabled={loading}>
+            {loading ? "..." : "Log In"}
+          </ThemedButton>
+          {error && <p>{error}</p>}
         </form>
         <GoogleButton />
-        </>
-    )
+      </div>
+    );
 }

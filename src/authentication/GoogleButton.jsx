@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { GoogleLogin } from "./GoogleLogin"; // Import your function
 import authErrorToMessage from "./authErrorToMessage"; // Import your error mapper
+import ThemedButton from '../ThemedComponents/ThemedButton';
+import {FcGoogle} from 'react-icons/fc';
 
 function Login() {
   const [loading, setLoading] = useState(false);
@@ -28,13 +30,17 @@ function Login() {
 
   return (
     <div>
-      <button
+      <ThemedButton
+        className={`flex justify-between w-54`}
         onClick={handleGoogleSignIn}
         disabled={loading}
         style={{ padding: "10px 20px" }}>
+        <FcGoogle className="text-2xl drop-shadow-[2px_2px_2px_white]" />
         {loading ? "Signing In..." : "Sign in with Google"}
-      </button>
-        {message && <p className='text-lg text-green-600'>Google log in successful</p>}
+      </ThemedButton>
+      {message && (
+        <p className="text-lg text-green-600">Google log in successful</p>
+      )}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
     </div>
   );
