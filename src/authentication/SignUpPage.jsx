@@ -18,6 +18,7 @@ export default function SignUpPage() {
   const navigate = useNavigate();
   const disabled = password !== passwordConfirm || password === "";
   const { showPassword } = useContext(AppContext);
+  const [showPass2, setShowPass2] = useState(false);
   console.log(
     "password and passwordConfirm and disabled",
     password,
@@ -54,7 +55,7 @@ export default function SignUpPage() {
           type="email"
           id="email"
           value={email}
-          placeholder='email'
+          placeholder="email"
           onChange={e => setEmail(e.target.value)}
         />
         <ThemedLabel htmlFor="password">Password</ThemedLabel>
@@ -63,29 +64,32 @@ export default function SignUpPage() {
             type={`${showPassword ? "text" : "password"}`}
             id="password"
             value={password}
-            placeholder='password'
+            placeholder="password"
             onChange={e => setPassword(e.target.value)}
             className={`text-${showPassword ? "white" : ""}`}
           />
           <ShowPassword className="absolute top-2 right-4" />
         </div>
         <ThemedLabel htmlFor="password-confirm">Confirm password</ThemedLabel>
-        <ThemedInput
-          className="border-2 rounded-sm"
-          style={{
-            borderColor:
-              passwordConfirm === ""
-                ? "gray"
-                : password !== passwordConfirm
-                ? "red"
-                : "green",
-          }}
-          id="password-confirm"
-          type="password"
-          value={passwordConfirm}
-          placeholder='retype password'
-          onChange={e => setPasswordConfirm(e.target.value)}
-        />
+        <div className="relative w-full">
+          <ThemedInput
+            className="border-2 rounded-sm"
+            style={{
+              borderColor:
+                passwordConfirm === ""
+                  ? "gray"
+                  : password !== passwordConfirm
+                  ? "red"
+                  : "green",
+            }}
+            id="password-confirm"
+            type="password"
+            value={passwordConfirm}
+            placeholder="retype password"
+            onChange={e => setPasswordConfirm(e.target.value)}
+          />
+          <ShowPassword  className="absolute top-2 right-4" />
+        </div>
         {loading && <p>Loading...</p>}
         {error && <p>❌{error}</p>}
         {passwordConfirm && disabled && (

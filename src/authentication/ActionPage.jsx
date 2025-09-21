@@ -28,7 +28,7 @@ export default function ActionPage() {
 
     if (mode === "verifyEmail") {
       applyActionCode(auth, oobCode)
-        .then(() => setStatus("✅ Email verified! You can now log in."))
+        .then(() => setStatus("✅ Email verified! You are logged in."))
         .catch(() => setStatus("❌ Verification failed or link expired."));
     }
 
@@ -79,7 +79,7 @@ export default function ActionPage() {
         </form>
       )}
 
-      <ThemedButton type="button" onClick={() => navigate("/")}>
+      <ThemedButton type="button" onClick={() => navigate("/log-in-page")}>
         Home
       </ThemedButton>
     </div>

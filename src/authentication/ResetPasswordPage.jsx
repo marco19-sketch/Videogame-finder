@@ -26,11 +26,11 @@ export default function ResetPasswordPage() {
           handleCodeInApp: true,
         };
       await sendPasswordResetEmail(auth, email, actionCodeSettings);
-      setMessage("Email sent. Check your inbox");
+      setMessage("✅Email sent. Check your inbox");
     } catch (err) {
       console.error("Reset password error:", err);
       // setError(authErrorToMessage(err.code));
-      setError("Error sending email");
+      setError("❌Error sending email");
     }
   };
 
@@ -51,8 +51,8 @@ export default function ResetPasswordPage() {
         />
         <ThemedButton type="submit">Send reset email</ThemedButton>
       </form>
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {message && <p >{message}</p>}
+      {error && <p >{error}</p>}
     </div>
   );
 }
