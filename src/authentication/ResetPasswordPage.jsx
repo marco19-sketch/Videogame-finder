@@ -1,6 +1,9 @@
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../firebase";
 import { useState } from "react";
+import ThemedButton from "../ThemedComponents/ThemedButton";
+import ThemedLabel from "../ThemedComponents/ThemedLabel";
+import ThemedInput from "../ThemedComponents/ThemedInput";
 
 // import authErrorToMessage from "./authErrorToMessage";
 
@@ -32,20 +35,24 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="reset-email">Enter Email</label>
-        <input
+    <div className="h-screen w-full flex flex-col justify-center items-center">
+      <p className='text-2xl text-cyan-400 mb-4'>Reset password</p>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-gray-800 mb-4 flex flex-col items-center p-6 rounded-2xl shadow-lg w-full max-w-md mx-auto space-y-4">
+        <ThemedLabel htmlFor="reset-email">Enter Email</ThemedLabel>
+        <ThemedInput
           type="email"
           id="reset-email"
           value={email}
+          placeholder='email'
           onChange={e => setEmail(e.target.value)}
           required
         />
-        <button type="submit">Send reset email</button>
+        <ThemedButton type="submit">Send reset email</ThemedButton>
       </form>
       {message && <p style={{ color: "green" }}>{message}</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
-    </>
+    </div>
   );
 }

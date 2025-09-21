@@ -45,6 +45,7 @@ export default function SignUpPage() {
 
   return (
     <div className="h-screen w-full flex flex-col justify-center items-center">
+      <p className="text-2xl text-cyan-400 mb-4">Sign up</p>
       <form
         onSubmit={handleSubmit}
         className="bg-gray-800 mb-4 flex flex-col items-center p-6 rounded-2xl shadow-lg w-full max-w-md mx-auto space-y-4">
@@ -53,6 +54,7 @@ export default function SignUpPage() {
           type="email"
           id="email"
           value={email}
+          placeholder='email'
           onChange={e => setEmail(e.target.value)}
         />
         <ThemedLabel htmlFor="password">Password</ThemedLabel>
@@ -61,8 +63,9 @@ export default function SignUpPage() {
             type={`${showPassword ? "text" : "password"}`}
             id="password"
             value={password}
+            placeholder='password'
             onChange={e => setPassword(e.target.value)}
-            className={`text-${showPassword ? 'white' : ''}`}
+            className={`text-${showPassword ? "white" : ""}`}
           />
           <ShowPassword className="absolute top-2 right-4" />
         </div>
@@ -80,6 +83,7 @@ export default function SignUpPage() {
           id="password-confirm"
           type="password"
           value={passwordConfirm}
+          placeholder='retype password'
           onChange={e => setPasswordConfirm(e.target.value)}
         />
         {loading && <p>Loading...</p>}

@@ -10,7 +10,7 @@ export default function ShowPassword({className =''}) {
     <div className={className}>
       {showPassword ? (
         <Eye 
-        className='text-white'
+        className='text-black'
         onClick={() => setShowPassword(false)} />
       ) : (
         <EyeOff 
