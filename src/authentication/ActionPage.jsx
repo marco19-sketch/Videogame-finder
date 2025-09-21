@@ -78,10 +78,15 @@ export default function ActionPage() {
           </ThemedButton>
         </form>
       )}
-
-      <ThemedButton type="button" onClick={() => navigate("/log-in-page")}>
-        Home
-      </ThemedButton>
+      {status === "✅ Password has been reset! You can log in now." ? (
+        <ThemedButton type="button" onClick={() => navigate("/log-in-page")}>
+          Log in
+        </ThemedButton>
+      ) : (
+        <ThemedButton type="button" onClick={() => navigate("/home-page")}>
+          Home
+        </ThemedButton>
+      )}
     </div>
   );
 }

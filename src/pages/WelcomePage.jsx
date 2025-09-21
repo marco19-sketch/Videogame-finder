@@ -4,9 +4,9 @@ import { AppContext } from "../context/contextsCreation";
 import { getTrending } from "../lib/getTrending";
 import YouTubeEmbed from "../components/YouTubeEmbed";
 import { findVideoIds } from "../lib/youtube";
-import CustomButton from "../components/CustomButton";
+import GhqLogo from '../ThemedComponents/GhqLogo';
 
-export default function ParallaxVideoPage() {
+export default function WelcomePage() {
   const videoRef = useRef(null);
   const parallaxDivRef = useRef(null);
   const [trailer, setTrailer] = useState("");
@@ -118,20 +118,25 @@ export default function ParallaxVideoPage() {
         {/* Foreground content */}
         <div className="relative  flex flex-col items-center justify-center h-full bg-black/40">
           {/* <NavLink to="/home-page"> */}
-            <h1 className="text-5xl text-cyan-400 mb-7 font-semibold drop-shadow-lg text-center ">
-              Welcome to <br />
-              Game Quest Hub
-            </h1>
+          <h1 className="text-5xl text-cyan-400 mb-7 font-semibold drop-shadow-lg text-center ">
+            Welcome to <br />
+            Game Quest Hub
+          </h1>
           {/* </NavLink> */}
           {/*navigation*/}
           <NavLink to="/recommendations-page">
-            <div
+            <GhqLogo 
+            className='w-48 h-30 p-5'
+            style={{ borderRadius: '50%'}}
+            textStyle={{ fontSize: 64, textShadow: '3px 3px 6px cyan' }}
+            />
+            {/* <div
               className="
-  relative rounded-4xl pb-18 pt-0 
-  shadow-[0_0_20px_cyan] 
-  hover:shadow-[0_0_40px_cyan] hover:scale-110
-  transition-all duration-300
-">
+                relative rounded-4xl pb-18 pt-0 
+                shadow-[0_0_20px_cyan] 
+                hover:shadow-[0_0_40px_cyan] hover:scale-110
+                transition-all duration-300
+                ">
               <p
                 className="-mt-4 pt-0 text-cyan-400 font-light text-9xl"
                 // style={{ textShadow:  }}
@@ -141,7 +146,7 @@ export default function ParallaxVideoPage() {
               <p className="text-cyan-400 absolute left-1/2 -translate-x-1/2 top-1/3 font-light text-9xl">
                 Q
               </p>
-            </div>
+            </div> */}
           </NavLink>
           {/* <div className="flex items-center justify-between">
             <NavLink to="/trending-page">

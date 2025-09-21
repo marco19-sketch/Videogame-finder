@@ -18,7 +18,6 @@ export default function SignUpPage() {
   const navigate = useNavigate();
   const disabled = password !== passwordConfirm || password === "";
   const { showPassword } = useContext(AppContext);
-  const [showPass2, setShowPass2] = useState(false);
   console.log(
     "password and passwordConfirm and disabled",
     password,

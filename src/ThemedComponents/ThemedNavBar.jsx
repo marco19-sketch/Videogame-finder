@@ -5,15 +5,17 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import useLogOut from "../authentication/useLogOut";
 import { useAuth } from "../authentication/useAuth";
+import GhqLogo from './GhqLogo'
+
 
 const menuItems = [
   {
     name: "Pages",
     path: "",
     dropdown: [
-      { name: "Home", path: "/" },
+      { name: "Welcome", path: "/" },
+      { name: "Home", path: "/home-page" },
       { name: "My list", path: "/favorites-page" },
-      { name: "Parallax", path: "/parallax-page" },
       { name: "Sign in", path: "/log-in-page" },
       { name: "Sign up", path: "/sign-up-page" },
       { name: "Reset pw", path: "/reset-password-page" },
@@ -65,22 +67,45 @@ export default function Navbar() {
 
   return (
     <nav className="bg-gray-900 text-gray-200 shadow-md relative z-30">
-      <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div className="max-w-6xl mx-auto px-6 py-4 flex  items-center">
+       
+        <NavLink to="/"
+        className='mt-5 mr-5'>
+          <GhqLogo style={{borderRadius: '50%'}}
+          className='px-4 py-4'
+          textClass='font-bold'
+          textStyle={{textShadow: '2px 2px 6px cyan' }}/>
+          {/* <div
+            className="
+                relative pb-2 pt-0 
+                shadow-[0_0_20px_cyan] 
+                hover:shadow-[0_0_40px_cyan] hover:scale-110
+                transition-all duration-300
+                "
+                style={{ borderRadius: 9 }}
+                >
+            <p
+              className="-mt-4 pt-0 text-cyan-400 font-light text-2xl"
+              // style={{ textShadow:  }}
+            >
+              G H
+            </p>
+            <p className="text-cyan-400 absolute left-1/2 -translate-x-1/2 top-1/5 font-light text-2xl">
+              Q
+            </p>
+          </div> */}
+        </NavLink>
         {/* Brand */}
         <div className="text-2xl font-bold text-cyan-400">Game Quest Hub</div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex space-x-6">
+        <div className="hidden md:flex space-x-6 ml-auto">
           {menuItems.map((item, idx) => {
             // Handle auth-specific items
             if (item.name === "Log out") {
               if (!user) return null; // hide logout if not logged in
               return (
-                <button
-                  key={idx}
-                  onClick={logOut}
-                  className='cursor-pointer'
-                >
+                <button key={idx} onClick={logOut} className="cursor-pointer">
                   {/* Log out */}
                   {item.name}
                 </button>
@@ -90,7 +115,7 @@ export default function Navbar() {
             if (item.name === "Log in") {
               if (user) return null; // hide login if logged in
               return (
-                <NavLink key={idx} to='log-in-page'>
+                <NavLink key={idx} to="log-in-page">
                   {/* Log in */}
                   {item.name}
                 </NavLink>
@@ -141,7 +166,7 @@ export default function Navbar() {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-gray-200 hover:text-cyan-400"
+          className="md:hidden text-gray-200 hover:text-cyan-400 ml-auto"
           onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>

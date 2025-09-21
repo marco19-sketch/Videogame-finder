@@ -12,7 +12,7 @@ import LogInPage from "./authentication/LogInPage";
 import ResetPasswordPage from "./authentication/ResetPasswordPage";
 import ActionPage from "./authentication/ActionPage";
 import ThemedFooter from "./ThemedComponents/ThemedFooter";
-import ParallaxVideoPage from "./pages/ParallaxVideoPage";
+import WelcomePage from "./pages/WelcomePage";
 import RecommendationsPage from "./pages/RecommendationsPage";
 import TestPage from "./pages/TestPage";
 
@@ -30,7 +30,8 @@ function App() {
       <main>
         {/* <main className="px-6 py-8"> */}
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/home-page" element={<Home />} />
           <Route path="/trending-page" element={<TrendingPage />} />
           <Route path="/results-page" element={<ResultsPage />} />
           <Route path="/details-page/:id" element={<DetailsPage />} />
@@ -39,7 +40,6 @@ function App() {
           <Route path="/log-in-page" element={<LogInPage />} />
           <Route path="/reset-password-page" element={<ResetPasswordPage />} />
           <Route path="/action" element={<ActionPage />} />
-          <Route path="/parallax-page" element={<ParallaxVideoPage />} />
           <Route
             path="/recommendations-page"
             element={<RecommendationsPage />}

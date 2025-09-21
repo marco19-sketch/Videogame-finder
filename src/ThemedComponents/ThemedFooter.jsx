@@ -1,3 +1,6 @@
+import GhqLogo from "./GhqLogo";
+import { NavLink } from "react-router-dom";
+
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 py-10 px-6 mt-12">
@@ -8,11 +11,20 @@ export default function Footer() {
           <p className="mt-3 text-sm text-gray-400">
             Built with ❤️ using React + Tailwind.
           </p>
+          <NavLink to="/">
+            {" "}
+            <GhqLogo
+              className="mt-4 md:mt-16"
+              style={{ borderRadius: "50%" }}
+              textClass=" text-1xl text-center"
+            />
+          </NavLink>
         </div>
 
         {/* Links */}
         <div className="flex flex-col space-y-2">
           <h3 className="text-lg font-semibold text-white">Quick Links</h3>
+          <img width="80" src="src/assets/images/GhqLogo.jpg" />
           <a href="#" className="hover:text-cyan-400">
             Home
           </a>
