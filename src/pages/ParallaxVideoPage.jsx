@@ -4,9 +4,7 @@ import { AppContext } from "../context/contextsCreation";
 import { getTrending } from "../lib/getTrending";
 import YouTubeEmbed from "../components/YouTubeEmbed";
 import { findVideoIds } from "../lib/youtube";
-import CustomButton from '../components/CustomButton';
-
-
+import CustomButton from "../components/CustomButton";
 
 export default function ParallaxVideoPage() {
   const videoRef = useRef(null);
@@ -119,17 +117,35 @@ export default function ParallaxVideoPage() {
 
         {/* Foreground content */}
         <div className="relative  flex flex-col items-center justify-center h-full bg-black/40">
-          <NavLink to="/home-page">
-            <h1 className="text-5xl  font-semibold text-white drop-shadow-lg text-center ">
-              🎮 Start your Quest! <br />
-              Find your new game!
+          {/* <NavLink to="/home-page"> */}
+            <h1 className="text-5xl text-cyan-400 mb-7 font-semibold drop-shadow-lg text-center ">
+              Welcome to <br />
+              Game Quest Hub
             </h1>
-          </NavLink>
+          {/* </NavLink> */}
           {/*navigation*/}
-        
-          <div className="flex items-center justify-between">
+          <NavLink to="/recommendations-page">
+            <div
+              className="
+  relative rounded-4xl pb-18 pt-0 
+  shadow-[0_0_20px_cyan] 
+  hover:shadow-[0_0_40px_cyan] hover:scale-110
+  transition-all duration-300
+">
+              <p
+                className="-mt-4 pt-0 text-cyan-400 font-light text-9xl"
+                // style={{ textShadow:  }}
+              >
+                G H
+              </p>
+              <p className="text-cyan-400 absolute left-1/2 -translate-x-1/2 top-1/3 font-light text-9xl">
+                Q
+              </p>
+            </div>
+          </NavLink>
+          {/* <div className="flex items-center justify-between">
             <NavLink to="/trending-page">
-            <CustomButton text='trending' />
+              <CustomButton text="trending" />
             </NavLink>
             <NavLink to="/recommendations-page">
               <p>Recommended</p>
@@ -137,22 +153,8 @@ export default function ParallaxVideoPage() {
             <NavLink to="/home-page">
               <p>Search</p>
             </NavLink>
-          </div>
+          </div> */}
         </div>
-      </section>
-
-      {/* Normal content below to test scroll */}
-      <section className="bg-white text-gray-900 p-12 space-y-6">
-        <h2 className="text-3xl font-bold">Scroll Section</h2>
-        <p>
-          This is regular content below the video. Scroll to see the parallax
-          effect kick in. You can add as much content as you like here.
-        </p>
-        <p>
-          Tailwind makes it easy to style both the video overlay and the content
-          sections. You can also add more parallax sections if you want.
-        </p>
-        <p className="text-gray-500">Keep scrolling…</p>
       </section>
     </div>
   );

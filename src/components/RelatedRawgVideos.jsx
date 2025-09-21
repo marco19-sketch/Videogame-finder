@@ -52,11 +52,11 @@ export default function OtherRawgVideos({
             onClick={e => {
               setIsAnimateLeft(true);
               handleLeftOther(e);
-              console.log('key from related rawg', trailers[indexA].id);
-              console.log('animation left from related rawg', isAnimateLeft)
+              console.log("key from related rawg", trailers[indexA].id);
+              console.log("animation left from related rawg", isAnimateLeft);
             }}
           />
-          
+
           <div className="relative flex flex-1 gap-4 items-center justify-between">
             {trailers.slice(indexA, indexA + 2).map(object => (
               <div className="basis-1/2">
@@ -64,7 +64,7 @@ export default function OtherRawgVideos({
                   key={trailers.indexOf(object)}
                   onClick={e => {
                     e.stopPropagation();
-                    
+
                     // find the indexA of the clicked video in your array
 
                     const newIndex = trailers.indexOf(object);
@@ -75,7 +75,8 @@ export default function OtherRawgVideos({
                       setOtherVideos(false); // hide the overlay
                     }
                   }}
-                  className="object-cover border-2 border-cyan-400 rounded-2xl aspect-video cursor-pointer"
+                  className="object-cover aspect-video border-4  
+  hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
                   src={
                     results[0]?.short_screenshots[trailers.indexOf(object)]
                       ?.image || trailers[currentIndex]?.preview

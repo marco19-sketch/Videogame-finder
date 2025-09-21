@@ -92,7 +92,8 @@ export default function RelatedYtVideos({
                 }
               }}>
               <img
-                className="object-cover aspect-video border-2 border-cyan-400 rounded-2xl "
+                className="object-cover aspect-video border-4  
+  hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
                 src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
                 alt="Video thumbnail"
               />
