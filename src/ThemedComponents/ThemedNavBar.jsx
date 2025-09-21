@@ -90,7 +90,7 @@ export default function Navbar() {
             if (item.name === "Log in") {
               if (user) return null; // hide login if logged in
               return (
-                <NavLink key={idx} >
+                <NavLink key={idx} to='log-in-page'>
                   {/* Log in */}
                   {item.name}
                 </NavLink>
