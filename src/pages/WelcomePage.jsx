@@ -118,7 +118,8 @@ export default function WelcomePage() {
         {/* Foreground content */}
         <div className="relative  flex flex-col items-center justify-center h-full bg-black/40">
           {/* <NavLink to="/home-page"> */}
-          <h1 className="text-5xl text-cyan-400 mb-7 font-semibold drop-shadow-lg text-center ">
+          <h1 className="text-5xl text-cyan-400 mb-7 font-semibold text-center "
+          style={{ textShadow: '2px 2px 6px cyan'}}>
             Welcome to <br />
             Game Quest Hub
           </h1>

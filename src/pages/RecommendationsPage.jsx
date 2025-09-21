@@ -64,8 +64,8 @@ export default function RecommendationsPage() {
         key={bg}
         initial={{ opacity: 0, x: animationLeft ? 800 : -800 }}
         animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: animationLeft ? - 800 :  800 }}
-        transition={{ duration: .5, ease: "easeInOut" }}
+        exit={{ opacity: 0, x: animationLeft ? -800 : 800 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
         className="relative h-screen w-full bg-center bg-cover"
         style={{ backgroundImage: `url(${bg})` }}>
         <div>
@@ -76,7 +76,7 @@ export default function RecommendationsPage() {
                 disabled={index === 0}
                 type="button"
                 onClick={() => {
-                  setAnimationLeft(true)
+                  setAnimationLeft(true);
                   setIndex(prev => prev - 1);
                   setMode(false);
                 }}>
@@ -94,44 +94,47 @@ export default function RecommendationsPage() {
                     key={bg}
                     initial={{ opacity: 0, x: animationLeft ? 800 : -800 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: animationLeft ? - 800 : 800 }}
-                    transition={{ duration: 0.5, ease: 'easeInOut' }}
+                    exit={{ opacity: 0, x: animationLeft ? -800 : 800 }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
                     className="flex flex-col space-y-4 justify-center items-center">
-                    <h1 className="text-3xl">
-                      {recommendationsList[index].title}
-                    </h1>
-                    <p className="text-1xl">
-                      {recommendationsList[index].recommendation}
-                    </p>
-                    <p>
-                      <strong>Genre:</strong> {recommendationsList[index].genre}
-                    </p>
-                    <p>
-                      <strong>Platforms:</strong>{" "}
-                      {recommendationsList[index].platforms}
-                    </p>
-                    <p>
-                      <strong>Playtime:</strong>{" "}
-                      {recommendationsList[index].playtime}
-                    </p>
-                    <p>
-                      <strong>Rating:</strong>{" "}
-                      {recommendationsList[index].rating}
-                    </p>
-                    <p>
-                      <strong>Released:</strong>{" "}
-                      {recommendationsList[index].releaseDate}
-                    </p>
-                    <p>
-                      <strong>Reviews:</strong>{" "}
-                      {recommendationsList[index].reviewsCount}
-                    </p>
+                    <div className="h-screen overflow-y-auto [&::-webkit-scrollbar]:hidden">
+                      <h1 className="text-3xl">
+                        {recommendationsList[index].title}
+                      </h1>
+                      <p className="text-1xl">
+                        {recommendationsList[index].recommendation}
+                      </p>
+                      <p>
+                        <strong>Genre:</strong>{" "}
+                        {recommendationsList[index].genre}
+                      </p>
+                      <p>
+                        <strong>Platforms:</strong>{" "}
+                        {recommendationsList[index].platforms}
+                      </p>
+                      <p>
+                        <strong>Playtime:</strong>{" "}
+                        {recommendationsList[index].playtime}
+                      </p>
+                      <p>
+                        <strong>Rating:</strong>{" "}
+                        {recommendationsList[index].rating}
+                      </p>
+                      <p>
+                        <strong>Released:</strong>{" "}
+                        {recommendationsList[index].releaseDate}
+                      </p>
+                      <p>
+                        <strong>Reviews:</strong>{" "}
+                        {recommendationsList[index].reviewsCount}
+                      </p>
 
-                    {gameplayList}
-                    <p>
-                      <strong>Game description:</strong>{" "}
-                      {recommendationsList[index].description}
-                    </p>
+                      {gameplayList}
+                      <p>
+                        <strong>Game description:</strong>{" "}
+                        {recommendationsList[index].description}
+                      </p>
+                    </div>
                   </motion.div>
                 </AnimatePresence>
               </div>

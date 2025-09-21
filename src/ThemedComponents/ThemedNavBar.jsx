@@ -66,7 +66,7 @@ export default function Navbar() {
   const logOut = useLogOut();
 
   return (
-    <nav className="bg-gray-900 text-gray-200 shadow-md relative z-30">
+    <nav className=" bg-gray-900 text-cyan-400 shadow-md relative z-30">
       <div className="max-w-6xl mx-auto px-6 py-4 flex  items-center">
        
         <NavLink to="/"
@@ -75,28 +75,12 @@ export default function Navbar() {
           className='px-4 py-4'
           textClass='font-bold'
           textStyle={{textShadow: '2px 2px 6px cyan' }}/>
-          {/* <div
-            className="
-                relative pb-2 pt-0 
-                shadow-[0_0_20px_cyan] 
-                hover:shadow-[0_0_40px_cyan] hover:scale-110
-                transition-all duration-300
-                "
-                style={{ borderRadius: 9 }}
-                >
-            <p
-              className="-mt-4 pt-0 text-cyan-400 font-light text-2xl"
-              // style={{ textShadow:  }}
-            >
-              G H
-            </p>
-            <p className="text-cyan-400 absolute left-1/2 -translate-x-1/2 top-1/5 font-light text-2xl">
-              Q
-            </p>
-          </div> */}
+         
         </NavLink>
         {/* Brand */}
-        <div className="text-2xl font-bold text-cyan-400">Game Quest Hub</div>
+        <div className="text-2xl font-bold text-cyan-400"
+        style={{ textShadow: '2px 2px 6px cyan'}}
+        >Game Quest Hub</div>
 
         {/* Desktop Links */}
         <div className="hidden md:flex space-x-6 ml-auto">
