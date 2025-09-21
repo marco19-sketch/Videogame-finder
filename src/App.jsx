@@ -1,7 +1,6 @@
 import Home from "./pages/Home";
 import "./App.css";
-import { Routes, Route, useLocation } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
+import { Routes, Route } from "react-router-dom";
 import ResultsPage from "./pages/ResultsPage";
 import DetailsPage from "./pages/DetailsPage";
 import TrendingPage from "./pages/TrendingPage";
@@ -25,15 +24,14 @@ function App() {
       {/* {location.pathname !== "/parallax-page" && (    
       )} */}
       <header className="px-6 py-4 border-b border-gray-700">
-          <ThemedNavBar />
-          {/* <NavBar /> */}
-        </header>
+        <ThemedNavBar />
+        {/* <NavBar /> */}
+      </header>
       <main>
-      {/* <main className="px-6 py-8"> */}
+        {/* <main className="px-6 py-8"> */}
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<Home />} />
           <Route path="/trending-page" element={<TrendingPage />} />
-          <Route path="/home-page" element={<Home />} />
           <Route path="/results-page" element={<ResultsPage />} />
           <Route path="/details-page/:id" element={<DetailsPage />} />
           <Route path="/favorites-page" element={<FavoritesPage />} />

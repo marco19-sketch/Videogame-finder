@@ -3,25 +3,26 @@ import { NavLink } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
+import useLogOut from "../authentication/useLogOut";
+import { useAuth } from "../authentication/useAuth";
 
 const menuItems = [
   {
     name: "Pages",
     path: "",
     dropdown: [
-      { name: "Landing", path: "/" },
-      { name: "Home", path: "/home-page" },
-      { name: 'My list', path: '/favorites-page'},
-      { name: 'Parallax', path: '/parallax-page'},
-      { name: 'Sign in', path: '/log-in-page'},
-      { name: 'Sign up', path: '/sign-up-page'},
-      { name: 'Reset pw', path: '/reset-password-page'},
-      { name: 'Recommended', path: '/recommendations-page'},
-      { name: 'Trending', path: '/trending-page'},
-      { name: 'Results', path: '/results-page'},
-      { name: 'Details', path: '/details-page'},
-      { name: 'Test page', path: '/test-page'},
-      
+      { name: "Home", path: "/" },
+      { name: "My list", path: "/favorites-page" },
+      { name: "Parallax", path: "/parallax-page" },
+      { name: "Sign in", path: "/log-in-page" },
+      { name: "Sign up", path: "/sign-up-page" },
+      { name: "Reset pw", path: "/reset-password-page" },
+      { name: "Recommended", path: "/recommendations-page" },
+      { name: "Trending", path: "/trending-page" },
+      { name: "Results", path: "/results-page" },
+      { name: "Details", path: "/details-page" },
+      { name: "Test page", path: "/test-page" },
+      { name: "upd-pass & ver. email", path: "/action" },
     ],
   },
   {
@@ -48,11 +49,19 @@ const menuItems = [
       { name: "Sales", path: "/contact/sales" },
     ],
   },
+  {
+    name: "Log out",
+  },
+  {
+    name: "Log in",
+  },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const { user } = useAuth();
+  const logOut = useLogOut();
 
   return (
     <nav className="bg-gray-900 text-gray-200 shadow-md relative z-30">
@@ -62,44 +71,72 @@ export default function Navbar() {
 
         {/* Desktop Links */}
         <div className="hidden md:flex space-x-6">
-          {menuItems.map((item, idx) => (
-            <div
-              key={idx}
-              className="relative"
-              onMouseEnter={() => setOpenDropdown(item.name)}
-              onMouseLeave={() => setOpenDropdown(null)}>
-              <NavLink
-                to={item.path}
-                className={({ isActive }) =>
-                  `flex items-center gap-1 hover:text-cyan-400 transition ${
-                    isActive ? "text-cyan-400 font-semibold" : ""
-                  }`
-                }>
-                {item.name} <ChevronDown size={16} />
-              </NavLink>
+          {menuItems.map((item, idx) => {
+            // Handle auth-specific items
+            if (item.name === "Log out") {
+              if (!user) return null; // hide logout if not logged in
+              return (
+                <button
+                  key={idx}
+                  onClick={logOut}
+                  className='cursor-pointer'
+                >
+                  {/* Log out */}
+                  {item.name}
+                </button>
+              );
+            }
 
-              {/* Dropdown */}
-              <AnimatePresence>
-                {openDropdown === item.name && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute left-0 mt-2 w-40 bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    {item.dropdown.map((sub, subIdx) => (
-                      <NavLink
-                        key={subIdx}
-                        to={sub.path}
-                        className="block px-4 py-2 hover:bg-gray-700 hover:text-cyan-400">
-                        {sub.name}
-                      </NavLink>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
+            if (item.name === "Log in") {
+              if (user) return null; // hide login if logged in
+              return (
+                <NavLink key={idx} >
+                  {/* Log in */}
+                  {item.name}
+                </NavLink>
+              );
+            }
+
+            // Regular menu items with dropdown
+            return (
+              <div
+                key={idx}
+                className="relative"
+                onMouseEnter={() => setOpenDropdown(item.name)}
+                onMouseLeave={() => setOpenDropdown(null)}>
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex items-center gap-1 hover:text-cyan-400 transition ${
+                      isActive ? "text-cyan-400 font-semibold" : ""
+                    }`
+                  }>
+                  {item.name} <ChevronDown size={16} />
+                </NavLink>
+
+                {/* Dropdown */}
+                <AnimatePresence>
+                  {openDropdown === item.name && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute left-0 mt-2 w-40 bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                      {item.dropdown.map((sub, subIdx) => (
+                        <NavLink
+                          key={subIdx}
+                          to={sub.path}
+                          className="block px-4 py-2 hover:bg-gray-700 hover:text-cyan-400">
+                          {sub.name}
+                        </NavLink>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
         </div>
 
         {/* Mobile Menu Button */}
