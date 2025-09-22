@@ -7,7 +7,7 @@ const DateRangePicker = ({startDate, setStartDate, endDate, setEndDate, disabled
 
 
   return (
-    <div className=" flex gap-4 items-center bg-gradient-to-r from-gray-800 to-gray-900 p-4 rounded-xl shadow-lg border border-cyan-500/40">
+    <div className="flex-col md:flex md:flex-row justify-center md:gap-4 items-center bg-gradient-to-r from-gray-800 to-gray-900 p-4 rounded-xl shadow-lg border border-cyan-500/40">
       <div className="flex flex-col">
         <label className="text-sm text-cyan-400 mb-1">From</label>
         <DatePicker
@@ -17,8 +17,8 @@ const DateRangePicker = ({startDate, setStartDate, endDate, setEndDate, disabled
           selectsStart
           startDate={startDate}
           endDate={endDate}
-          placeholderText="From"
-          dateFormat="yyyy-MM-dd"
+          placeholderText="Pick a date"
+          dateFormat="MM-dd-yyyy"
           showYearDropdown
           yearDropdownItemNumber={70}
           scrollableYearDropdown
@@ -35,8 +35,8 @@ const DateRangePicker = ({startDate, setStartDate, endDate, setEndDate, disabled
           startDate={startDate}
           endDate={endDate}
           minDate={startDate}
-          placeholderText="To"
-          dateFormat="yyyy-MM-dd"
+          placeholderText="Pick a date"
+          dateFormat="MM-dd-yyyy"
           showYearDropdown
           yearDropdownItemNumber={70}
           scrollableYearDropdown

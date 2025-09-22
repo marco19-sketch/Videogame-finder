@@ -1,5 +1,7 @@
-import { useCallback } from "react";
+import { useCallback, useState, useEffect } from "react";
 import DateRangePicker from "./DateRangePicker";
+import {recommendationsList} from "../lib/recommendationsList";
+import {fetchRAWG} from "../api/apiClient";
 
 const genresCheckboxes = [
   "Action",
@@ -45,6 +47,12 @@ export default function SearchBar({
   handleReset,
   disabled,
 }) {
+  const [bground, setBground] = useState("");
+  const [randomIndex] = useState( Math.floor(
+    Math.random() * recommendationsList.length
+  ));
+  console.log("randomIndex from SearchBar", randomIndex);
+  const [genresCBox, setGenresCBox] = useState(false);
   // Set genres
   const handleCheckboxes = useCallback(
     e => {
@@ -57,6 +65,23 @@ export default function SearchBar({
     },
     [setGenres]
   );
+
+  useEffect(() => {
+    const fetchBg = async () => {
+      try {
+        const query = `page=1&page_size=1&title&search=${encodeURIComponent(
+          recommendationsList[randomIndex].title
+        )}`;
+        const data = await fetchRAWG("games", query);
+
+        setBground(data.results[0].background_image);
+        console.log('bground image from searchBar', data.results[0].background_image)
+      } catch (err) {
+        console.error("Error trying to get screenshots from RAWG", err);
+      }
+    };
+    fetchBg();
+  }, [randomIndex]);
 
   return (
     <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-black p-6 rounded-2xl shadow-xl border border-cyan-500/40 space-y-6 max-w-4xl mx-auto">
@@ -111,25 +136,47 @@ export default function SearchBar({
 
       {/* Genres */}
       <div>
-        <h3 className="text-cyan-400 text-sm mb-2">Genres</h3>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-          {genresCheckboxes.map(genre => (
-            <label
-              key={genre}
-              htmlFor={genre}
-              className="flex items-center gap-2 bg-gray-800 px-2 py-1 rounded-lg border border-gray-700 cursor-pointer hover:border-cyan-400 transition">
-              <input
-                type="checkbox"
-                id={genre}
-                value={genre}
-                onChange={handleCheckboxes}
-                checked={genres.includes(genre.toLowerCase())}
-                className="w-4 h-4 accent-cyan-500 cursor-pointer"
-              />
-              <span className="text-gray-200 text-sm">{genre}</span>
-            </label>
-          ))}
+        <div className="flex items-center gap-3">
+          <input
+            type="checkbox"
+            id="genres"
+            onChange={e => {
+              if (e.target.checked) {
+                setGenresCBox(true);
+              } else {
+                setGenresCBox(false);
+              }
+            }}
+            className="w-4 h-4 accent-cyan-500 cursor-pointer"
+          />
+          <label htmlFor="genresCBox" className="text-cyan-400 text-sm">
+            Genres
+          </label>
         </div>
+        {genresCBox ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+            {genresCheckboxes.map(genre => (
+              <label
+                key={genre}
+                htmlFor={genre}
+                className="flex items-center gap-2 bg-gray-800 px-2 py-1 rounded-lg border border-gray-700 cursor-pointer hover:border-cyan-400 transition">
+                <input
+                  type="checkbox"
+                  id={genre}
+                  value={genre}
+                  onChange={handleCheckboxes}
+                  checked={genres.includes(genre.toLowerCase())}
+                  className="w-4 h-4 accent-cyan-500 cursor-pointer"
+                />
+                <span className="text-gray-200 text-sm">{genre}</span>
+              </label>
+            ))}
+          </div>
+        ) : (
+          <div
+            className="inset-0 w-full h-96 bg-cover bg-center"
+            style={{ backgroundImage: `url('${bground}')` }}></div>
+        )}
       </div>
 
       {/* Exact match */}

@@ -87,7 +87,7 @@ export default function SignUpPage() {
             placeholder="retype password"
             onChange={e => setPasswordConfirm(e.target.value)}
           />
-          <ShowPassword  className="absolute top-2 right-4" />
+          <ShowPassword className="absolute top-2 right-4" />
         </div>
         {loading && <p>Loading...</p>}
         {error && <p>❌{error}</p>}
@@ -106,7 +106,8 @@ export default function SignUpPage() {
           style={{
             background: disabled ? "gray" : "",
           }}
-          disabled={disabled}>
+          disabled={disabled}
+          className="w-24 p-3">
           Sign Up
         </ThemedButton>
         <p>
@@ -124,7 +125,8 @@ export default function SignUpPage() {
         onClick={e => {
           e.stopPropagation();
           navigate("/home-page");
-        }}>
+        }}
+        className="w-24 p-3">
         Home
       </ThemedButton>
     </div>

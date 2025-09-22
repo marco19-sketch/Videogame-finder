@@ -4,23 +4,24 @@ import YouTubeVideos from "../components/YouTubeVideos";
 import { fetchRAWG } from "../api/apiClient";
 import clsx from "clsx";
 import Modal from "../components/Modal";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
 //add animation
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import { AppContext } from "../context/contextsCreation";
-import ThemedButton from '../ThemedComponents/ThemedButton';
+import ThemedButton from "../ThemedComponents/ThemedButton";
+import useMediaQuery from "../customHooks/useMediaQuery";
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
   const [mode, setMode] = useState("");
   const [bg, setBg] = useState("");
   const [animationLeft, setAnimationLeft] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const { handleFetchTrailers, showModal, setShowModal } =
     useContext(AppContext);
-
-//   const autoplay = 1;
-//   const [autoplay, setAutoplay] = useState(1);
+const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
+const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
 
   useEffect(() => {
     const handleFetchBg = async () => {
@@ -48,22 +49,27 @@ export default function RecommendationsPage() {
       </ul>
     );
   }, [index]); // only recompute when index changes
-  
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
         key={bg}
-        initial={{ opacity: 0, x: animationLeft ? 800 : -800 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: animationLeft ? -800 : 800 }}
+        initial={{
+          opacity: 0,
+          ...(isMobile ? { y: 100 } : { x: animationLeft ? 100 : -100 }),
+        }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        exit={{
+          opacity: 0,
+          ...(isMobile ? { y: -100 } : { x: animationLeft ? -100 : 100 }),
+        }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="relative h-screen w-full bg-center bg-cover"
+        className="relative w-full bg-center bg-cover flex flex-col"
         style={{ backgroundImage: `url(${bg})` }}>
         <div>
           <div className="inset-0 absolute bg-black/60 z-0"></div>
           <div className="relative mx-10 z-10">
-            <div className="flex w-full space-x-4">
+            <div className={`flex w-full ${isMobile ? 'flex-col items-center' : " space-x-4"}`}>
               <button
                 disabled={index === 0}
                 type="button"
@@ -72,13 +78,14 @@ export default function RecommendationsPage() {
                   setIndex(prev => prev - 1);
                   setMode(false);
                 }}>
-                <ChevronLeft
+                
+                <ArrowLeftUp
                   className={clsx(
                     index === 0
                       ? "text-gray-500 h-16 w-16 cursor-not-allowed"
                       : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
                   )}
-                />
+                /> 
               </button>
               <div className="basis-10/12 flex flex-col space-y-4 justify-center items-center">
                 <AnimatePresence mode="wait">
@@ -138,7 +145,7 @@ export default function RecommendationsPage() {
                   setIndex(prev => prev + 1);
                   setMode(false);
                 }}>
-                <ChevronRight
+                <ArrowRightDown
                   className={clsx(
                     index === 15
                       ? "text-gray-500 h-16 w-16 cursor-not-allowed"
@@ -175,7 +182,7 @@ export default function RecommendationsPage() {
                   handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
                   setMode("official trailer");
                 }}
-                className="w-48 h-14 px-0 py-0 ">
+                className="w-40 mb-8 h-14 px-0 py-0 ">
                 🎬 trailers
               </ThemedButton>
               <ThemedButton
@@ -184,7 +191,7 @@ export default function RecommendationsPage() {
                   handleFetchTrailers(recommendationsList[0]);
                   setMode("gameplay -walkthrough -review");
                 }}
-                className="w-48 h-14 px-0 py-0 ">
+                className="w-40 h-14 px-0 py-0 ">
                 {" "}
                 🎮 gameplay
               </ThemedButton>
@@ -194,7 +201,7 @@ export default function RecommendationsPage() {
                   handleFetchTrailers(recommendationsList[0]);
                   setMode("review");
                 }}
-                className="w-48 h-14 px-0 py-0 flex justify-center items-center ">
+                className="w-40 h-14 px-0 py-0 flex justify-center items-center ">
                 <Star
                   className="mr-1 text-yellow-400 hover:text-yellow-700
                    transition-colors duration-300

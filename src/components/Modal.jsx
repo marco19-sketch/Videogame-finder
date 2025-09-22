@@ -2,13 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import FocusTrap from "focus-trap-react";
 import { AnimatePresence, motion } from "framer-motion";
 
-
 export default function Modal({ onClose, children }) {
   const [isVisible, setIsVisible] = useState(false);
   const closeButtonRef = useRef(null);
-  
-
- 
 
   // Attiva animazione e focus
   useEffect(() => {
@@ -53,7 +49,6 @@ export default function Modal({ onClose, children }) {
                 &times;
               </button>
               {children}
-              
             </div>
           </motion.div>
         </AnimatePresence>

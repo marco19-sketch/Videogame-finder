@@ -65,7 +65,8 @@ export default function LogInPage() {
           </NavLink>
         </div>
 
-        <ThemedButton type="submit" disabled={loading}>
+        <ThemedButton type="submit" disabled={loading}
+        className='w-24 p-3'>
           {loading ? "..." : "Log In"}
         </ThemedButton>
         {error && <p>❌{error}</p>}

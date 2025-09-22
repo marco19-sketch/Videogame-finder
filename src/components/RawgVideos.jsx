@@ -58,7 +58,9 @@ export default function RawgVideos() {
             />
           )}
         </div>
+        <div className='hidden md:block'>
         <FullScreenBtn container={containerRef} />
+        </div>
       </div>
     </div>
   );

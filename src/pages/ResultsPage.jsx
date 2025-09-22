@@ -4,15 +4,19 @@ import { Link } from "react-router-dom";
 import FavoritesSetter from "../components/FavoritesSetter";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
 import clsx from "clsx";
+import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
 
 export default function ResultsPage() {
+  // eslint-disable-next-line no-unused-vars
   const { results, page, setPage, handleFetch, loading } =
     useContext(AppContext);
   const [lastPage, setLastPage] = useState(false);
   const [animationLeft, setAnimationLeft] = useState(false);
-
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
+  const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
 
   const handlePrevious = useCallback(() => {
     if (page > 1) {
@@ -39,8 +43,6 @@ export default function ResultsPage() {
     return () => clearTimeout(timer);
   }, [page, handleFetch]);
 
-  
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
       {/* {loading && (
@@ -60,21 +62,31 @@ export default function ResultsPage() {
       <AnimatePresence mode="wait">
         <motion.div
           key={results[0]?.id || page}
-          initial={{ opacity: 0, x: animationLeft ? 400 : -400 }}
+          initial={{
+            opacity: 0,
+            ...(isMobile ? { y: 100 } : { x: animationLeft ? 100 : -100 }),
+          }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: animationLeft ? -400 : 400 }}
+          exit={{
+            opacity: 0,
+            ...(isMobile ? { y: -100 } : { x: animationLeft ? -100 : 100 }),
+          }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="flex">
+          className={`flex ${isMobile ? 'flex-col items-center' : ''}`}>
           <button
             type="button"
             onClick={() => {
               setAnimationLeft(true);
               handlePrevious();
-              console.log('animate and key from results page', animationLeft, results[0].id);
+              console.log(
+                "animate and key from results page",
+                animationLeft,
+                results[0].id
+              );
             }}
             disabled={page === 1}>
             {/* ⬅️ Previous */}
-            <ChevronLeft
+            <ArrowLeftUp
               className={clsx(
                 page === 1
                   ? "text-gray-500 h-16 w-16 cursor-not-allowed"
@@ -85,7 +97,6 @@ export default function ResultsPage() {
           {/* Games grid */}
           <ul className="basis-10/12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
             {results.map(game => (
-              
               <li
                 key={game.id}
                 className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 transition duration-300 transform hover:-translate-y-1 hover:scale-105">
@@ -144,16 +155,15 @@ export default function ResultsPage() {
             }}
             // className="basis-1/12 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
           >
-            <ChevronRight
+            <ArrowRightDown
               className={clsx(
                 lastPage
                   ? "text-gray-500 h-16 w-16 cursor-not-allowed"
                   : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
-              )}></ChevronRight>
+              )}/>
           </button>
         </motion.div>
       </AnimatePresence>
-
     </div>
   );
 }

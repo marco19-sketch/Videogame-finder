@@ -101,7 +101,9 @@ export default function YouTubeVideos({
             />
           )}
         </div>
+        <div className='hidden md:block'>
         <FullScreenBtn container={containerRef} />
+        </div>
       </div>
     </div>
   );

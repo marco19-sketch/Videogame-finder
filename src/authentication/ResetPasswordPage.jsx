@@ -49,7 +49,9 @@ export default function ResetPasswordPage() {
           onChange={e => setEmail(e.target.value)}
           required
         />
-        <ThemedButton type="submit">Send reset email</ThemedButton>
+        <ThemedButton type="submit"
+        className='w-48 p-3.5'
+        disabled={email.length === 0}>Send reset email</ThemedButton>
       </form>
       {message && <p >{message}</p>}
       {error && <p >{error}</p>}

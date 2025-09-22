@@ -65,9 +65,9 @@ export default function Navbar() {
   const logOut = useLogOut();
 
   return (
-    <nav className=" bg-gray-900 text-cyan-400 shadow-md relative z-30">
-      <div className="max-w-6xl mx-auto px-6 py-4 flex  items-center">
-        <NavLink to="/" className="mt-5 mr-5">
+    <nav className=" bg-gray-900 text-cyan-400 shadow-md relative rounded-2xl z-30">
+      <div className="max-w-6xl mx-auto px-6 py-4 flex items-center">
+        <NavLink to="/" className="mr-5">
           <GhqLogo
             style={{ borderRadius: "50%" }}
             className="px-4 py-4"

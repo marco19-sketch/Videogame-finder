@@ -16,6 +16,11 @@
   color: #22d3ee; /* cyan-400 */
 }
 
+.react-datepicker__input-container {
+  border: 1px solid rgb(20, 78, 78);
+  border-radius: 4px;
+}
+
 .react-datepicker__current-month {
   color: #22d3ee;
 }
@@ -68,3 +73,18 @@
   background-color: #06b6d4;
   color: #fff;
 }
+
+@media screen and (max-width: 768px) {
+  /* parent wrapper for the two inputs */
+  .react-datepicker-wrapper {
+    display: flex;
+    flex-direction: column; /* stack vertically */
+    gap: 0.75rem;           /* add space between inputs */
+    width: 100%;            /* make them full width */
+  }
+
+  .react-datepicker__input-container {
+    width: 100%; /* ensure inputs expand */
+  }
+}
+

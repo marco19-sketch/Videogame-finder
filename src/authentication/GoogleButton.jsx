@@ -3,11 +3,13 @@ import { GoogleLogin } from "./GoogleLogin"; // Import your function
 import authErrorToMessage from "./authErrorToMessage"; // Import your error mapper
 import ThemedButton from '../ThemedComponents/ThemedButton';
 import {FcGoogle} from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState(false)
+  const navigate = useNavigate();
 
   const handleGoogleSignIn = async () => {
     setLoading(true);
@@ -16,6 +18,7 @@ function Login() {
     try {
       await GoogleLogin();
       setMessage(true);
+      navigate('/favorites-page')
       // The sign-in was successful.
       // Firebase Auth state listener (via onAuthStateChanged) will
       // handle the redirect or UI update elsewhere in your app.
