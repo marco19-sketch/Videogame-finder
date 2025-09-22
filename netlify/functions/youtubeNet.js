@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export async function handler(event) {
   const API_KEY = process.env.YOUTUBE_API_KEY;
   const { gameTitle = "", mode = "" } = event.queryStringParameters;
@@ -20,7 +21,7 @@ export async function handler(event) {
       videoEmbeddable: "true",
       order: "relevance",
     });
-    console.log('params from youtubeNet', params)
+    
     const res = await fetch(
       `https://www.googleapis.com/youtube/v3/search?${params}`
     );

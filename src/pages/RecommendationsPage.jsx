@@ -1,25 +1,26 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useContext } from "react";
 import { recommendationsList } from "../lib/recommendationsList";
-import YouTubeEmbed from "../components/YouTubeEmbed";
+import YouTubeVideos from "../components/YouTubeVideos";
 import { fetchRAWG } from "../api/apiClient";
 import clsx from "clsx";
 import Modal from "../components/Modal";
-import { findVideoIds } from "../lib/youtube.js";
-//icon from lucide-react
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 //add animation
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
+import { AppContext } from "../context/contextsCreation";
+import ThemedButton from '../ThemedComponents/ThemedButton';
 
 export default function RecommendationsPage() {
-  const [showModal, setShowModal] = useState(false);
   const [index, setIndex] = useState(0);
   const [mode, setMode] = useState("");
-  const [ids, setIds] = useState([]);
   const [bg, setBg] = useState("");
-  const game = recommendationsList[index];
-  const [reWatch, setReWatch] = useState(false);
   const [animationLeft, setAnimationLeft] = useState(false);
+  const { handleFetchTrailers, showModal, setShowModal } =
+    useContext(AppContext);
+
+//   const autoplay = 1;
+//   const [autoplay, setAutoplay] = useState(1);
 
   useEffect(() => {
     const handleFetchBg = async () => {
@@ -37,16 +38,6 @@ export default function RecommendationsPage() {
     handleFetchBg();
   }, [index]);
 
-  useEffect(() => {
-    const handleId = async () => {
-      const videoIds = await findVideoIds(game.title, mode);
-      setShowModal(true);
-      setIds(videoIds);
-      console.log("Searching YouTube for:", game.title, mode);
-    };
-    handleId();
-  }, [mode, game, reWatch]);
-
   const gameplayList = useMemo(() => {
     return (
       <ul className="list-disc">
@@ -57,6 +48,7 @@ export default function RecommendationsPage() {
       </ul>
     );
   }, [index]); // only recompute when index changes
+  
 
   return (
     <AnimatePresence mode="wait">
@@ -156,7 +148,7 @@ export default function RecommendationsPage() {
               </button>
             </div>
             <AnimatePresence>
-              {showModal && ids?.length > 0 && ids[0] && mode && (
+              {showModal && (
                 <Modal
                   onClose={() => {
                     setShowModal(false);
@@ -167,68 +159,49 @@ export default function RecommendationsPage() {
                     animate={{ opacity: 1, scale: 1, rotate: 0 }}
                     exit={{ opacity: 0, scale: 0.2, rotate: +10 }}
                     transition={{ duration: 0.3, ease: "easeInOut" }}>
-                    <div className=" bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4 max-w-3xl mx-auto">
-                      <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
-                        {recommendationsList[index].title}
-                      </h3>
-                      <div className="w-full max-w-3xl aspect-video rounded-xl overflow-hidden shadow-lg">
-                        <YouTubeEmbed
-                          videoId={ids[0]}
-                          title="youtube video"
-                          customOpts={{
-                            playerVars: {
-                              autoplay: 1,
-                              start: 0,
-                              controls: 1,
-                              loop: 0,
-                              mute: 0,
-                              playlist: null,
-                            },
-                          }}
-                          onVideoEnd={() => {
-                            console.log("Video ended!");
-                            setShowModal(false);
-                          }}
-                        />
-                      </div>
-                    </div>
+                    <YouTubeVideos
+                      gameTitle={recommendationsList[index].title}
+                      mode={mode}
+                      autoplay="1"
+                    />
                   </motion.div>
                 </Modal>
               )}
             </AnimatePresence>
             <div className="flex justify-between max-w-xl mx-auto">
-              <button
+              <ThemedButton
                 type="button"
                 onClick={() => {
+                  handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
                   setMode("official trailer");
-                  setReWatch(!reWatch);
                 }}
-                className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold 
-          bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
+                className="w-48 h-14 px-0 py-0 ">
                 🎬 trailers
-              </button>
-              <button
+              </ThemedButton>
+              <ThemedButton
                 type="button"
                 onClick={() => {
+                  handleFetchTrailers(recommendationsList[0]);
                   setMode("gameplay -walkthrough -review");
                 }}
-                className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold 
-          bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
+                className="w-48 h-14 px-0 py-0 ">
+                {" "}
                 🎮 gameplay
-              </button>
-              <button
+              </ThemedButton>
+              <ThemedButton
                 type="button"
                 onClick={() => {
+                  handleFetchTrailers(recommendationsList[0]);
                   setMode("review");
                 }}
-                className="flex mb-6 mt-6 px-6 py-2 rounded-lg font-semibold 
-          bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
+                className="w-48 h-14 px-0 py-0 flex justify-center items-center ">
                 <Star
-                  className="mr-1 text-yellow-400 hover:text-yellow-700 transition-colors duration-300
+                  className="mr-1 text-yellow-400 hover:text-yellow-700
+                   transition-colors duration-300
 "
                 />{" "}
                 Review
-              </button>
+              </ThemedButton>
             </div>
           </div>
         </div>

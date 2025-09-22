@@ -34,6 +34,7 @@ export default function DetailsPage() {
     );
   }
 
+
   return (
     <div
       className="relative min-h-screen py-10 px-4 text-white bg-cover bg-center"

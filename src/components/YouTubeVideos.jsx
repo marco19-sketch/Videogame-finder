@@ -32,7 +32,6 @@ export default function YouTubeVideos({
 
   useEffect(() => {
     if (!gameTitle) return;
-
     const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {

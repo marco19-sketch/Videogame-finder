@@ -1,5 +1,6 @@
 export const recommendationsList = [
   {
+    id: 10,
     title: "The Legend of Zelda: Tears of the Kingdom",
     description:
       "Sequel to BotW, but with even more 'holy crap I can actually do that?' moments. You can fuse sticks to pitchforks, build flying machines, or just yeet yourself off a sky island because why not.",
@@ -16,9 +17,9 @@ export const recommendationsList = [
     rating: 9.7,
     releaseDate: "2023-05-12",
     reviewsCount: 20000,
-    youtubeTrailerId: "uHGShqcAHlQ",
-    youtubeGameplayId: "G_4XArDRYqY",
-    youtubeReviewId: "Mmoju4qRJh0",
+    // youtubeTrailerId: "uHGShqcAHlQ",
+    // youtubeGameplayId: "G_4XArDRYqY",
+    // youtubeReviewId: "Mmoju4qRJh0",
     amazonLink: "https://www.amazon.com/dp/B0BMFZYFDP?tag=your-affiliate-id",
   },
   {

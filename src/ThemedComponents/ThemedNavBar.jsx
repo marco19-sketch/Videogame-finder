@@ -5,13 +5,12 @@ import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import useLogOut from "../authentication/useLogOut";
 import { useAuth } from "../authentication/useAuth";
-import GhqLogo from './GhqLogo'
-
+import GhqLogo from "./GhqLogo";
 
 const menuItems = [
   {
     name: "Pages",
-    path: "",
+    path: null,
     dropdown: [
       { name: "Welcome", path: "/" },
       { name: "Home", path: "/home-page" },
@@ -68,19 +67,20 @@ export default function Navbar() {
   return (
     <nav className=" bg-gray-900 text-cyan-400 shadow-md relative z-30">
       <div className="max-w-6xl mx-auto px-6 py-4 flex  items-center">
-       
-        <NavLink to="/"
-        className='mt-5 mr-5'>
-          <GhqLogo style={{borderRadius: '50%'}}
-          className='px-4 py-4'
-          textClass='font-bold'
-          textStyle={{textShadow: '2px 2px 6px cyan' }}/>
-         
+        <NavLink to="/" className="mt-5 mr-5">
+          <GhqLogo
+            style={{ borderRadius: "50%" }}
+            className="px-4 py-4"
+            textClass="font-bold"
+            textStyle={{ textShadow: "2px 2px 6px cyan" }}
+          />
         </NavLink>
         {/* Brand */}
-        <div className="text-2xl font-bold text-cyan-400"
-        style={{ textShadow: '2px 2px 6px cyan'}}
-        >Game Quest Hub</div>
+        <div
+          className="text-2xl font-bold text-cyan-400"
+          style={{ textShadow: "2px 2px 6px cyan" }}>
+          Game Quest Hub
+        </div>
 
         {/* Desktop Links */}
         <div className="hidden md:flex space-x-6 ml-auto">
@@ -165,7 +165,27 @@ export default function Navbar() {
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="md:hidden bg-gray-800 px-6 pb-4 space-y-3">
-            {menuItems.map((item, idx) => (
+            {menuItems.map((item, idx) => {
+              if (item.name === "Log out") {
+                if (!user) return null; // hide logout if not logged in
+                return (
+                  <button key={idx} onClick={logOut} className="cursor-pointer">
+                    {/* Log out */}
+                    {item.name}
+                  </button>
+                );
+              }
+
+              if (item.name === "Log in") {
+                if (user) return null; // hide login if logged in
+                return (
+                  <NavLink key={idx} to="log-in-page">
+                    {/* Log in */}
+                    {item.name}
+                  </NavLink>
+                );
+              }
+              return (
               <div key={idx} className="flex flex-col">
                 <button
                   className="flex justify-between items-center py-2 hover:text-cyan-400"
@@ -188,6 +208,7 @@ export default function Navbar() {
                         <NavLink
                           key={subIdx}
                           to={sub.path}
+                          onClick={() => setIsOpen(false)}
                           className="block py-1 hover:text-cyan-400">
                           {sub.name}
                         </NavLink>
@@ -196,7 +217,8 @@ export default function Navbar() {
                   )}
                 </AnimatePresence>
               </div>
-            ))}
+              )
+            })}
           </motion.div>
         )}
       </AnimatePresence>

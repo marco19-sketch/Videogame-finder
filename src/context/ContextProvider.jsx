@@ -56,11 +56,7 @@ export default function ContextProvider({ children }) {
           setTrailers(data.results);
 
           setShowTrailer(Boolean(data.results?.length));
-          // if (data.results.length === 0 || !data.results) {
-          //   setShowTrailer(false);
-          // } else {
-          // setShowTrailer(true);
-          // }
+
           setShowModal(true);
           setTimeout(() => {
             setLoading(false);
@@ -82,7 +78,6 @@ export default function ContextProvider({ children }) {
     },
     [setShowTrailer, setLoading, setShowModal, setTrailers]
   );
-
   //authentication context
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, u => {
@@ -193,7 +188,7 @@ export default function ContextProvider({ children }) {
       setGamePlay,
       handleFetchTrailers,
       showPassword,
-      setShowPassword
+      setShowPassword,
     }),
     [
       results,
@@ -235,7 +230,7 @@ export default function ContextProvider({ children }) {
       setGamePlay,
       handleFetchTrailers,
       showPassword,
-      setShowPassword
+      setShowPassword,
     ]
   );
 

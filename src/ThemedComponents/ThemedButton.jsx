@@ -5,26 +5,24 @@ export default function ThemedButton({
   className = "",
   style = {},
 }) {
+  const baseClasses = `
+    cursor-pointer 
+    rounded-xl 
+    font-semibold
+    bg-gradient-to-r from-cyan-500 to-blue-600
+     hover:from-cyan-400 hover:to-blue-500
+    hover:shadow-cyan-400/50
+     active:scale-95
+    transition-all duration-300
+    active:scale-95 
+    disabled:opacity-50 disabled:cursor-not-allowed
+  `;
+
   return (
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`
-        w-52
-        cursor-pointer
-        px-6 py-3 
-        rounded-xl 
-        font-semibold 
-        bg-gradient-to-r from-cyan-500 to-blue-600 
-        text-white
-        shadow-md shadow-cyan-500/30
-        transition-all duration-300
-        hover:from-cyan-400 hover:to-blue-500 
-        hover:shadow-cyan-400/50
-        active:scale-95
-        disabled:opacity-50 disabled:cursor-not-allowed
-          ${className}   //* 👈 allow overrides */
-      `}
+      className={`${baseClasses} ${className}`}
       style={style} //*👈 inline styles will now apply
     >
       {children}

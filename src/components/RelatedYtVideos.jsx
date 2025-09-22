@@ -38,7 +38,7 @@ export default function RelatedYtVideos({
           return;
         }
         if (!playerRef.current) {
-          console.log("No playerRef yet when overlay clicked");
+          
           return;
         }
 
