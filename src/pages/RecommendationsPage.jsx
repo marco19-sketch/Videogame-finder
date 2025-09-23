@@ -182,8 +182,8 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                   handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
                   setMode("official trailer");
                 }}
-                className="w-40 mb-8 h-14 px-0 py-0 ">
-                🎬 trailers
+                className={"w-40 mb-8 h-14 px-0 py-0 "}>
+                {isMobile ? '🎬' : 'trailer' }
               </ThemedButton>
               <ThemedButton
                 type="button"
@@ -193,7 +193,7 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                 }}
                 className="w-40 h-14 px-0 py-0 ">
                 {" "}
-                🎮 gameplay
+                {isMobile ? '🎮' :  'gameplay'}
               </ThemedButton>
               <ThemedButton
                 type="button"
@@ -202,12 +202,12 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                   setMode("review");
                 }}
                 className="w-40 h-14 px-0 py-0 flex justify-center items-center ">
-                <Star
+                {isMobile ? (<Star
                   className="mr-1 text-yellow-400 hover:text-yellow-700
                    transition-colors duration-300
 "
-                />{" "}
-                Review
+                />) :
+                'Review' }
               </ThemedButton>
             </div>
           </div>

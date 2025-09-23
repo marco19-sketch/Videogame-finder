@@ -5,6 +5,7 @@ import FavoritesSetter from "../components/FavoritesSetter";
 import clsx from "clsx";
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react'
 import useMediaQuery from '../customHooks/useMediaQuery';
+// eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from 'framer-motion';
 
 export default function MyListPage() {
@@ -105,31 +106,6 @@ export default function MyListPage() {
                 : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             )}
           />
-          {/* Pagination buttons */}
-          {/* <div className="flex gap-4 mt-10">
-        <button
-          type="button"
-          onClick={handlePrevious}
-          disabled={page === 1}
-          className={`px-6 py-2 rounded-lg font-semibold transition-colors duration-300 ${
-            page === 1
-              ? "bg-gray-600 text-gray-300 cursor-not-allowed"
-              : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500"
-          }`}>
-          ⬅️ Previous
-        </button>
-        <button
-          type="button"
-          disabled={lastPage}
-          onClick={handleNext}
-          className={`px-6 py-2 rounded-lg font-semibold transition-colors duration-300 ${
-            lastPage 
-              ? "bg-gray-600 text-gray-300 cursor-not-allowed"
-              : "bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500"
-          }`}>
-          Next ➡️
-        </button>
-      </div> */}
         </motion.div>
       </AnimatePresence>
     </div>

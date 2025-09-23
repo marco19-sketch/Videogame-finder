@@ -58,9 +58,9 @@ export default function ContextProvider({ children }) {
           setShowTrailer(Boolean(data.results?.length));
 
           setShowModal(true);
-          setTimeout(() => {
+          // setTimeout(() => {
             setLoading(false);
-          }, 300);
+          // }, 300);
           return data.results;
         } catch (err) {
           // console.error("Error trying to fetch game trailers:", err);
@@ -91,7 +91,7 @@ export default function ContextProvider({ children }) {
 
   const handleFetch = useCallback(
     async (pageToFetch = page) => {
-      //  setLoading(true);
+       setLoading(true);
       if (location.pathname === "/home-page") {
         navigate("/results-page");
       }

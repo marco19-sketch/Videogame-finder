@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import FocusTrap from "focus-trap-react";
+// eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
+import { createPortal } from 'react-dom'; // to place the modal outside the layout stack, so it can be always on top of everything
 
 export default function Modal({ onClose, children }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -20,10 +22,10 @@ export default function Modal({ onClose, children }) {
     return () => document.removeEventListener("keydown", handleKeydown);
   }, [onClose]);
 
-  return (
+  return createPortal(
     <FocusTrap>
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70"
         onClick={onClose}>
         <AnimatePresence mode="wait">
           <motion.div
@@ -44,7 +46,7 @@ export default function Modal({ onClose, children }) {
               <button
                 ref={closeButtonRef}
                 onClick={onClose}
-                className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl focus:outline-none"
+                className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl focus:outline-none cursor-pointer"
                 aria-label="Close modal">
                 &times;
               </button>
@@ -53,6 +55,9 @@ export default function Modal({ onClose, children }) {
           </motion.div>
         </AnimatePresence>
       </div>
-    </FocusTrap>
-  );
+     
+    </FocusTrap>,
+     document.body  //{/*🔥 ensures it's rendered outside your NavBar/header  stacking context*/}
+    
+  ); 
 }

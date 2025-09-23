@@ -9,8 +9,8 @@ import clsx from "clsx";
 import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
 
 export default function ResultsPage() {
-  // eslint-disable-next-line no-unused-vars
-  const { results, page, setPage, handleFetch, loading } =
+   
+  const { results, page, setPage, handleFetch, loading, setLoading } =
     useContext(AppContext);
   const [lastPage, setLastPage] = useState(false);
   const [animationLeft, setAnimationLeft] = useState(false);
@@ -44,19 +44,19 @@ export default function ResultsPage() {
   }, [page, handleFetch]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
-      {/* {loading && (
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center justify-center py-8 px-4 text-white">
+      {loading && (
         <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 cursor-wait">
-          <p className="text-white text-lg font-semibold  cursor-progress ">
+          <p className="text-white text-lg font-semibold  cursor-progress animate-pulse ">
             Loading...
           </p>
         </div>
-      )} */}
+      )}
       {/* Link back to Home */}
       <Link
         to="/home-page"
         onClick={() => setPage(1)}
-        className="mb-6 text-cyan-400 font-semibold hover:text-cyan-300 transition">
+        className="text-cyan-400 font-semibold hover:text-cyan-300 transition mb-6">
         ⬅️ New search
       </Link>
       <AnimatePresence mode="wait">
@@ -78,6 +78,7 @@ export default function ResultsPage() {
             onClick={() => {
               setAnimationLeft(true);
               handlePrevious();
+              setLoading(true)
               console.log(
                 "animate and key from results page",
                 animationLeft,
@@ -95,7 +96,7 @@ export default function ResultsPage() {
             />
           </button>
           {/* Games grid */}
-          <ul className="basis-10/12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
+          <ul className=" grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
             {results.map(game => (
               <li
                 key={game.id}
@@ -147,6 +148,7 @@ export default function ResultsPage() {
             onClick={() => {
               setAnimationLeft(false);
               handleNext();
+              setLoading(true);
               console.log(
                 "animate and key from results page",
                 animationLeft,

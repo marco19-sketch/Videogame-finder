@@ -67,7 +67,8 @@ export default function Navbar() {
   return (
     <nav className=" bg-gray-900 text-cyan-400 shadow-md relative rounded-2xl z-30">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center">
-        <NavLink to="/" className="mr-5">
+        <NavLink to="/" className="mr-5"
+        onClick={() => setIsOpen(false) }>
           <GhqLogo
             style={{ borderRadius: "50%" }}
             className="px-4 py-4"
@@ -169,17 +170,26 @@ export default function Navbar() {
               if (item.name === "Log out") {
                 if (!user) return null; // hide logout if not logged in
                 return (
-                  <button key={idx} onClick={logOut} className="cursor-pointer">
+                  // <button key={idx} onClick={logOut} className="cursor-pointer">
+                  //   {/* Log out */}
+                  //   {item.name}
+                  // </button>
+                  <NavLink  to='/log-in-page' key={idx} 
+                  onClick={() =>{ logOut();
+                  setIsOpen(false);}} 
+                  className="cursor-pointer">
                     {/* Log out */}
                     {item.name}
-                  </button>
+                  </NavLink>
                 );
               }
 
               if (item.name === "Log in") {
                 if (user) return null; // hide login if logged in
                 return (
-                  <NavLink key={idx} to="log-in-page">
+                  <NavLink 
+                  onClick={() => setIsOpen(false)}
+                  key={idx} to="log-in-page">
                     {/* Log in */}
                     {item.name}
                   </NavLink>
