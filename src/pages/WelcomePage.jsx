@@ -5,6 +5,7 @@ import { getTrending } from "../lib/getTrending";
 import YouTubeEmbed from "../components/YouTubeEmbed";
 import { findVideoIds } from "../lib/youtube";
 import GhqLogo from '../ThemedComponents/GhqLogo';
+import PrivacySettings from "../components/PrivacySettings";
 
 export default function WelcomePage() {
   const videoRef = useRef(null);
@@ -25,7 +26,7 @@ export default function WelcomePage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
+ 
   useEffect(() => {
     async function fetchTrending() {
       const data = await getTrending("-added", 1);
@@ -118,48 +119,22 @@ export default function WelcomePage() {
         {/* Foreground content */}
         <div className="relative  flex flex-col items-center justify-center h-full bg-black/40">
           {/* <NavLink to="/home-page"> */}
-          <h1 className="text-5xl text-cyan-400 mb-7 font-semibold text-center "
-          style={{ textShadow: '2px 2px 6px cyan'}}>
+          <h1
+            className="text-5xl text-cyan-400 mb-7 font-semibold text-center "
+            style={{ textShadow: "2px 2px 6px cyan" }}>
             Welcome to <br />
             Game Quest Hub
           </h1>
           {/* </NavLink> */}
           {/*navigation*/}
           <NavLink to="/recommendations-page">
-            <GhqLogo 
-            className='w-48 h-30 p-5'
-            style={{ borderRadius: '50%'}}
-            textStyle={{ fontSize: 64, textShadow: '3px 3px 6px cyan' }}
+            <GhqLogo
+              className="w-48 h-30 p-5"
+              style={{ borderRadius: "50%" }}
+              textStyle={{ fontSize: 64, textShadow: "3px 3px 6px cyan" }}
             />
-            {/* <div
-              className="
-                relative rounded-4xl pb-18 pt-0 
-                shadow-[0_0_20px_cyan] 
-                hover:shadow-[0_0_40px_cyan] hover:scale-110
-                transition-all duration-300
-                ">
-              <p
-                className="-mt-4 pt-0 text-cyan-400 font-light text-9xl"
-                // style={{ textShadow:  }}
-              >
-                G H
-              </p>
-              <p className="text-cyan-400 absolute left-1/2 -translate-x-1/2 top-1/3 font-light text-9xl">
-                Q
-              </p>
-            </div> */}
           </NavLink>
-          {/* <div className="flex items-center justify-between">
-            <NavLink to="/trending-page">
-              <CustomButton text="trending" />
-            </NavLink>
-            <NavLink to="/recommendations-page">
-              <p>Recommended</p>
-            </NavLink>
-            <NavLink to="/home-page">
-              <p>Search</p>
-            </NavLink>
-          </div> */}
+          <PrivacySettings />
         </div>
       </section>
     </div>
