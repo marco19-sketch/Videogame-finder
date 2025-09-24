@@ -127,7 +127,8 @@ export default function WelcomePage() {
           </h1>
           {/* </NavLink> */}
           {/*navigation*/}
-          <NavLink to="/recommendations-page">
+          <NavLink to="/recommendations-page"
+          >
             <GhqLogo
               className="w-48 h-30 p-5"
               style={{ borderRadius: "50%" }}

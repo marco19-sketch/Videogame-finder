@@ -4,7 +4,13 @@ import YouTubeVideos from "../components/YouTubeVideos";
 import { fetchRAWG } from "../api/apiClient";
 import clsx from "clsx";
 import Modal from "../components/Modal";
-import { Star, ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
+import {
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-react";
 //add animation
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,8 +26,12 @@ export default function RecommendationsPage() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { handleFetchTrailers, showModal, setShowModal } =
     useContext(AppContext);
-const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
-const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
+  const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
+  const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
+
+  useEffect(() => {
+    setShowModal(false);
+  }, [setShowModal]);
 
   useEffect(() => {
     const handleFetchBg = async () => {
@@ -69,7 +79,10 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
         <div>
           <div className="inset-0 absolute bg-black/60 z-0"></div>
           <div className="relative mx-10 z-10">
-            <div className={`flex w-full ${isMobile ? 'flex-col items-center' : " space-x-4"}`}>
+            <div
+              className={`flex w-full ${
+                isMobile ? "flex-col items-center" : " space-x-4"
+              }`}>
               <button
                 disabled={index === 0}
                 type="button"
@@ -78,14 +91,13 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                   setIndex(prev => prev - 1);
                   setMode(false);
                 }}>
-                
                 <ArrowLeftUp
                   className={clsx(
                     index === 0
                       ? "text-gray-500 h-16 w-16 cursor-not-allowed"
                       : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
                   )}
-                /> 
+                />
               </button>
               <div className="basis-10/12 flex flex-col space-y-4 justify-center items-center">
                 <AnimatePresence mode="wait">
@@ -182,8 +194,8 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                   handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
                   setMode("official trailer");
                 }}
-                className={"w-40 mb-8 h-14 px-0 py-0 "}>
-                {isMobile ? '🎬' : 'trailer' }
+                className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0 "}>
+                {isMobile ? "🎬" : "trailer"}
               </ThemedButton>
               <ThemedButton
                 type="button"
@@ -191,9 +203,9 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                   handleFetchTrailers(recommendationsList[0]);
                   setMode("gameplay -walkthrough -review");
                 }}
-                className="w-40 h-14 px-0 py-0 ">
+                className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0 "}>
                 {" "}
-                {isMobile ? '🎮' :  'gameplay'}
+                {isMobile ? "🎮" : "gameplay"}
               </ThemedButton>
               <ThemedButton
                 type="button"
@@ -201,13 +213,15 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                   handleFetchTrailers(recommendationsList[0]);
                   setMode("review");
                 }}
-                className="w-40 h-14 px-0 py-0 flex justify-center items-center ">
-                {isMobile ? (<Star
-                  className="mr-1 text-yellow-400 hover:text-yellow-700
-                   transition-colors duration-300
-"
-                />) :
-                'Review' }
+                className="w-20 md:w-40 h-14 px-0 py-0 flex justify-center items-center ">
+                {isMobile ? (
+                  <Star
+                    className="mr-1 text-yellow-400 hover:text-yellow-700
+                   transition-colors duration-300"
+                  />
+                ) : (
+                  "Review"
+                )}
               </ThemedButton>
             </div>
           </div>

@@ -9,7 +9,7 @@ import RawgVideos from "../components/RawgVideos";
 export default function DetailsPage() {
   const {
     showTrailer,
-    loading,
+    // loading,
     handleFetchTrailers,
     setGamePlay,
     showModal,
@@ -56,12 +56,7 @@ export default function DetailsPage() {
           <Link to="/results-page" className="hover:text-cyan-300 transition">
             ⬅️ Results
           </Link>
-          <Link to="/home-page" className="hover:text-cyan-300 transition">
-            🏠 Home
-          </Link>
-          <Link to="/trending-page" className="hover:text-cyan-300 transition">
-            Trending now
-          </Link>
+          
         </div>
         <GameDetails gameId={game.id} game={game} />
 
@@ -69,6 +64,7 @@ export default function DetailsPage() {
         <button
           type="button"
           onClick={() => {
+            setAutoplay(1);
             setGamePlay(false);
             handleFetchTrailers(game);
           }}
@@ -81,9 +77,9 @@ export default function DetailsPage() {
         <button
           type="button"
           onClick={() => {
+            setAutoplay(1);
             setGamePlay(true);
             handleFetchTrailers(game);
-            setAutoplay(1);
           }}
           className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r
            from-cyan-500 to-blue-600 text-white hover:from-cyan-400

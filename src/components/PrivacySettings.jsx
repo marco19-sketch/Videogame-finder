@@ -21,7 +21,7 @@ const PrivacySettings = () => {
       "privacySettings",
       JSON.stringify({ shareData, allowAnalytics })
     );
-    alert("Privacy settings saved!");
+    // alert("Privacy settings saved!");
     setShowPrivacy(false);
   };
 
