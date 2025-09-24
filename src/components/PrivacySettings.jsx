@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 const PrivacySettings = () => {
   const [shareData, setShareData] = useState(false);
@@ -22,6 +22,17 @@ const PrivacySettings = () => {
       JSON.stringify({ shareData, allowAnalytics })
     );
     alert("Privacy settings saved!");
+    setShowPrivacy(false);
+  };
+
+  const handleRejectAll = () => {
+    setShareData(false);
+    setAllowAnalytics(false);
+    localStorage.setItem(
+      "privacySettings",
+      JSON.stringify({ shareData: false, allowAnalytics: false })
+    );
+    alert("All privacy options rejected.");
     setShowPrivacy(false);
   };
 
@@ -57,11 +68,19 @@ const PrivacySettings = () => {
             </label>
           </div>
 
-          <button
-            onClick={handleSave}
-            className="mt-6 w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
-            Save Settings
-          </button>
+          <div className="mt-6 space-y-3">
+            <button
+              onClick={handleSave}
+              className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
+              Save Settings
+            </button>
+
+            <button
+              onClick={handleRejectAll}
+              className="w-full bg-gray-300 text-gray-800 py-2 px-4 rounded hover:bg-gray-400 transition">
+              Reject All
+            </button>
+          </div>
         </div>
       )}
     </>

@@ -12,8 +12,7 @@ import { AppContext } from '../context/contextsCreation';
 export default function ActionPage() {
   const [status, setStatus] = useState("Processing...");
   const [newPassword, setNewPassword] = useState("");
-  // const [showResetForm, setShowResetForm] = useState(false);
-  const [showResetForm, setShowResetForm] = useState(true);
+  const [showResetForm, setShowResetForm] = useState(false);
   const { showPassword } = useContext(AppContext);
   const navigate = useNavigate();
 
