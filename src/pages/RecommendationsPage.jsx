@@ -1,27 +1,48 @@
-import { useState, useEffect, useMemo, useContext } from "react";
+import { useState, useEffect, useMemo, useContext, useRef } from "react";
 import { recommendationsList } from "../lib/recommendationsList";
 import YouTubeVideos from "../components/YouTubeVideos";
 import { fetchRAWG } from "../api/apiClient";
 import clsx from "clsx";
 import Modal from "../components/Modal";
-import { Star, ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
+import {
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-react";
 //add animation
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import { AppContext } from "../context/contextsCreation";
 import ThemedButton from "../ThemedComponents/ThemedButton";
 import useMediaQuery from "../customHooks/useMediaQuery";
+import FavoritesSetter from "../components/FavoritesSetter";
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
   const [mode, setMode] = useState("");
   const [bg, setBg] = useState("");
+  const [game, setGame] = useState({});
   const [animationLeft, setAnimationLeft] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
   const { handleFetchTrailers, showModal, setShowModal } =
     useContext(AppContext);
-const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
-const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
+  const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
+  const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
+
+  useEffect(() => {
+    setShowModal(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Track first mount so initial animations don't run twice (React StrictMode double-mount)
+  const firstMount = useRef(true);
+  useEffect(() => {
+    firstMount.current = false;
+  }, []);
+
+
 
   useEffect(() => {
     const handleFetchBg = async () => {
@@ -30,8 +51,9 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
           recommendationsList[index].title
         )}`;
         const data = await fetchRAWG("games", query);
-
         setBg(data.results[0].background_image);
+        // store the full game object so FavoritesSetter receives the expected shape
+        setGame(data.results[0]);
       } catch (err) {
         console.error("Error trying to get screenshots from RAWG", err);
       }
@@ -42,7 +64,7 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
   const gameplayList = useMemo(() => {
     return (
       <ul className="list-disc">
-        <strong>Gameplay:</strong>
+        <li className="font-semibold">Gameplay:</li>
         {recommendationsList[index].gameplayHighlights.map(item => (
           <li key={item}>{item}</li>
         ))}
@@ -53,53 +75,70 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
   return (
     <AnimatePresence mode="wait">
       <motion.div
+        // key={index}
         key={bg}
-        initial={{
-          opacity: 0,
-          ...(isMobile ? { y: 100 } : { x: animationLeft ? 100 : -100 }),
-        }}
+        initial={
+          firstMount.current
+            ? false
+            : {
+                opacity: 0,
+                ...(isMobile ? { y: 100 } : { x: animationLeft ? 100 : -100 }),
+              }
+        }
         animate={{ opacity: 1, x: 0, y: 0 }}
-        exit={{
-          opacity: 0,
-          ...(isMobile ? { y: -100 } : { x: animationLeft ? -100 : 100 }),
-        }}
+        exit={
+          firstMount.current
+            ? undefined
+            : {
+                opacity: 0,
+                ...(isMobile ? { y: -100 } : { x: animationLeft ? -100 : 100 }),
+              }
+        }
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className="relative w-full bg-center bg-cover flex flex-col"
         style={{ backgroundImage: `url(${bg})` }}>
         <div>
           <div className="inset-0 absolute bg-black/60 z-0"></div>
           <div className="relative mx-10 z-10">
-            <div className={`flex w-full ${isMobile ? 'flex-col items-center' : " space-x-4"}`}>
+            <div
+              className={`flex w-full ${
+                isMobile ? "flex-col items-center" : " space-x-4"
+              }`}>
               <button
                 disabled={index === 0}
                 type="button"
                 onClick={() => {
                   setAnimationLeft(true);
                   setIndex(prev => prev - 1);
-                  setMode(false);
+                  setMode("");
                 }}>
-                
                 <ArrowLeftUp
                   className={clsx(
                     index === 0
                       ? "text-gray-500 h-16 w-16 cursor-not-allowed"
                       : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
                   )}
-                /> 
+                />
               </button>
               <div className="basis-10/12 flex flex-col space-y-4 justify-center items-center">
                 <AnimatePresence mode="wait">
                   <motion.div
+                    // key={index}
                     key={bg}
-                    initial={{ opacity: 0, x: animationLeft ? 800 : -800 }}
+                    initial={
+                      firstMount.current
+                        ? false
+                        : { opacity: 0, x: animationLeft ? 100 : -100 }
+                    }
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: animationLeft ? -800 : 800 }}
+                    exit={{ opacity: 0, x: animationLeft ? -100 : 100 }}
                     transition={{ duration: 0.5, ease: "easeInOut" }}
                     className="flex flex-col space-y-4 justify-center items-center">
                     <div className="h-screen overflow-y-auto [&::-webkit-scrollbar]:hidden">
                       <h1 className="text-3xl">
                         {recommendationsList[index].title}
                       </h1>
+                      <FavoritesSetter game={game} />
                       <p className="text-1xl">
                         {recommendationsList[index].recommendation}
                       </p>
@@ -138,43 +177,37 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                 </AnimatePresence>
               </div>
               <button
-                disabled={index === 15}
+                disabled={index === recommendationsList.length - 1}
                 type="button"
                 onClick={() => {
                   setAnimationLeft(false);
                   setIndex(prev => prev + 1);
-                  setMode(false);
+                  setMode("");
                 }}>
                 <ArrowRightDown
                   className={clsx(
-                    index === 15
+                    index === recommendationsList.length - 1
                       ? "text-gray-500 h-16 w-16 cursor-not-allowed"
                       : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
                   )}
                 />
               </button>
             </div>
-            <AnimatePresence>
-              {showModal && (
-                <Modal
-                  onClose={() => {
-                    setShowModal(false);
-                  }}
-                  className="z-20">
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.2, rotate: -10 }}
-                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    exit={{ opacity: 0, scale: 0.2, rotate: +10 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}>
-                    <YouTubeVideos
-                      gameTitle={recommendationsList[index].title}
-                      mode={mode}
-                      autoplay="1"
-                    />
-                  </motion.div>
-                </Modal>
-              )}
-            </AnimatePresence>
+
+            {showModal && (
+              <Modal
+                onClose={() => {
+                  setShowModal(false);
+                }}
+                className="z-20">
+                <YouTubeVideos
+                  gameTitle={recommendationsList[index].title}
+                  mode={mode}
+                  autoplay="1"
+                />
+              </Modal>
+            )}
+
             <div className="flex justify-between max-w-xl mx-auto">
               <ThemedButton
                 type="button"
@@ -183,7 +216,7 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                   setMode("official trailer");
                 }}
                 className={"w-40 mb-8 h-14 px-0 py-0 "}>
-                {isMobile ? '🎬' : 'trailer' }
+                {isMobile ? "🎬" : "trailer"}
               </ThemedButton>
               <ThemedButton
                 type="button"
@@ -193,7 +226,7 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                 }}
                 className="w-40 h-14 px-0 py-0 ">
                 {" "}
-                {isMobile ? '🎮' :  'gameplay'}
+                {isMobile ? "🎮" : "gameplay"}
               </ThemedButton>
               <ThemedButton
                 type="button"
@@ -202,12 +235,15 @@ const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
                   setMode("review");
                 }}
                 className="w-40 h-14 px-0 py-0 flex justify-center items-center ">
-                {isMobile ? (<Star
-                  className="mr-1 text-yellow-400 hover:text-yellow-700
+                {isMobile ? (
+                  <Star
+                    className="mr-1 text-yellow-400 hover:text-yellow-700
                    transition-colors duration-300
 "
-                />) :
-                'Review' }
+                  />
+                ) : (
+                  "Review"
+                )}
               </ThemedButton>
             </div>
           </div>

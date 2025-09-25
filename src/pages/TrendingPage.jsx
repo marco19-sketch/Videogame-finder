@@ -2,6 +2,7 @@ import { useContext, useCallback, useEffect, useState } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
 import { getTrending } from "../lib/getTrending";
+import FavoritesSetter from '../components/FavoritesSetter';
 
 export default function TrendingPage(sortBy) {
   const { trendingGames, setTrendingGames } = useContext(AppContext);
@@ -58,7 +59,7 @@ export default function TrendingPage(sortBy) {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
               </div>
-
+              <FavoritesSetter game={game}/>
               {/* Info card */}
               <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
                 <h2 className="text-lg font-bold text-cyan-400 group-hover:text-white transition truncate">

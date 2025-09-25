@@ -68,7 +68,7 @@ export default function OtherRawgVideos({
                     // find the indexA of the clicked video in your array
 
                     const newIndex = trailers.indexOf(object);
-                    console.log("newIndex from other rawg videos", newIndex);
+                    
 
                     if (newIndex !== -1) {
                       setCurrentIndex(newIndex); // <-- THIS switches the video

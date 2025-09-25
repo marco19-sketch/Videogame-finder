@@ -8,6 +8,7 @@ import useMediaQuery from '../customHooks/useMediaQuery';
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from 'framer-motion';
 
+
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
   const { page, setPage, favorites } = useContext(AppContext);

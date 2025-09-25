@@ -10,7 +10,8 @@ export default function FavoritesSetter({ game }) {
   const isAlreadyFavorite = favorites?.some(fav => fav.id === game.id);
   const [playAdd, AddAudio] = useSound(addSound)
   const [playRemove, RemoveAudio] = useSound(removeSound)
- 
+
+  
 
   useEffect(() => {
     localStorage.setItem("savedGames", JSON.stringify(favorites));
@@ -53,7 +54,7 @@ export default function FavoritesSetter({ game }) {
     <>
       {/*add to my list button */}
       <button
-        className="absolute top-1 right-1 z-100  bg-gradient-to-b from-cyan-500 to-blue-600 rounded-sm
+        className="absolute top-1 right-1 z-20  bg-gradient-to-b from-cyan-500 to-blue-600 rounded-sm
          hover:from-cyan-400 hover:to-500 hover:scale-110 transition-all duration-300 cursor-pointer"
         type="button"
         onClick={e => {

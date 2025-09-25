@@ -51,7 +51,7 @@ export default function SearchBar({
   const [randomIndex] = useState( Math.floor(
     Math.random() * recommendationsList.length
   ));
-  console.log("randomIndex from SearchBar", randomIndex);
+  
   const [genresCBox, setGenresCBox] = useState(false);
   // Set genres
   const handleCheckboxes = useCallback(
@@ -75,7 +75,7 @@ export default function SearchBar({
         const data = await fetchRAWG("games", query);
 
         setBground(data.results[0].background_image);
-        console.log('bground image from searchBar', data.results[0].background_image)
+       
       } catch (err) {
         console.error("Error trying to get screenshots from RAWG", err);
       }

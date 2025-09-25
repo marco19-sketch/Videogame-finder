@@ -23,7 +23,11 @@ export default function YouTubeEmbed({
       mute: unMuted ? 0 : 1,
       controls: unMuted ? 1 : 0,
       enablejsapi: 1,
-      origin: window.location.origin,
+      // origin: window.location.origin,
+      origin: !window.location.href.includes("localhost")
+        ? window.location.origin
+        : undefined,
+
       // rel: 1,
       // loop: 1, //don't need loop + playlist, new fetch on video end.
       playlist: `${videoId},yWMu6JeT2g8`,

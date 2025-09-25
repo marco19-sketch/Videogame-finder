@@ -6,7 +6,7 @@ import { fetchRAWG } from "../api/apiClient";
     try {
 
          const data = await fetchRAWG(`games/${gameId}`, "");
-
+        
         return data
     } catch(err) {
         console.error('Error trying to fetch game details from helper function:', err)

@@ -113,7 +113,8 @@ export default function Navbar() {
                 key={idx}
                 className="relative"
                 onMouseEnter={() => setOpenDropdown(item.name)}
-                onMouseLeave={() => setOpenDropdown(null)}>
+                onMouseLeave={() => setOpenDropdown(null)}
+                >
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
