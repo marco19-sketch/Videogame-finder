@@ -87,12 +87,15 @@ export default function DetailsPage() {
       {/* nav bar */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center">
         <div className="flex gap-6 mb-8 text-cyan-400 font-semibold">
-          <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="hover:text-cyan-300 transition cursor-pointer">
-            ⬅️ Back
-          </button>
+          <Link to="/results-page" className="hover:text-cyan-300 transition">
+            ⬅️ Results
+          </Link>
+          <Link to="/home-page" className="hover:text-cyan-300 transition">
+            🏠 Home
+          </Link>
+          <Link to="/trending-page" className="hover:text-cyan-300 transition">
+            Trending now
+          </Link>
         </div>
   <GameDetails gameId={gameToShow.id} game={gameToShow} />
 
@@ -100,6 +103,7 @@ export default function DetailsPage() {
         <button
           type="button"
           onClick={() => {
+            setAutoplay(1);
             setGamePlay(false);
             handleFetchTrailers(gameToShow);
           }}
@@ -112,8 +116,9 @@ export default function DetailsPage() {
         <button
           type="button"
           onClick={() => {
+            setAutoplay(1);
             setGamePlay(true);
-            handleFetchTrailers(gameToShow);
+            handleFetchTrailers(game);
             setAutoplay(1);
           }}
           className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r

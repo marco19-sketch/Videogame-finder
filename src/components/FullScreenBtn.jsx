@@ -11,7 +11,7 @@ export default function FullScreenBtn({ container }) {
 
   return (
     <button
-      className="absolute md:w-40 md:h-40 text-transparent hover:text-white bg-transparent cursor-pointer flex justify-end items-end p-6 bottom-0 right-0 z-20"
+      className="absolute md:w-30 md:h-30 text-transparent hover:text-white bg-green-500 cursor-pointer flex justify-end items-end p-6 bottom-0 right-0 z-20"
       onClick={toggleFullscreen}>
       <Fullscreen />
     </button>

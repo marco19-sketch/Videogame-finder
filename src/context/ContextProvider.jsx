@@ -234,9 +234,9 @@ export default function ContextProvider({ children }) {
     ]
   );
 
-  const AuthContextValues = useMemo(() => {
-    user, setUser, loading, setLoading, email, setEmail, password, setPassword;
-  }, [
+  const AuthContextValues = useMemo(() => ({
+    user, setUser, loading, setLoading, email, setEmail, password, setPassword
+  }), [
     user,
     setUser,
     loading,

@@ -73,17 +73,20 @@ export default function ActionPage() {
             />
             <ShowPassword className="absolute top-2 right-4" />
           </div>
-          <ThemedButton type="submit" disabled={newPassword.length === 0}>
+          <ThemedButton type="submit" disabled={newPassword.length === 0}
+          className='w-36 h-14 p-4'>
             Reset Password
           </ThemedButton>
         </form>
       )}
       {status === "✅ Password has been reset! You can log in now." ? (
-        <ThemedButton type="button" onClick={() => navigate("/log-in-page")}>
+        <ThemedButton type="button" onClick={() => navigate("/log-in-page")}
+        className='w-28 h-14'>
           Log in
         </ThemedButton>
       ) : (
-        <ThemedButton type="button" onClick={() => navigate("/home-page")}>
+        <ThemedButton type="button" onClick={() => navigate("/home-page")}
+        className='w-28 h-14'>
           Home
         </ThemedButton>
       )}

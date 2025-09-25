@@ -15,7 +15,7 @@ import ThemedFooter from "./ThemedComponents/ThemedFooter";
 import WelcomePage from "./pages/WelcomePage";
 import RecommendationsPage from "./pages/RecommendationsPage";
 import TestPage from "./pages/TestPage";
-
+import ProtectedRoute from "./authentication/ProtectedRoute";
 
 function App() {
   // const location = useLocation();
@@ -36,7 +36,14 @@ function App() {
           <Route path="/trending-page" element={<TrendingPage />} />
           <Route path="/results-page" element={<ResultsPage />} />
           <Route path="/details-page/:id" element={<DetailsPage />} />
-          <Route path="/favorites-page" element={<FavoritesPage />} />
+          <Route
+            path="/favorites-page"
+            element={
+              <ProtectedRoute>
+                <FavoritesPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/sign-up-page" element={<SignUpPage />} />
           <Route path="/log-in-page" element={<LogInPage />} />
           <Route path="/reset-password-page" element={<ResetPasswordPage />} />

@@ -82,7 +82,7 @@ export default function SignUpPage() {
                   : "green",
             }}
             id="password-confirm"
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             value={passwordConfirm}
             placeholder="retype password"
             onChange={e => setPasswordConfirm(e.target.value)}

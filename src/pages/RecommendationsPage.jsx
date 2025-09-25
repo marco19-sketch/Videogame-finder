@@ -215,7 +215,7 @@ export default function RecommendationsPage() {
                   handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
                   setMode("official trailer");
                 }}
-                className={"w-40 mb-8 h-14 px-0 py-0 "}>
+                className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0 "}>
                 {isMobile ? "🎬" : "trailer"}
               </ThemedButton>
               <ThemedButton
@@ -224,7 +224,7 @@ export default function RecommendationsPage() {
                   handleFetchTrailers(recommendationsList[0]);
                   setMode("gameplay -walkthrough -review");
                 }}
-                className="w-40 h-14 px-0 py-0 ">
+                className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0 "}>
                 {" "}
                 {isMobile ? "🎮" : "gameplay"}
               </ThemedButton>
@@ -234,12 +234,11 @@ export default function RecommendationsPage() {
                   handleFetchTrailers(recommendationsList[0]);
                   setMode("review");
                 }}
-                className="w-40 h-14 px-0 py-0 flex justify-center items-center ">
+                className="w-20 md:w-40 h-14 px-0 py-0 flex justify-center items-center ">
                 {isMobile ? (
                   <Star
                     className="mr-1 text-yellow-400 hover:text-yellow-700
-                   transition-colors duration-300
-"
+                   transition-colors duration-300"
                   />
                 ) : (
                   "Review"
