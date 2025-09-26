@@ -9,7 +9,6 @@ export async function findVideoIds(gameTitle, mode) {
 
   //mock ids fetch
   return [
-  "vPcolQbesz4",
   "KiXFD-9j58k",
   "9Ok8bNCRj0A",
   "2MhfjBZw4ZI",

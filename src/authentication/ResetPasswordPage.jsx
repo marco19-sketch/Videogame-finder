@@ -11,10 +11,6 @@ export default function ResetPasswordPage() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
-//   const actionCodeSettings = {
-//     url: "http://localhost:5173/updatePassword", // in dev
-//     handleCodeInApp: true, // importantissimo
-//   };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -26,6 +22,8 @@ export default function ResetPasswordPage() {
           handleCodeInApp: true,
         };
       await sendPasswordResetEmail(auth, email, actionCodeSettings);
+      console.log('actionCode from resetPassword page', sendPasswordResetEmail)
+      console.log('email sent')
       setMessage("✅Email sent. Check your inbox");
     } catch (err) {
       console.error("Reset password error:", err);

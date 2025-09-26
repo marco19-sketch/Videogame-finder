@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useCallback, useContext, useState } from "react";
 import { AppContext } from "../context/contextsCreation";
 
 import SearchBar from "../components/SearchBar";
@@ -26,7 +26,7 @@ export default function Home() {
     handleFetch 
   } = useContext(AppContext);
 
-  
+  const [genresCBox, setGenresCBox] = useState(false);
 
   const handleReset = useCallback(() => {
     setGameName("");
@@ -38,6 +38,7 @@ export default function Home() {
     setStartDate(null);
     setEndDate(null);
     setExactSearch(false)
+    setGenresCBox(false);
   }, [
     setResults,
     setGameName,
@@ -47,16 +48,13 @@ export default function Home() {
     setDates,
     setStartDate,
     setEndDate,
-    setExactSearch
+    setExactSearch,
+    setGenresCBox
   ]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center p-6">
-      {/* Page Title */}
-      {/* <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 mb-8 text-center">
-        🎮 Game Quest Hub
-      </h1> */}
-
+     
       {/* Search Bar */}
       <div className="w-full max-w-4xl">
         <SearchBar
@@ -81,6 +79,8 @@ export default function Home() {
           handleFetch={handleFetch}
           handleReset={handleReset}
           disabled={!dates}
+          genresCBox={genresCBox}
+          setGenresCBox={setGenresCBox}
         />
       </div>
     </div>

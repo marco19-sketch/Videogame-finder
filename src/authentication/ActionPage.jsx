@@ -74,7 +74,7 @@ export default function ActionPage() {
             <ShowPassword className="absolute top-2 right-4" />
           </div>
           <ThemedButton type="submit" disabled={newPassword.length === 0}
-          className='w-36 h-14 p-4'>
+          className='w-36 h-14 p-4 flex justify-center items-center'>
             Reset Password
           </ThemedButton>
         </form>
