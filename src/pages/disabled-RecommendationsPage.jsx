@@ -18,7 +18,6 @@ import { AppContext } from "../context/contextsCreation";
 import ThemedButton from "../ThemedComponents/ThemedButton";
 import useMediaQuery from "../customHooks/useMediaQuery";
 import FavoritesSetter from "../components/FavoritesSetter";
-import Slideshow from '../components/Slideshow';
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
@@ -31,10 +30,7 @@ export default function RecommendationsPage() {
     useContext(AppContext);
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
-  const [current, setCurrent] = useState(0);
-  const [slides, setSlides] = useState([])
-  
- console.log('current from recomm page', current)
+
   useEffect(() => {
     setShowModal(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,11 +49,9 @@ export default function RecommendationsPage() {
           recommendationsList[index].title
         )}`;
         const data = await fetchRAWG("games", query);
-        console.log('data results from recommendation', data.results[0].short_screenshots)
         setBg(data.results[0].background_image);
         // store the full game object so FavoritesSetter receives the expected shape
         setGame(data.results[0]);
-        setSlides(data.results[0].short_screenshots)
       } catch (err) {
         console.error("Error trying to get screenshots from RAWG", err);
       }
@@ -67,10 +61,10 @@ export default function RecommendationsPage() {
 
   const gameplayList = useMemo(() => {
     return (
-      <ul className="list-disc font-semibold">
-        Gameplay:
+      <ul className="list-disc">
+        <li className="font-semibold">Gameplay:</li>
         {recommendationsList[index].gameplayHighlights.map(item => (
-          <li key={item} className='font-normal'>{item}</li>
+          <li key={item}>{item}</li>
         ))}
       </ul>
     );
@@ -117,14 +111,14 @@ export default function RecommendationsPage() {
                 />
               </button>
               <div className="basis-10/12 flex flex-col space-y-4 justify-center items-center">
-                <h1 className="text-3xl">{recommendationsList[index].title}</h1>
-                <FavoritesSetter game={game}/>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start sm:mb-6">
-                  {/* full-width recommendation */}
-                  <p className="col-span-full text-1xl">
+                <div className="h-screen overflow-y-auto [&::-webkit-scrollbar]:hidden">
+                  <h1 className="text-3xl">
+                    {recommendationsList[index].title}
+                  </h1>
+                  <FavoritesSetter game={game} />
+                  <p className="text-1xl">
                     {recommendationsList[index].recommendation}
                   </p>
-
                   <p>
                     <strong>Genre:</strong> {recommendationsList[index].genre}
                   </p>
@@ -148,24 +142,8 @@ export default function RecommendationsPage() {
                     {recommendationsList[index].reviewsCount}
                   </p>
 
-                  {/* make gameplayList span full width */}
-                  <div>{gameplayList}</div>
-                  {/* <div className="col-span-full">{gameplayList}</div> */}
-
-                  {/* slideshow */}
-                  <Slideshow
-                    slides={slides}
-                    current={current}
-                    setCurrent={setCurrent}
-                    />
-                  {/* <img
-                    src={slideShow}
-                    alt={recommendationsList[index].title}
-                    className="rounded-2xl border-2 border-cyan-400"
-                  /> */}
-
-                  {/* description spans full width */}
-                  <p className="col-span-full">
+                  {gameplayList}
+                  <p>
                     <strong>Game description:</strong>{" "}
                     {recommendationsList[index].description}
                   </p>

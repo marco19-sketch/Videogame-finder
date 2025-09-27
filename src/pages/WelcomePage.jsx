@@ -4,8 +4,10 @@ import { AppContext } from "../context/contextsCreation";
 import { getTrending } from "../lib/getTrending";
 import YouTubeEmbed from "../components/YouTubeEmbed";
 import { findVideoIds } from "../lib/youtube";
-import GhqLogo from '../ThemedComponents/GhqLogo';
+import GhqLogo from "../ThemedComponents/GhqLogo";
 import PrivacySettings from "../components/PrivacySettings";
+// eslint-disable-next-line no-unused-vars
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function WelcomePage() {
   const videoRef = useRef(null);
@@ -26,7 +28,7 @@ export default function WelcomePage() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
- 
+
   useEffect(() => {
     async function fetchTrending() {
       const data = await getTrending("-added", 1);
@@ -76,59 +78,69 @@ export default function WelcomePage() {
     }
   }, [trailer, featuredGame]);
 
+  console.log("ids 0 from welcome page", ids[0]);
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Section with parallax video */}
       <section className="relative h-screen overflow-hidden">
         {/* Background video */}
-        <div className="absolute inset-0 z-0" ref={parallaxDivRef}>
-          {trailer ? (
-            <video
-              ref={videoRef}
-              key={trailer} //this force the React to update the source after mounting
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="absolute inset-0 -z-10 top-0 left-0 w-full h-full object-cover will-change-transform">
-              {/* className="absolute top-0 left-0 w-full h-full object-cover will-change-transform z-0"> */}
-              <source src={trailer} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          ) : (
-            // trying react-youtube api. (see YouTubeEmbed.jsx for comment)
-            // <YouTubeEmbed videoId={ids[0]} playlistIds={ids} title="YouTube video" />
-
-            <YouTubeEmbed
-              videoId={ids[0]}
-              title="YouTube video"
-              playlist={ids}
-              // onVideoEnd={() => setVideoEnd(true)} // that's the real call
-              onVideoEnd={() => {
-                setVideoEnd(true); // that's for dev mode
-                console.log("video has ended, onVideoEnd fired");
-              }}
-              // className='h-full w-full absolute top-0 left-0'
-            />
-          )}
+        <div className="absolute inset-0 z-0 rounded-2xl" ref={parallaxDivRef}>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div initial={false} animate={{ opacity: 1 }}>
+              <AnimatePresence mode="wait">
+                {trailer ? (
+                  <motion.video
+                    key={trailer}
+                    initial={{ scale: 0.7, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.7, opacity: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    ref={videoRef}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute inset-0 -z-10 top-0 left-0 w-full h-full object-cover will-change-transform">
+                    {/* className="absolute top-0 left-0 w-full h-full object-cover will-change-transform z-0"> */}
+                    <source src={trailer} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </motion.video>
+                ) : (
+                  <motion.div
+                    key={ids[0] || "yt"}
+                    initial={{ scale: 0.7, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.7, opacity: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}>
+                    <YouTubeEmbed
+                      videoId={ids[0]}
+                      title="YouTube video"
+                      playlist={ids}
+                      onVideoEnd={() => setVideoEnd(true)}
+                      customOpts={{ playerVars: { start: 0, end: 30 } }}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          </AnimatePresence>
         </div>
-        {/* Overlay */}
 
+        {/* Overlay */}
         <div className="absolute inset-0 bg-black/40 z-0" />
 
         {/* Foreground content */}
         <div className="relative  flex flex-col items-center justify-center h-full bg-black/40">
-          {/* <NavLink to="/home-page"> */}
           <h1
             className="text-5xl text-cyan-400 mb-7 font-semibold text-center "
             style={{ textShadow: "2px 2px 6px cyan" }}>
             Welcome to <br />
             Game Quest Hub
           </h1>
-          {/* </NavLink> */}
+
           {/*navigation*/}
-          <NavLink to="/recommendations-page"
-          >
+          <NavLink to="/recommendations-page">
             <GhqLogo
               className="w-48 h-30 p-5"
               style={{ borderRadius: "50%" }}

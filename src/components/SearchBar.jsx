@@ -25,6 +25,7 @@ const genresCheckboxes = [
   "Board Games",
   "Card",
   "Educational",
+  "Music"
 ];
 
 export default function SearchBar({
