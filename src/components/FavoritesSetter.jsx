@@ -5,7 +5,7 @@ import addSound from '../assets/sounds/add-to-favorite.mp3'
 import removeSound from "../assets/sounds/whoosh_zapsplat.mp3";
 
 
-export default function FavoritesSetter({ game }) {
+export default function FavoritesSetter({ game, className }) {
   const { setFavorites, favorites, isFavoritesPage } = useContext(AppContext);
   const isAlreadyFavorite = favorites?.some(fav => fav.id === game.id);
   const [playAdd, AddAudio] = useSound(addSound)
@@ -54,8 +54,8 @@ export default function FavoritesSetter({ game }) {
     <>
       {/*add to my list button */}
       <button
-        className="absolute top-1 right-1 z-20  bg-gradient-to-b from-cyan-500 to-blue-600 rounded-sm
-         hover:from-cyan-400 hover:to-500 hover:scale-110 transition-all duration-300 cursor-pointer"
+        className={`absolute top-1 right-1 z-20  bg-gradient-to-b from-cyan-500 to-blue-600 rounded-sm
+         hover:from-cyan-400 hover:to-500 hover:scale-110 transition-all duration-300 cursor-pointer ${className}`}
         type="button"
         onClick={e => {
           e.preventDefault();

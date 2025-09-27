@@ -33,8 +33,8 @@ export default function RecommendationsPage() {
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
   const [current, setCurrent] = useState(0);
   const [slides, setSlides] = useState([])
-  
- console.log('current from recomm page', current)
+
+ 
   useEffect(() => {
     setShowModal(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,7 +53,7 @@ export default function RecommendationsPage() {
           recommendationsList[index].title
         )}`;
         const data = await fetchRAWG("games", query);
-        console.log('data results from recommendation', data.results[0].short_screenshots)
+        
         setBg(data.results[0].background_image);
         // store the full game object so FavoritesSetter receives the expected shape
         setGame(data.results[0]);
@@ -70,13 +70,14 @@ export default function RecommendationsPage() {
       <ul className="list-disc font-semibold">
         Gameplay:
         {recommendationsList[index].gameplayHighlights.map(item => (
-          <li key={item} className='font-normal'>{item}</li>
+          <li key={item} className='font-normal my-4'>{item}</li>
         ))}
       </ul>
     );
   }, [index]); // only recompute when index changes
 
   return (
+  
     <AnimatePresence mode="wait" initial="false">
       <motion.div
         // key={index}
@@ -117,8 +118,8 @@ export default function RecommendationsPage() {
                 />
               </button>
               <div className="basis-10/12 flex flex-col space-y-4 justify-center items-center">
-                <h1 className="text-3xl">{recommendationsList[index].title}</h1>
-                <FavoritesSetter game={game}/>
+                <h1 className="text-3xl text-cyan-400 font-bold" style={{textShadow: '3px 3px 6px'}}>{recommendationsList[index].title}</h1>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start sm:mb-6">
                   {/* full-width recommendation */}
                   <p className="col-span-full text-1xl">
@@ -149,20 +150,26 @@ export default function RecommendationsPage() {
                   </p>
 
                   {/* make gameplayList span full width */}
-                  <div>{gameplayList}</div>
+                  <div className='justify-self-center self-center'>{gameplayList}</div>
                   {/* <div className="col-span-full">{gameplayList}</div> */}
 
                   {/* slideshow */}
-                  <Slideshow
-                    slides={slides}
-                    current={current}
-                    setCurrent={setCurrent}
+                  <div
+                    className="relative cursor-pointer hover:scale-110 transition-scale duration-300 ease-in-out"
+                    onClick={() => {
+                      handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
+                      setMode("official trailer");
+                    }}>
+                    <Slideshow
+                      slides={slides}
+                      current={current}
+                      setCurrent={setCurrent}
                     />
-                  {/* <img
-                    src={slideShow}
-                    alt={recommendationsList[index].title}
-                    className="rounded-2xl border-2 border-cyan-400"
-                  /> */}
+                    <FavoritesSetter
+                      game={game}
+                      className="top-2.5 right-2.5"
+                    />
+                  </div>
 
                   {/* description spans full width */}
                   <p className="col-span-full">

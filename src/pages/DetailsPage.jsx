@@ -87,15 +87,11 @@ export default function DetailsPage() {
       {/* nav bar */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center">
         <div className="flex gap-6 mb-8 text-cyan-400 font-semibold">
-          <Link to="/results-page" className="hover:text-cyan-300 transition">
-            ⬅️ Results
-          </Link>
-          <Link to="/home-page" className="hover:text-cyan-300 transition">
-            🏠 Home
-          </Link>
-          <Link to="/trending-page" className="hover:text-cyan-300 transition">
-            Trending now
-          </Link>
+          <button
+          onClick={() => navigate(-1)}  className="hover:text-cyan-300 transition">
+            ⬅️ Back
+          </button>
+         
         </div>
   <GameDetails gameId={gameToShow.id} game={gameToShow} />
 

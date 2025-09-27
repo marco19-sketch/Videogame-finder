@@ -3,7 +3,7 @@ import DateRangePicker from "./DateRangePicker";
 import { recommendationsList } from "../lib/recommendationsList";
 import { fetchRAWG } from "../api/apiClient";
 // eslint-disable-next-line no-unused-vars
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from "framer-motion";
 
 const genresCheckboxes = [
   "Action",
@@ -25,7 +25,7 @@ const genresCheckboxes = [
   "Board Games",
   "Card",
   "Educational",
-  "Music"
+  "Music",
 ];
 
 export default function SearchBar({
@@ -50,7 +50,7 @@ export default function SearchBar({
   handleReset,
   disabled,
   genresCBox,
-  setGenresCBox
+  setGenresCBox,
 }) {
   const [bground, setBground] = useState("");
   const [randomIndex] = useState(
@@ -128,17 +128,23 @@ export default function SearchBar({
         />
         Enable search by dates
       </label>
-
-      {dates && (
-        <DateRangePicker
-          endDate={endDate}
-          setEndDate={setEndDate}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          disabled={disabled}
-        />
-      )}
-
+      <AnimatePresence>
+        {dates && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}>
+            <DateRangePicker
+              endDate={endDate}
+              setEndDate={setEndDate}
+              startDate={startDate}
+              setStartDate={setStartDate}
+              disabled={disabled}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="flex flex-col md:flex-row md:justify-between">
         {/* Exact match */}
 
@@ -233,34 +239,34 @@ export default function SearchBar({
       <div
         className="relative inset-0 w-full min-h-80 h-fit sm:min-h-64 md:min-h-60 bg-cover bg-center rounded-2xl"
         style={{ backgroundImage: `url('${bground}')` }}>
-       <AnimatePresence initial={false}>
-        {genresCBox && (
-          <motion.div
-          key={genresCBox}
-            initial={{ height: 0 , opacity: 0, scale: 0.8 }}
-            animate={{ height: 'auto', opacity: 1, scale: 1 }}
-            exit={{height: 0 , opacity: 0, scale: 0.8 }}
-            transition={{duration: .3 , ease: 'easeInOut'}}>
-          <div className="inset-0 p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-1 sm:gap-y-2 md:gap-y-4 gap-x-4 bg-black/50 rounded-2xl">
-            {genresCheckboxes.map(genre => (
-              <label
-                key={genre}
-                htmlFor={genre}
-                className="flex items-center gap-2 bg-gray-800/80 px-2 py-1 rounded-lg border border-gray-700 cursor-pointer hover:border-cyan-400 transition">
-                <input
-                  type="checkbox"
-                  id={genre}
-                  value={genre}
-                  onChange={handleCheckboxes}
-                  checked={genres.includes(genre.toLowerCase())}
-                  className="w-4 h-4 accent-cyan-500 cursor-pointer"
-                />
-                <span className="text-gray-200 text-sm">{genre}</span>
-              </label>
-            ))}
-          </div>
-          </motion.div>
-        )}
+        <AnimatePresence initial={false}>
+          {genresCBox && (
+            <motion.div
+              key={genresCBox}
+              initial={{ height: 0, opacity: 0, scale: 0.8 }}
+              animate={{ height: "auto", opacity: 1, scale: 1 }}
+              exit={{ height: 0, opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}>
+              <div className="inset-0 p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-1 sm:gap-y-2 md:gap-y-4 gap-x-4 bg-black/50 rounded-2xl">
+                {genresCheckboxes.map(genre => (
+                  <label
+                    key={genre}
+                    htmlFor={genre}
+                    className="flex items-center gap-2 bg-gray-800/80 px-2 py-1 rounded-lg border border-gray-700 cursor-pointer hover:border-cyan-400 transition">
+                    <input
+                      type="checkbox"
+                      id={genre}
+                      value={genre}
+                      onChange={handleCheckboxes}
+                      checked={genres.includes(genre.toLowerCase())}
+                      className="w-4 h-4 accent-cyan-500 cursor-pointer"
+                    />
+                    <span className="text-cyan-300 text-sm">{genre}</span>
+                  </label>
+                ))}
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 

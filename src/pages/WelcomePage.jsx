@@ -132,20 +132,26 @@ export default function WelcomePage() {
 
         {/* Foreground content */}
         <div className="relative  flex flex-col items-center justify-center h-full bg-black/40">
-          <h1
-            className="text-5xl text-cyan-400 mb-7 font-semibold text-center "
-            style={{ textShadow: "2px 2px 6px cyan" }}>
-            Welcome to <br />
-            Game Quest Hub
-          </h1>
-
           {/*navigation*/}
-          <NavLink to="/recommendations-page">
+          <NavLink
+            to="/recommendations-page"
+            className="flex flex-col justify-center items-center hover:scale-110 transition-scale ease-in-out duration-300">
+            <h1
+              className="text-5xl text-cyan-400 mb-7 font-semibold text-center "
+              style={{ textShadow: "2px 2px 6px cyan" }}>
+              Welcome to <br />
+              Game Quest Hub
+            </h1>
             <GhqLogo
               className="w-48 h-30 p-5"
               style={{ borderRadius: "50%" }}
               textStyle={{ fontSize: 64, textShadow: "3px 3px 6px cyan" }}
             />
+            <p
+              className="text-cyan-400 text-3xl"
+              style={{ textShadow: "3px 3px 6px cyan" }}>
+              Enter
+            </p>
           </NavLink>
           <PrivacySettings />
         </div>
