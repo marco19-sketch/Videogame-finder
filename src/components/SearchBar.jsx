@@ -145,7 +145,7 @@ export default function SearchBar({
           </motion.div>
         )}
       </AnimatePresence>
-      <div className="flex flex-col md:flex-row md:justify-between">
+      <div className="flex flex-col gap-4 md:flex-row md:justify-between">
         {/* Exact match */}
 
         <label

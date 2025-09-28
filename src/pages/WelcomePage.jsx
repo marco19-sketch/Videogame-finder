@@ -78,7 +78,7 @@ export default function WelcomePage() {
     }
   }, [trailer, featuredGame]);
 
-  console.log("ids 0 from welcome page", ids[0]);
+ 
 
   return (
     <div className="min-h-screen flex flex-col">

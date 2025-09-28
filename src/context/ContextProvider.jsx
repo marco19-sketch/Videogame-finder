@@ -53,9 +53,10 @@ export default function ContextProvider({ children }) {
         try {
           setLoading(true);
 
-          const data = await fetchRAWG(`/games/${game.id}/movies`, {
+          const data = await fetchRAWG(`/games/${game.id}/movies`, '',{
             signal: controller.signal,
           });
+          console.log("game from context", game);
           setTrailers(data.results);
 
           setShowTrailer(Boolean(data.results?.length));
@@ -81,6 +82,8 @@ export default function ContextProvider({ children }) {
     },
     [setShowTrailer, setLoading, setShowModal, setTrailers]
   );
+  
+
   //authentication context
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, u => {

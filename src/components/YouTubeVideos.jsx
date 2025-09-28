@@ -59,7 +59,9 @@ export default function YouTubeVideos({
   return (
     <div className="w-full h-full bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4  mx-auto">
       <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
-        {`🎬 ${gameTitle} ${mode === "gameplay" ? "Gameplay" : "Trailer"}`}
+        {`🎬 ${gameTitle} ${mode.charAt(0).toUpperCase()}${mode.slice(1)}`}
+        {console.log('mode from youtubeVideos', mode)}
+        {/* {`🎬 ${gameTitle} ${mode === "gameplay" ? "Gameplay" : "Trailer"}`} */}
       </h3>
       <div ref={containerRef}>
         <div className="relative aspect-video w-auto mx-auto overflow-hidden rounded-xl shadow-lg">
@@ -67,9 +69,10 @@ export default function YouTubeVideos({
             customOpts={{ playerVars: { start: 0, autoplay, playlist: null } }}
             unMuted={unMuted}
             videoId={videoIds[currentIndex]}
-            title={`${gameTitle} ${
-              mode === "gameplay" ? "gameplay" : "trailer"
-            }`}
+            title={`${gameTitle} ${mode}`}
+            // title={`${gameTitle} ${
+            //   mode === "gameplay" ? "gameplay" : "trailer"
+            // }`}
             onReady={handlePlayerReady}
             onStateChange={event => {
               switch (event.data) {
@@ -101,8 +104,8 @@ export default function YouTubeVideos({
             />
           )}
         </div>
-        <div className='hidden md:block'>
-        <FullScreenBtn container={containerRef} />
+        <div className="hidden md:block">
+          <FullScreenBtn container={containerRef} />
         </div>
       </div>
     </div>

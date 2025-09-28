@@ -6,7 +6,7 @@ import GameDetails from "../components/GameDetails";
 import Modal from "../components/Modal";
 import RawgVideos from "../components/RawgVideos";
 import { getDetails } from "../lib/getDetails";
-import { Star } from 'lucide-react';
+import { Star } from "lucide-react";
 
 export default function DetailsPage() {
   const {
@@ -21,7 +21,7 @@ export default function DetailsPage() {
     trendingGames,
     favorites,
     setMode,
-    mode
+    mode,
   } = useContext(AppContext);
 
   const { id } = useParams();
@@ -49,7 +49,7 @@ export default function DetailsPage() {
         const data = await getDetails(Number(id));
         if (mounted) setFetchedGame(data);
       } catch (err) {
-        console.error('Failed to fetch game details for id', id, err);
+        console.error("Failed to fetch game details for id", id, err);
       }
     };
 
@@ -70,7 +70,6 @@ export default function DetailsPage() {
       </div>
     );
   }
-
 
   return (
     <div
@@ -96,75 +95,79 @@ export default function DetailsPage() {
             ⬅️ Back
           </button>
         </div>
-        <GameDetails gameId={gameToShow.id} game={gameToShow} setAutoplay={setAutoplay} />
+        <GameDetails
+          gameId={gameToShow.id}
+          game={gameToShow}
+          setAutoplay={setAutoplay}
+        />
 
         {/* Button section */}
-        <div className='w-1/2 flex flex-col justify-center items-center sm:flex-row sm:justify-between'>
-        <button
-          type="button"
-          onClick={() => {
-            setAutoplay(1);
-            // setGamePlay(false);
-            setMode("official trailer");
-            handleFetchTrailers(gameToShow);
-          }}
-          className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold 
+        <div className="w-1/2 flex flex-col justify-center items-center [@media(min-width:860px)]:flex-row md:justify-between">
+          <button
+            type="button"
+            onClick={() => {
+              setAutoplay(1);
+              setMode("official trailer");
+              handleFetchTrailers(gameToShow);
+            }}
+            className="flex mb-6 mt-6 px-6 py-2 rounded-lg font-semibold 
           bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400
            hover:to-blue-500 transition-colors duration-300 cursor-pointer">
-          🎬 trailers
-        </button>
+            🎬 trailers
+          </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            setAutoplay(1);
-            // setGamePlay(true);
-            setMode("gameplay -review -trailer");
-            handleFetchTrailers(gameToShow);
-          }}
-          className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r
+          <button
+            type="button"
+            onClick={() => {
+              setAutoplay(1);
+              setMode("gameplay");
+              handleFetchTrailers(gameToShow);
+            }}
+            className="flex mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r
            from-cyan-500 to-blue-600 text-white hover:from-cyan-400
             hover:to-blue-500 transition-colors duration-300 cursor-pointer">
-          🎮 Gameplay
-        </button>
+            🎮 Gameplay
+          </button>
 
-        <button
-          type="button"
-          onClick={() => {
-            setAutoplay(1);
-            // setGamePlay(true);
-            setMode("-review");
-            handleFetchTrailers(gameToShow);
-          }}
-          className="flex mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r
+          <button
+            type="button"
+            onClick={() => {
+              setAutoplay(1);
+              setMode("review");
+              handleFetchTrailers(gameToShow);
+            }}
+            className="flex mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r
            from-cyan-500 to-blue-600 text-white hover:from-cyan-400
             hover:to-blue-500 transition-colors duration-300 cursor-pointer">
-          <Star
-            className="mr-1 text-yellow-400 hover:text-yellow-700
+            <Star
+              className="mr-1 text-yellow-400 hover:text-yellow-700
                    transition-colors duration-300 drop-shadow-[3px_3px_6px_black]"
-          /> Review
-        </button>
-          </div>
+            />{" "}
+            Review
+          </button>
+        </div>
         {/* Modal */}
         {showModal && (
           <Modal
             onClose={() => {
               setShowModal(false);
-              setGamePlay(false);
+              // setGamePlay(false);
+              setMode('');
             }}
             className="z-20 ">
-            {showTrailer && trailers.length > 0 && !gamePlay ? (
+            {showTrailer && trailers.length > 0 && mode === 'official trailer' ? (
+            // {showTrailer && trailers.length > 0 && !gamePlay ? (
               <RawgVideos />
             ) : (
               <YouTubeVideos
-                key={gamePlay ? "gameplay" : "trailer"}
+                key={mode}
                 gameTitle={gameToShow.name}
                 mode={mode}
-                // mode={gamePlay ? "gameplay" : "trailer"}
                 autoplay={autoplay}
                 setAutoplay={setAutoplay}
               />
             )}
+            
           </Modal>
         )}
       </div>

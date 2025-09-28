@@ -5,28 +5,35 @@
  */
 
 export async function fetchRAWG(endpoint, query = "") {
-if (!endpoint) throw new Error("Missing RAWG endpoint");
+  if (!endpoint) throw new Error("Missing RAWG endpoint");
+
+  function toQueryString(params) {
+    return new URLSearchParams(params).toString();
+  }
+
+  // If query is an object, convert it
+  const queryString = typeof query === "object" ? toQueryString(query) : query;
 
   const url = `/.netlify/functions/rawg?endpoint=${encodeURIComponent(
     endpoint
-  )}${query ? `&query=${encodeURIComponent(query)}` : ""}`;
- console.log('url from apiClient', url)
+  )}${queryString ? `&query=${encodeURIComponent(query)}` : ""}`;
+
+  console.log("url from apiClient", url);
+
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch RAWG");
   return res.json();
 }
 
-export async function fetchYouTube(gameTitle, mode = '') {
-    if (!gameTitle) return null;
-
+export async function fetchYouTube(gameTitle, mode = "") {
+  if (!gameTitle) return null;
 
   const res = await fetch(
     `/.netlify/functions/youtubeNet?gameTitle=${encodeURIComponent(
       gameTitle
     )} ${encodeURIComponent(mode)}&videoCategory=20`
   );
- 
-  
+
   if (!res.ok) throw new Error("Failed to fetch YouTube");
 
   return res.json();
