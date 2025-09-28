@@ -8,6 +8,7 @@ export default function ThemedButton({
   const baseClasses = `
     cursor-pointer 
     rounded-xl 
+    text-white
     font-semibold
     bg-gradient-to-r from-cyan-500 to-blue-600
      hover:from-cyan-400 hover:to-blue-500

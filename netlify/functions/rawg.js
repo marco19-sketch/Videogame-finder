@@ -13,10 +13,11 @@ export async function handler(event) {
     // const url = `https://api.rawg.io/api/${endpoint}?key=${API_KEY}&${
     //   query ? `${query}` : ""
     // }`;
+    const decodedQuery = query ? decodeURIComponent(query) : "";
      const url = `https://api.rawg.io/api${
        endpoint.startsWith("/") ? endpoint : "/" + endpoint
-     }?key=${process.env.RAWG_API_KEY}${query ? `&${query}` : ""}`;
-
+     }?key=${API_KEY}${query ? `&${decodedQuery}` : ""}`;
+    
     const res = await fetch(url);
     const data = await res.json();
 

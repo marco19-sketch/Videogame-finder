@@ -22,17 +22,16 @@ import Slideshow from '../components/Slideshow';
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
-  const [mode, setMode] = useState("");
+  
   const [bg, setBg] = useState("");
   const [game, setGame] = useState({});
   const [animationLeft, setAnimationLeft] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const { handleFetchTrailers, showModal, setShowModal } =
+  const { handleFetchTrailers, showModal, setShowModal, mode, setMode, slides, setSlides, current, setCurrent } =
     useContext(AppContext);
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
-  const [current, setCurrent] = useState(0);
-  const [slides, setSlides] = useState([])
+
 
  
   useEffect(() => {
@@ -63,7 +62,7 @@ export default function RecommendationsPage() {
       }
     };
     handleFetchBg();
-  }, [index]);
+  }, [index, setSlides]);
 
   const gameplayList = useMemo(() => {
     return (
@@ -77,7 +76,6 @@ export default function RecommendationsPage() {
   }, [index]); // only recompute when index changes
 
   return (
-  
     <AnimatePresence mode="wait" initial="false">
       <motion.div
         // key={index}
@@ -94,7 +92,7 @@ export default function RecommendationsPage() {
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className="relative w-full bg-center bg-cover flex flex-col"
         style={{ backgroundImage: `url(${bg})` }}>
-        <div>
+        <div style={{ textShadow: '3px 3px 6px black'}}>
           <div className="inset-0 absolute bg-black/60 z-0"></div>
           <div className="relative mx-10 z-10">
             <div
@@ -118,7 +116,11 @@ export default function RecommendationsPage() {
                 />
               </button>
               <div className="basis-10/12 flex flex-col space-y-4 justify-center items-center">
-                <h1 className="text-3xl text-cyan-400 font-bold" style={{textShadow: '3px 3px 6px'}}>{recommendationsList[index].title}</h1>
+                <h1
+                  className="text-3xl text-cyan-400 font-bold"
+                  >
+                  {recommendationsList[index].title}
+                </h1>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start sm:mb-6">
                   {/* full-width recommendation */}
@@ -150,12 +152,14 @@ export default function RecommendationsPage() {
                   </p>
 
                   {/* make gameplayList span full width */}
-                  <div className='justify-self-center self-center'>{gameplayList}</div>
+                  <div className="justify-self-center self-center">
+                    {gameplayList}
+                  </div>
                   {/* <div className="col-span-full">{gameplayList}</div> */}
 
                   {/* slideshow */}
                   <div
-                    className="relative cursor-pointer hover:scale-110 transition-scale duration-300 ease-in-out"
+                    className="relative cursor-pointer hover:scale-105 transition-scale duration-300 ease-in-out"
                     onClick={() => {
                       handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
                       setMode("official trailer");
@@ -210,14 +214,15 @@ export default function RecommendationsPage() {
               </Modal>
             )}
 
-            <div className="flex justify-between max-w-xl mx-auto">
+            <div className="text-2xl flex justify-between max-w-xl mx-auto">
               <ThemedButton
                 type="button"
                 onClick={() => {
                   handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
                   setMode("official trailer");
                 }}
-                className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0 "}>
+                className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0 "}
+                style={{ textShadow: "3px 3px 6px black" }}>
                 {isMobile ? "🎬" : "trailer"}
               </ThemedButton>
               <ThemedButton
@@ -226,7 +231,8 @@ export default function RecommendationsPage() {
                   handleFetchTrailers(recommendationsList[0]);
                   setMode("gameplay -walkthrough -review");
                 }}
-                className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0 "}>
+                className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0"}
+                style={{ textShadow: "3px 3px 6px black" }}>
                 {" "}
                 {isMobile ? "🎮" : "gameplay"}
               </ThemedButton>
@@ -236,11 +242,12 @@ export default function RecommendationsPage() {
                   handleFetchTrailers(recommendationsList[0]);
                   setMode("review");
                 }}
-                className="w-20 md:w-40 h-14 px-0 py-0 flex justify-center items-center ">
+                className="w-20 md:w-40 h-14 px-0 py-0 flex justify-center items-center "
+                style={{ textShadow: "3px 3px 6px black" }}>
                 {isMobile ? (
                   <Star
                     className="mr-1 text-yellow-400 hover:text-yellow-700
-                   transition-colors duration-300"
+                   transition-colors duration-300 drop-shadow-[3px_3px_6px_black]"
                   />
                 ) : (
                   "Review"

@@ -29,6 +29,9 @@ export default function ContextProvider({ children }) {
   const [showModal, setShowModal] = useState(false);
   const [gamePlay, setGamePlay] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [mode, setMode] = useState("");
+  const [current, setCurrent] = useState(0);
+  const [slides, setSlides] = useState([]);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -59,7 +62,7 @@ export default function ContextProvider({ children }) {
 
           setShowModal(true);
           // setTimeout(() => {
-            setLoading(false);
+          setLoading(false);
           // }, 300);
           return data.results;
         } catch (err) {
@@ -91,7 +94,7 @@ export default function ContextProvider({ children }) {
 
   const handleFetch = useCallback(
     async (pageToFetch = page) => {
-       setLoading(true);
+      setLoading(true);
       if (location.pathname === "/home-page") {
         navigate("/results-page");
       }
@@ -189,6 +192,12 @@ export default function ContextProvider({ children }) {
       handleFetchTrailers,
       showPassword,
       setShowPassword,
+      mode,
+      setMode,
+      current,
+      setCurrent,
+      slides,
+      setSlides
     }),
     [
       results,
@@ -231,21 +240,28 @@ export default function ContextProvider({ children }) {
       handleFetchTrailers,
       showPassword,
       setShowPassword,
+      mode,
+      setMode,
+      current,
+      setCurrent,
+      slides,
+      setSlides
     ]
   );
 
-  const AuthContextValues = useMemo(() => ({
-    user, setUser, loading, setLoading, email, setEmail, password, setPassword
-  }), [
-    user,
-    setUser,
-    loading,
-    setLoading,
-    email,
-    setEmail,
-    password,
-    setPassword,
-  ]);
+  const AuthContextValues = useMemo(
+    () => ({
+      user,
+      setUser,
+      loading,
+      setLoading,
+      email,
+      setEmail,
+      password,
+      setPassword,
+    }),
+    [user, setUser, loading, setLoading, email, setEmail, password, setPassword]
+  );
 
   return (
     <AuthContext.Provider value={AuthContextValues}>

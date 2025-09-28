@@ -122,6 +122,7 @@ export default function ResultsPage() {
                     <h2 className="text-lg font-bold text-cyan-400 group-hover:text-white transition truncate">
                       {game.name}
                     </h2>
+                   
                     <p className="text-sm text-gray-300">
                       Released:{" "}
                       <span className="font-medium text-white">

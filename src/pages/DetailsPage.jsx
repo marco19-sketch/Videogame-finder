@@ -6,6 +6,7 @@ import GameDetails from "../components/GameDetails";
 import Modal from "../components/Modal";
 import RawgVideos from "../components/RawgVideos";
 import { getDetails } from "../lib/getDetails";
+import { Star } from 'lucide-react';
 
 export default function DetailsPage() {
   const {
@@ -19,6 +20,8 @@ export default function DetailsPage() {
     results,
     trendingGames,
     favorites,
+    setMode,
+    mode
   } = useContext(AppContext);
 
   const { id } = useParams();
@@ -71,7 +74,7 @@ export default function DetailsPage() {
 
   return (
     <div
-      className="relative min-h-screen py-10 px-4 text-white bg-cover bg-center"
+      className="relative text-cyan-300 min-h-screen py-10 px-4  bg-cover bg-center"
       style={{ backgroundImage: `url(${gameToShow.background_image})` }}>
       {/*loading skeleton */}
       {/* {loading && (
@@ -88,41 +91,60 @@ export default function DetailsPage() {
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center">
         <div className="flex gap-6 mb-8 text-cyan-400 font-semibold">
           <button
-          onClick={() => navigate(-1)}  className="hover:text-cyan-300 transition">
+            onClick={() => navigate(-1)}
+            className="hover:text-cyan-300 transition">
             ⬅️ Back
           </button>
-         
         </div>
-  <GameDetails gameId={gameToShow.id} game={gameToShow} />
+        <GameDetails gameId={gameToShow.id} game={gameToShow} setAutoplay={setAutoplay} />
 
-        {/* Watch Trailer Button */}
+        {/* Button section */}
+        <div className='w-1/2 flex flex-col justify-center items-center sm:flex-row sm:justify-between'>
         <button
           type="button"
           onClick={() => {
             setAutoplay(1);
-            setGamePlay(false);
+            // setGamePlay(false);
+            setMode("official trailer");
             handleFetchTrailers(gameToShow);
           }}
           className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold 
           bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400
            hover:to-blue-500 transition-colors duration-300 cursor-pointer">
-          🎬 Watch trailers
+          🎬 trailers
         </button>
 
         <button
           type="button"
           onClick={() => {
             setAutoplay(1);
-            setGamePlay(true);
-            handleFetchTrailers(game);
-            setAutoplay(1);
+            // setGamePlay(true);
+            setMode("gameplay -review -trailer");
+            handleFetchTrailers(gameToShow);
           }}
           className="mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r
            from-cyan-500 to-blue-600 text-white hover:from-cyan-400
             hover:to-blue-500 transition-colors duration-300 cursor-pointer">
-          🎮 Watch Gameplay
+          🎮 Gameplay
         </button>
 
+        <button
+          type="button"
+          onClick={() => {
+            setAutoplay(1);
+            // setGamePlay(true);
+            setMode("-review");
+            handleFetchTrailers(gameToShow);
+          }}
+          className="flex mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r
+           from-cyan-500 to-blue-600 text-white hover:from-cyan-400
+            hover:to-blue-500 transition-colors duration-300 cursor-pointer">
+          <Star
+            className="mr-1 text-yellow-400 hover:text-yellow-700
+                   transition-colors duration-300 drop-shadow-[3px_3px_6px_black]"
+          /> Review
+        </button>
+          </div>
         {/* Modal */}
         {showModal && (
           <Modal
@@ -137,7 +159,8 @@ export default function DetailsPage() {
               <YouTubeVideos
                 key={gamePlay ? "gameplay" : "trailer"}
                 gameTitle={gameToShow.name}
-                mode={gamePlay ? "gameplay" : "trailer"}
+                mode={mode}
+                // mode={gamePlay ? "gameplay" : "trailer"}
                 autoplay={autoplay}
                 setAutoplay={setAutoplay}
               />

@@ -1,7 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import { AppContext } from '../context/contextsCreation';
 
-export default function Slideshow({ slides, current, setCurrent }) {
+
+export default function Slideshow() {
   const interval = 5000;
+  const { slides, current, setCurrent } = useContext(AppContext);
 
   useEffect(() => {
     if (slides.length > 0) {
@@ -20,14 +23,15 @@ export default function Slideshow({ slides, current, setCurrent }) {
   }, [slides.length, setCurrent]);
 
   return (
-    <div className="relative">
+    <div className="relative ">
       {slides.map((slide, index) => (
         <img
           src={slide.image}
           key={slide.id}
+          style={{ boxShadow: "6px 6px 12px black" }}
           alt="slide of the game"
           className={`w-full object-cover aspect-video
-                rounded-2xl border-2 border-cyan-400
+                rounded-2xl border-4 border-cyan-400
                 transition-opacity 
             duration-[2000ms] ${
               index === current

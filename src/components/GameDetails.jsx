@@ -1,16 +1,38 @@
 import { getDetails } from "../lib/getDetails";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { AppContext } from '../context/contextsCreation';
+// eslint-disable-next-line no-unused-vars
+import { AnimatePresence, motion } from "framer-motion";
+import Slideshow from "./Slideshow";
+import FavoritesSetter from './FavoritesSetter';
 
-export default function GameDetails({ gameId, game }) {
+
+export default function GameDetails({ gameId, game, setAutoplay }) {
   // export default function GameDetails({ gameId, game }) {
   const [details, setDetails] = useState({});
   const [showDescription, setShowDescription] = useState(false);
+  const {
+    current,
+    setCurrent,
+    slides,
+    setSlides,
+    setMode,
+    handleFetchTrailers,
+  } = useContext(AppContext);
+
+  useEffect(() => {
+    if (game?.short_screenshots?.length > 0) {
+      setSlides(game.short_screenshots); // push into context
+      setCurrent(0); // reset to first slide
+    }
+  }, [game, setSlides, setCurrent]);
+
 
   useEffect(() => {
     const fetchDetails = async () => {
       try {
         const data = await getDetails(gameId);
-       
+
         setDetails(data);
       } catch (err) {
         console.error("Error fetching details from GameDetails", err);
@@ -22,75 +44,109 @@ export default function GameDetails({ gameId, game }) {
   }, [gameId]);
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div
+      className="flex flex-col justify-center items-center text-cyan-300"
+      style={{ textShadow: "3px 3px 6px black" }}>
       <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">
         {game.name}
       </h1>
-      <p className="text-sm text-gray-300">
-        Genres:{" "}
-        {game.genres.map(g => (
-          <span key={g.id} className="font-medium text-white">
-            {g.name || "N/A"}
-            {", "}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+        <p className="text-base font-bold text-cyan-300">
+          Genres:{" "}
+          {game.genres.map((g, index) => (
+            <span key={g.id} className="font-normal text-cyan-300 text-base">
+              {g.name || "N/A"}
+              {index === game.genres.length - 1 ? "." : ", "}
+            </span>
+          ))}
+        </p>
+        <p className="text-base font-bold ">
+          Platforms:{" "}
+          {game.parent_platforms.map((p, index) => (
+            <span key={p.platform.id} className="font-normal">
+              {p.platform.name || "N/A"}
+              {index === game.parent_platforms.length - 1 ? "." : ", "}
+            </span>
+          ))}
+        </p>
+        <p className="text-base font-bold ">
+          Playtime:{" "}
+          <span className="font-normal ">{game.playtime || "N/A"} hours</span>
+        </p>
+        <p className="text-base font-bold ">
+          Rating:{" "}
+          <span className="font-normal ">
+            {game.rating || "N/A"}{" "}
+            <span className="ml-1 text-yellow-400">★</span>
           </span>
-        ))}
-      </p>
-      <p className="text-sm text-gray-300">
-        Platforms:{" "}
-        {game.parent_platforms.map(p => (
-          <span key={p.platform.id} className="font-medium text-white">
-            {p.platform.name || "N/A"},{" "}
+        </p>
+        <p className="text-base font-bold ">
+          Released:{" "}
+          <span className="font-normal ">
+            {game.released
+              ? new Date(game.released).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              : "N/A"}
           </span>
-        ))}
-      </p>
-      <p className="text-sm text-gray-300">
-        Playtime:{" "}
-        <span className="font-medium text-white">
-          {game.playtime || "N/A"} hours
-        </span>
-      </p>
-      <p className="text-sm text-gray-300">
-        Rating:{" "}
-        <span className="font-medium text-white">
-          {game.rating || "N/A"} <span className="ml-1 text-yellow-400">★</span>
-        </span>
-      </p>
-      <p className="text-sm text-gray-300">
-        Released:{" "}
-        <span className="font-medium text-white">{game.released || "N/A"}</span>
-      </p>
-      <p className="text-sm text-gray-300">
-        Reviews count:{" "}
-        <span className="font-medium text-white">
-          {game.reviews_count || "N/A"}
-        </span>
-      </p>
-      <p className="text-sm text-gray-300">
-        Publishers:{" "}
-        {details?.publishers?.map(p => (
-          <span key={p.id} className="font-medium text-white">
-            {p.name}
-            {", "}
-          </span>
-        ))}
-      </p>
+        </p>
+        <p className="text-base font-bold ">
+          Reviews count:{" "}
+          <span className="font-normal ">{game.reviews_count || "N/A"}</span>
+        </p>
+        <p className="text-base font-bold ">
+          Publishers:{" "}
+          {details?.publishers?.map((p, index) => (
+            <span key={p.id} className="font-normal ">
+              {p.name}
+              {index === details?.publishers?.length - 1 ? "." : ", "}
+            </span>
+          ))}
+        </p>
+      </div>
+      {slides.length > 0 && (
+        <div
+          className="relative w-160 hover:cursor-pointer hover:scale-105 transition-scale duration-300 ease-out"
+          onClick={() => {
+            setAutoplay(1);
+            // setGamePlay(false);
+            setMode("official trailer");
+            handleFetchTrailers(game);
+          }}>
+          <Slideshow
+            slides={slides || []}
+            current={current}
+            setCurrent={setCurrent}
+          />
+
+          <FavoritesSetter game={game} className="top-2.5 right-2.5" />
+        </div>
+      )}
       <button
         className="mb-1 rounded-lg px-4 py-2 bg-transparent
-        underline
-         hover:text-yellow-400  text-white font-semibold 
+        underline text-yellow-200
+         hover:text-yellow-400   font-semibold 
          shadow-md transition duration-200 cursor-pointer"
         type="button"
         onClick={() => setShowDescription(!showDescription)}>
         Read the description
       </button>
-      {showDescription && (
-        <p className="font-medium text-white">
-          Description:{" "}
-          <span className="text-sm text-gray-300">
-            {details.description_raw}
-          </span>
-        </p>
-      )}
+      <AnimatePresence>
+        {showDescription && (
+          <motion.div
+            initial={{ height: 0, opacity: 0, scale: 0.8 }}
+            animate={{ height: "auto", opacity: 1, scale: 1 }}
+            exit={{ height: 0, opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}>
+            <p className="font-medium sm:mx-40 text-justify">
+              Description:{" "}
+              <span className="text-sm">{details.description_raw}</span>
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
