@@ -5,7 +5,7 @@ import { fetchYouTube } from "../api/apiClient"; // per nascondere chiave api
  * Example query: "zelda tears of the kingdom trailer"
  */
 export async function findVideoIds(gameTitle, mode) {
-  if (!gameTitle || !gameTitle.trim()) return null;
+   if (!gameTitle || !gameTitle.trim()) return null;
 
   //mock ids fetch
   // return [
@@ -27,6 +27,20 @@ export async function findVideoIds(gameTitle, mode) {
   //   "9Ok8bNCRj0A",
   // ];
 
-  const data = await fetchYouTube(gameTitle, mode);
-  return data?.items?.map(item => item.id?.videoId).filter(Boolean);
+  try {
+    const data = await fetchYouTube(gameTitle, mode);
+    console.log("data from youtube.js", data?.items);
+    return (
+      data?.items
+        ?.filter(item => item.id?.videoId)
+        .map(item => ({
+          videoId: item.id.videoId,
+          title: item.snippet?.title || "YouTube video",
+        })) ?? []
+    );
+    // return data?.items?.map(item => item.id?.videoId).filter(Boolean);
+  } catch (err) {
+    console.error("Error inside findVideo.js", err);
+    return null
+  }
 }

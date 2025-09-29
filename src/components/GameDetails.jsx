@@ -113,7 +113,6 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
            hover:scale-105 transition-scale duration-300 ease-out"
           onClick={() => {
             setAutoplay(1);
-            // setGamePlay(false);
             setMode("official trailer");
             handleFetchTrailers(game);
           }}>

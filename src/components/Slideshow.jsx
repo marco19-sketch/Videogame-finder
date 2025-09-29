@@ -3,7 +3,7 @@ import { AppContext } from '../context/contextsCreation';
 
 
 export default function Slideshow() {
-  const interval = 5000;
+  const interval = 3500;
   const { slides, current, setCurrent } = useContext(AppContext);
 
   useEffect(() => {

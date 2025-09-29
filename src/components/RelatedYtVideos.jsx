@@ -21,7 +21,7 @@ export default function RelatedYtVideos({
     },
     [videoIds, setAutoplay, setCurrentIndex]
   );
-
+  console.log('videoIds from relatedYTvideos', videoIds)
   const handleRight = useCallback(
     e => {
       e.stopPropagation();
@@ -54,7 +54,7 @@ export default function RelatedYtVideos({
       className="absolute inset-0 flex justify-center items-center bg-center bg-no-repeat bg-cover border  border-cyan-500/40 rounded-t-2xl cursor-pointer"
       // className="absolute inset-0 flex basis-12 justify-center items-center bg-center bg-no-repeat bg-cover border  border-cyan-500/40 rounded-t-2xl cursor-pointer"
       style={{
-        backgroundImage: `url(https://img.youtube.com/vi/${videoIds[0]}/hqdefault.jpg)`,
+        backgroundImage: `url(https://img.youtube.com/vi/${videoIds[0].videoId}/hqdefault.jpg)`,
         // backgroundImage: `url(https://img.youtube.com/vi/${videoIds[currentIndex]}/hqdefault.jpg)`,
       }}>
       <AnimatePresence>
@@ -66,7 +66,7 @@ export default function RelatedYtVideos({
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="flex gap-4 justify-center items-center w-full">
           <ChevronLeft
-            className="h-24 w-24  cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
+            className="h-24 w-24 text-white cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
               handleLeft(e);
               e.stopPropagation();
@@ -75,9 +75,9 @@ export default function RelatedYtVideos({
 
           {/* <div className="flex flex-1 gap-4 items-center justify-between"> */}
           {/* <div className="basis-10/12 flex flex-1 gap-4 items-center justify-between"> */}
-          {videoIds.slice(currentIndex, currentIndex + 2).map(id => (
+          {videoIds.slice(currentIndex, currentIndex + 2).map((object, i) => (
             <button
-              key={id}
+              key={object.videoId}
               type="button"
               className="cursor-pointer basis-1/2"
               onClick={e => {
@@ -85,7 +85,8 @@ export default function RelatedYtVideos({
                 setAutoplay(1);
 
                 // find the index of the clicked video in your array
-                const newIndex = videoIds.indexOf(id);
+                const newIndex = i;
+                // const newIndex = videoIds.indexOf(id);
                 if (newIndex !== -1) {
                   setCurrentIndex(newIndex); // <-- THIS switches the video
                   setRelatedVideos(false); // hide the overlay
@@ -93,8 +94,8 @@ export default function RelatedYtVideos({
               }}>
               <img
                 className="object-cover aspect-video border-4  
-  hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
-                src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
+              hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
+                src={`https://img.youtube.com/vi/${object.videoId}/hqdefault.jpg`}
                 alt="Video thumbnail"
               />
             </button>
@@ -102,7 +103,7 @@ export default function RelatedYtVideos({
           {/* </div> */}
 
           <ChevronRight
-            className="h-24 w-24  cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
+            className="h-24 w-24 text-white cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
               handleRight(e);
               e.stopPropagation();

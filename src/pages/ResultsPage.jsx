@@ -72,13 +72,13 @@ export default function ResultsPage() {
             ...(isMobile ? { y: -100 } : { x: animationLeft ? -100 : 100 }),
           }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={`flex ${isMobile ? 'flex-col items-center' : ''}`}>
+          className={`flex ${isMobile ? "flex-col items-center" : ""}`}>
           <button
             type="button"
             onClick={() => {
               setAnimationLeft(true);
               handlePrevious();
-              setLoading(true)
+              setLoading(true);
               console.log(
                 "animate and key from results page",
                 animationLeft,
@@ -122,17 +122,27 @@ export default function ResultsPage() {
                     <h2 className="text-lg font-bold text-cyan-400 group-hover:text-white transition truncate">
                       {game.name}
                     </h2>
-                   
+
                     <p className="text-sm text-gray-300">
                       Released:{" "}
                       <span className="font-medium text-white">
-                        {game.released || "N/A"}
+                        {game.released
+                          ? new Date(game.released).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )
+                          : "N/A"}
                       </span>
                     </p>
+                    
                     <p className="text-sm text-gray-300 flex items-center gap-1">
                       Rating:{" "}
                       <span className="font-medium text-yellow-400 flex items-center gap-1">
-                        {game.rating || "N/A"}
+                        {game.rating || "N/A-"}
                         {game.rating && (
                           <span className="ml-1 text-yellow-400">★</span>
                         )}
@@ -163,7 +173,8 @@ export default function ResultsPage() {
                 lastPage
                   ? "text-gray-500 h-16 w-16 cursor-not-allowed"
                   : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
-              )}/>
+              )}
+            />
           </button>
         </motion.div>
       </AnimatePresence>

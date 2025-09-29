@@ -1,16 +1,12 @@
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, useContext } from "react";
 import { findVideoIds } from "../lib/youtube";
 import YouTubeEmbed from "./YouTubeEmbed";
 // import screenfull from "screenfull";
 import FullScreenBtn from "./FullScreenBtn";
 import RelatedYtVideos from "./RelatedYtVideos";
+import { AppContext } from "../context/contextsCreation";
 
-export default function YouTubeVideos({
-  gameTitle,
-  mode,
-  autoplay,
-  setAutoplay,
-}) {
+export default function YouTubeVideos({ gameTitle, mode }) {
   const [videoIds, setVideoIds] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [status, setStatus] = useState("idle"); // idle | loading | empty | error
@@ -19,7 +15,7 @@ export default function YouTubeVideos({
   const pauseTimeout = useRef(null);
   const playerRef = useRef(null);
   const containerRef = useRef(null);
-
+  const { autoplay, setAutoplay } = useContext(AppContext);
   const handlePlayerReady = useCallback(event => {
     playerRef.current = event.target;
   }, []);
@@ -56,43 +52,64 @@ export default function YouTubeVideos({
     };
   }, [gameTitle, mode]);
 
+  const modeUpdated =
+    mode === "official trailer"
+      ? "Trailer"
+      : mode.charAt(0).toUpperCase() + mode.slice(1);
+
   return (
     <div className="w-full h-full bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4  mx-auto">
       <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
-        {`🎬 ${gameTitle} ${mode.charAt(0).toUpperCase()}${mode.slice(1)}`}
-        {console.log('mode from youtubeVideos', mode)}
-        {/* {`🎬 ${gameTitle} ${mode === "gameplay" ? "Gameplay" : "Trailer"}`} */}
+        {/* {`🎬 ${gameTitle} ${
+          mode === "official trailer"
+            ? "Trailer"
+            : mode.charAt(0).toUpperCase() + mode.slice(1)
+        }`} */}
+        {/* title from the youtube video */}
+        {videoIds[currentIndex]?.title
+          ? `${videoIds[currentIndex]?.title.slice(0, 30)}... ${modeUpdated}`
+          : gameTitle + modeUpdated }
+        {/* {`🎬 ${gameTitle} ${mode === 'official trailer' ? 'Trailer' : ''}${mode.charAt(0).toUpperCase()}${mode.slice(1)}`} */}
+       
       </h3>
       <div ref={containerRef}>
         <div className="relative aspect-video w-auto mx-auto overflow-hidden rounded-xl shadow-lg">
-          <YouTubeEmbed
-            customOpts={{ playerVars: { start: 0, autoplay, playlist: null } }}
-            unMuted={unMuted}
-            videoId={videoIds[currentIndex]}
-            title={`${gameTitle} ${mode}`}
-            // title={`${gameTitle} ${
-            //   mode === "gameplay" ? "gameplay" : "trailer"
-            // }`}
-            onReady={handlePlayerReady}
-            onStateChange={event => {
-              switch (event.data) {
-                case window.YT.PlayerState.ENDED:
-                  setRelatedVideos(true);
-                  break;
-                case window.YT.PlayerState.PAUSED:
-                  // only show after pause for > 1s, ignore scrubbing
-                  pauseTimeout.current = setTimeout(() => {
-                    setRelatedVideos(true);
-                  }, 1000);
-                  break;
-                case window.YT.PlayerState.PLAYING:
-                case window.YT.PlayerState.BUFFERING:
-                  clearTimeout(pauseTimeout.current);
-                  setRelatedVideos(false);
-                  break;
+         
+          {videoIds.length > 0 && (
+            <YouTubeEmbed
+              customOpts={{
+                playerVars: { start: 0, autoplay, playlist: null },
+              }}
+              unMuted={unMuted}
+              videoId={videoIds[currentIndex].videoId}
+              // videoId={videoIds[currentIndex]}
+              title={
+                videoIds[currentIndex]?.title
+                  ? `${videoIds[currentIndex]?.title.slice(0, 5)} ${mode}`
+                  : gameTitle + mode
               }
-            }}
-          />
+              // title={`${gameTitle} ${mode}`}
+              onReady={handlePlayerReady}
+              onStateChange={event => {
+                switch (event.data) {
+                  case window.YT.PlayerState.ENDED:
+                    setRelatedVideos(true);
+                    break;
+                  case window.YT.PlayerState.PAUSED:
+                    // only show after pause for > 1s, ignore scrubbing
+                    pauseTimeout.current = setTimeout(() => {
+                      setRelatedVideos(true);
+                    }, 1000);
+                    break;
+                  case window.YT.PlayerState.PLAYING:
+                  case window.YT.PlayerState.BUFFERING:
+                    clearTimeout(pauseTimeout.current);
+                    setRelatedVideos(false);
+                    break;
+                }
+              }}
+            />
+          )}
           {relatedVideos && playerRef.current && (
             <RelatedYtVideos
               playerRef={playerRef}

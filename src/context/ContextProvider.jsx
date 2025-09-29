@@ -27,11 +27,11 @@ export default function ContextProvider({ children }) {
   const [trailers, setTrailers] = useState([]);
   const [indexA, setIndexA] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const [gamePlay, setGamePlay] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [mode, setMode] = useState("");
   const [current, setCurrent] = useState(0);
   const [slides, setSlides] = useState([]);
+  const [autoplay, setAutoplay] = useState(0);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -190,8 +190,6 @@ export default function ContextProvider({ children }) {
       setIndexA,
       showModal,
       setShowModal,
-      gamePlay,
-      setGamePlay,
       handleFetchTrailers,
       showPassword,
       setShowPassword,
@@ -200,7 +198,9 @@ export default function ContextProvider({ children }) {
       current,
       setCurrent,
       slides,
-      setSlides
+      setSlides,
+      autoplay,
+      setAutoplay
     }),
     [
       results,
@@ -238,8 +238,6 @@ export default function ContextProvider({ children }) {
       setIndexA,
       showModal,
       setShowModal,
-      gamePlay,
-      setGamePlay,
       handleFetchTrailers,
       showPassword,
       setShowPassword,
@@ -248,7 +246,9 @@ export default function ContextProvider({ children }) {
       current,
       setCurrent,
       slides,
-      setSlides
+      setSlides,
+      autoplay,
+      setAutoplay
     ]
   );
 

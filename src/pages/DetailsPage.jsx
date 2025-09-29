@@ -12,16 +12,16 @@ export default function DetailsPage() {
   const {
     showTrailer,
     handleFetchTrailers,
-    setGamePlay,
     showModal,
     setShowModal,
     trailers,
-    gamePlay,
     results,
     trendingGames,
     favorites,
     setMode,
     mode,
+    autoplay,
+    setAutoplay
   } = useContext(AppContext);
 
   const { id } = useParams();
@@ -29,8 +29,8 @@ export default function DetailsPage() {
   const game =
     results?.find(g => g.id === Number(id)) ||
     trendingGames?.find(g => g.id === Number(id));
-
   const [fetchedGame, setFetchedGame] = useState(null);
+  // const [autoplay, setAutoplay] = useState(0);
 
   // If game isn't in results or trending, try favorites or fetch details
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function DetailsPage() {
       mounted = false;
     };
   }, [id, game, favorites]);
-  const [autoplay, setAutoplay] = useState(0);
+  
 
   const gameToShow = game || fetchedGame;
 
@@ -151,12 +151,11 @@ export default function DetailsPage() {
           <Modal
             onClose={() => {
               setShowModal(false);
-              // setGamePlay(false);
+    
               setMode('');
             }}
             className="z-20 ">
             {showTrailer && trailers.length > 0 && mode === 'official trailer' ? (
-            // {showTrailer && trailers.length > 0 && !gamePlay ? (
               <RawgVideos />
             ) : (
               <YouTubeVideos

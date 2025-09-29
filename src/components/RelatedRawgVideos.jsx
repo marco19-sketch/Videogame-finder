@@ -56,19 +56,25 @@ export default function OtherRawgVideos({
               console.log("animation left from related rawg", isAnimateLeft);
             }}
           />
-
-          <div className="relative flex flex-1 gap-4 items-center justify-between">
-            {trailers.slice(indexA, indexA + 2).map(object => (
-              <div className="basis-1/2">
+          {trailers.length >= 2 
+          ?
+          (<div className="relative flex flex-1 gap-4 items-center justify-between">
+            {trailers.slice(indexA, indexA + 2).map((object, i )=> {
+               {
+                 console.log("object from relatedRAWGvideos", object, i);
+               }
+              return (
+             
+              <div className="basis-1/2" key={object.id }>
+              
                 <img
-                  key={trailers.indexOf(object)}
                   onClick={e => {
                     e.stopPropagation();
 
                     // find the indexA of the clicked video in your array
 
-                    const newIndex = trailers.indexOf(object);
-                    
+                    const newIndex = i;
+                    // const newIndex = trailers.indexOf(object);
 
                     if (newIndex !== -1) {
                       setCurrentIndex(newIndex); // <-- THIS switches the video
@@ -76,16 +82,23 @@ export default function OtherRawgVideos({
                     }
                   }}
                   className="object-cover aspect-video border-4  
-  hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
+                  hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
                   src={
-                    results[0]?.short_screenshots[trailers.indexOf(object)]
+                    results[0]?.short_screenshots[i]
                       ?.image || trailers[currentIndex]?.preview
                   }
+                  // src={
+                  //   results[0]?.short_screenshots[trailers.indexOf(object)]
+                  //     ?.image || trailers[currentIndex]?.preview
+                  // }
                   alt="Video thumbnail"
                 />
               </div>
-            ))}
+              )
+})}
+
           </div>
+          ) : ( <p>No related video</p>)}
           <ChevronRight
             className="h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {

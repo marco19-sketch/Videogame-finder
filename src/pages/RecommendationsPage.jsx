@@ -27,7 +27,7 @@ export default function RecommendationsPage() {
   const [game, setGame] = useState({});
   const [animationLeft, setAnimationLeft] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const { handleFetchTrailers, showModal, setShowModal, mode, setMode, slides, setSlides, current, setCurrent } =
+  const { handleFetchTrailers, showModal, setShowModal, mode, setMode, slides, setSlides, current, setCurrent, autoplay } =
     useContext(AppContext);
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
@@ -92,7 +92,7 @@ export default function RecommendationsPage() {
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className="relative w-full bg-center bg-cover flex flex-col"
         style={{ backgroundImage: `url(${bg})` }}>
-        <div style={{ textShadow: '3px 3px 6px black'}}>
+        <div style={{ textShadow: "3px 3px 6px black" }}>
           <div className="inset-0 absolute bg-black/60 z-0"></div>
           <div className="relative mx-10 z-10">
             <div
@@ -116,9 +116,7 @@ export default function RecommendationsPage() {
                 />
               </button>
               <div className="basis-10/12 flex flex-col space-y-4 justify-center items-center">
-                <h1
-                  className="text-3xl text-cyan-400 font-bold"
-                  >
+                <h1 className="text-3xl text-cyan-400 font-bold">
                   {recommendationsList[index].title}
                 </h1>
 
@@ -144,7 +142,13 @@ export default function RecommendationsPage() {
                   </p>
                   <p>
                     <strong>Released:</strong>{" "}
-                    {recommendationsList[index].releaseDate}
+                    {recommendationsList[index].releaseDate
+                      ? new Date(game.released).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : "N/A"}
                   </p>
                   <p>
                     <strong>Reviews:</strong>{" "}
@@ -209,7 +213,8 @@ export default function RecommendationsPage() {
                 <YouTubeVideos
                   gameTitle={recommendationsList[index].title}
                   mode={mode}
-                  autoplay="1"
+                  autoplay={autoplay}
+                  // autoplay="1"
                 />
               </Modal>
             )}
@@ -223,18 +228,18 @@ export default function RecommendationsPage() {
                 }}
                 className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0 "}
                 style={{ textShadow: "3px 3px 6px black" }}>
-                {isMobile ? "🎬" : "trailer"}
+                {isMobile ? "🎬" : "Trailer"}
               </ThemedButton>
               <ThemedButton
                 type="button"
                 onClick={() => {
                   handleFetchTrailers(recommendationsList[0]);
-                  setMode("gameplay -walkthrough -review");
+                  setMode("gameplay");
                 }}
                 className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0"}
                 style={{ textShadow: "3px 3px 6px black" }}>
                 {" "}
-                {isMobile ? "🎮" : "gameplay"}
+                {isMobile ? "🎮" : "Gameplay"}
               </ThemedButton>
               <ThemedButton
                 type="button"

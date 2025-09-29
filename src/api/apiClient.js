@@ -33,8 +33,9 @@ export async function fetchYouTube(gameTitle, mode = "") {
       gameTitle
     )} ${encodeURIComponent(mode)}&videoCategory=20`
   );
-
+  const data = await res.json();
+  
   if (!res.ok) throw new Error("Failed to fetch YouTube");
 
-  return res.json();
+  return data;
 }
