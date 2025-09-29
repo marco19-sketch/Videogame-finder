@@ -27,7 +27,7 @@ export default function Modal({ onClose, children }) {
       <div
         className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70"
         onClick={onClose}>
-        <AnimatePresence mode="wait">
+        {/* <AnimatePresence mode="wait"> */}
           <motion.div
             key={children}
             initial={{ opacity: 0, scale: 0.8 }}
@@ -53,7 +53,7 @@ export default function Modal({ onClose, children }) {
               {children}
             </div>
           </motion.div>
-        </AnimatePresence>
+        {/* </AnimatePresence> */}
       </div>
      
     </FocusTrap>,

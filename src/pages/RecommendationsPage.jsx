@@ -19,6 +19,7 @@ import ThemedButton from "../ThemedComponents/ThemedButton";
 import useMediaQuery from "../customHooks/useMediaQuery";
 import FavoritesSetter from "../components/FavoritesSetter";
 import Slideshow from '../components/Slideshow';
+import RatingStars from '../components/RatingStars';
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
@@ -137,9 +138,17 @@ console.log('autoplay', autoplay)
                     <strong>Playtime:</strong>{" "}
                     {recommendationsList[index].playtime}
                   </p>
-                  <p>
-                    <strong>Rating:</strong> {recommendationsList[index].rating}
-                  </p>
+                  <div className="flex">
+                    <p>
+                      <strong>Rating:</strong>{" "}
+                      {/* {recommendationsList[index].rating} */}
+                    </p>
+                    <RatingStars
+                      rating={recommendationsList[index].rating}
+                      className="mt-1"
+                    />
+                    <p className='ml-2 text-sm mt-0.5'>({recommendationsList[index].rating})</p>
+                  </div>
                   <p>
                     <strong>Released:</strong>{" "}
                     {recommendationsList[index].releaseDate
@@ -205,21 +214,6 @@ console.log('autoplay', autoplay)
               </button>
             </div>
 
-            {showModal && (
-              <Modal
-                onClose={() => {
-                  setShowModal(false);
-                }}
-                className="z-20">
-                <YouTubeVideos
-                  gameTitle={recommendationsList[index].title}
-                  mode={mode}
-                  autoplay={autoplay}
-                  // autoplay="1"
-                />
-              </Modal>
-            )}
-
             <div className="text-2xl flex justify-between max-w-xl mx-auto">
               <ThemedButton
                 type="button"
@@ -261,6 +255,22 @@ console.log('autoplay', autoplay)
               </ThemedButton>
             </div>
           </div>
+          <AnimatePresence mode="wait">
+            {showModal && (
+              <Modal
+                onClose={() => {
+                  setShowModal(false);
+                }}
+                className="z-20">
+                <YouTubeVideos
+                  gameTitle={recommendationsList[index].title}
+                  mode={mode}
+                  autoplay={autoplay}
+                  // autoplay="1"
+                />
+              </Modal>
+            )}
+          </AnimatePresence>
         </div>
       </motion.div>
     </AnimatePresence>

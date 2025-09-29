@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
 import clsx from "clsx";
 import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
+import RatingStars from '../components/RatingStars';
 
 export default function ResultsPage() {
    
@@ -141,12 +142,10 @@ export default function ResultsPage() {
                     
                     <p className="text-sm text-gray-300 flex items-center gap-1">
                       Rating:{" "}
-                      <span className="font-medium text-yellow-400 flex items-center gap-1">
+                      {/* <span className="font-medium text-yellow-400 flex items-center gap-1">
                         {game.rating || "N/A-"}
-                        {game.rating && (
-                          <span className="ml-1 text-yellow-400">★</span>
-                        )}
-                      </span>
+                      </span> */}
+                      <RatingStars rating={game.rating} className='text-sm'/>
                     </p>
                   </div>
                 </Link>
