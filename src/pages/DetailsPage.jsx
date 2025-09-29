@@ -7,6 +7,7 @@ import Modal from "../components/Modal";
 import RawgVideos from "../components/RawgVideos";
 import { getDetails } from "../lib/getDetails";
 import { Star } from "lucide-react";
+import ThemedButton from "../ThemedComponents/ThemedButton";
 
 export default function DetailsPage() {
   const {
@@ -21,7 +22,7 @@ export default function DetailsPage() {
     setMode,
     mode,
     autoplay,
-    setAutoplay
+    setAutoplay,
   } = useContext(AppContext);
 
   const { id } = useParams();
@@ -59,7 +60,6 @@ export default function DetailsPage() {
       mounted = false;
     };
   }, [id, game, favorites]);
-  
 
   const gameToShow = game || fetchedGame;
 
@@ -91,7 +91,7 @@ export default function DetailsPage() {
         <div className="flex gap-6 mb-8 text-cyan-400 font-semibold">
           <button
             onClick={() => navigate(-1)}
-            className="hover:text-cyan-300 transition">
+            className="hover:text-cyan-300 transition text-xl">
             ⬅️ Back
           </button>
         </div>
@@ -102,60 +102,55 @@ export default function DetailsPage() {
         />
 
         {/* Button section */}
-        <div className="w-1/2 flex flex-col justify-center items-center [@media(min-width:860px)]:flex-row md:justify-between">
-          <button
+        <div className="w-full sm:w-2/3 flex flex-col justify-center items-center  [@media(min-width:860px)]:flex-row md:justify-between">
+          <ThemedButton
             type="button"
             onClick={() => {
               setAutoplay(1);
               setMode("official trailer");
               handleFetchTrailers(gameToShow);
             }}
-            className="flex mb-6 mt-6 px-6 py-2 rounded-lg font-semibold 
-          bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400
-           hover:to-blue-500 transition-colors duration-300 cursor-pointer">
-            🎬 trailers
-          </button>
+            className={"w-40 mb-8 h-14 px-0 py-0 "}
+            style={{ textShadow: "3px 3px 6px black" }}>
+            {"Trailer"}
+          </ThemedButton>
 
-          <button
+          <ThemedButton
             type="button"
             onClick={() => {
               setAutoplay(1);
               setMode("gameplay");
               handleFetchTrailers(gameToShow);
             }}
-            className="flex mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r
-           from-cyan-500 to-blue-600 text-white hover:from-cyan-400
-            hover:to-blue-500 transition-colors duration-300 cursor-pointer">
-            🎮 Gameplay
-          </button>
+            className={"w-40 mb-8 h-14 px-0 py-0 "}
+            style={{ textShadow: "3px 3px 6px black" }}>
+            Gameplay
+          </ThemedButton>
 
-          <button
+          <ThemedButton
             type="button"
             onClick={() => {
               setAutoplay(1);
               setMode("review");
               handleFetchTrailers(gameToShow);
             }}
-            className="flex mb-6 mt-6 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r
-           from-cyan-500 to-blue-600 text-white hover:from-cyan-400
-            hover:to-blue-500 transition-colors duration-300 cursor-pointer">
-            <Star
-              className="mr-1 text-yellow-400 hover:text-yellow-700
-                   transition-colors duration-300 drop-shadow-[3px_3px_6px_black]"
-            />{" "}
+            className={"w-40 mb-8 h-14 px-0 py-0 "}
+            style={{ textShadow: "3px 3px 6px black" }}>
             Review
-          </button>
+          </ThemedButton>
         </div>
         {/* Modal */}
         {showModal && (
           <Modal
             onClose={() => {
               setShowModal(false);
-    
-              setMode('');
+
+              setMode("");
             }}
             className="z-20 ">
-            {showTrailer && trailers.length > 0 && mode === 'official trailer' ? (
+            {showTrailer &&
+            trailers.length > 0 &&
+            mode === "official trailer" ? (
               <RawgVideos />
             ) : (
               <YouTubeVideos
@@ -166,7 +161,6 @@ export default function DetailsPage() {
                 setAutoplay={setAutoplay}
               />
             )}
-            
           </Modal>
         )}
       </div>

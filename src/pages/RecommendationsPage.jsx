@@ -27,18 +27,18 @@ export default function RecommendationsPage() {
   const [game, setGame] = useState({});
   const [animationLeft, setAnimationLeft] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const { handleFetchTrailers, showModal, setShowModal, mode, setMode, slides, setSlides, current, setCurrent, autoplay } =
+  const { handleFetchTrailers, showModal, setShowModal, mode, setMode, slides, setSlides, current, setCurrent, autoplay, setAutoplay } =
     useContext(AppContext);
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
+  
 
-
- 
   useEffect(() => {
     setShowModal(false);
+    setAutoplay(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+console.log('autoplay', autoplay)
   // Track first mount so initial animations don't run twice (React StrictMode double-mount)
   const firstMount = useRef(true);
   useEffect(() => {
@@ -167,6 +167,7 @@ export default function RecommendationsPage() {
                     onClick={() => {
                       handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
                       setMode("official trailer");
+                      // setAutoplay(1)
                     }}>
                     <Slideshow
                       slides={slides}

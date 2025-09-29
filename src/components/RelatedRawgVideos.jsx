@@ -48,7 +48,7 @@ export default function OtherRawgVideos({
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="flex justify-center items-center ">
           <ChevronLeft
-            className="h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
+            className="text-white h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
               setIsAnimateLeft(true);
               handleLeftOther(e);
@@ -56,51 +56,46 @@ export default function OtherRawgVideos({
               console.log("animation left from related rawg", isAnimateLeft);
             }}
           />
-          {trailers.length >= 2 
-          ?
-          (<div className="relative flex flex-1 gap-4 items-center justify-between">
-            {trailers.slice(indexA, indexA + 2).map((object, i )=> {
-               {
-                 console.log("object from relatedRAWGvideos", object, i);
-               }
-              return (
-             
-              <div className="basis-1/2" key={object.id }>
-              
-                <img
-                  onClick={e => {
-                    e.stopPropagation();
+          {trailers.length >= 2 ? (
+            <div className="relative flex flex-1 gap-4 items-center justify-between">
+              {trailers.slice(indexA, indexA + 2).map((object, i) => {
+                return (
+                  <div className="basis-1/2" key={object.id}>
+                    <img
+                      onClick={e => {
+                        e.stopPropagation();
 
-                    // find the indexA of the clicked video in your array
+                        // find the indexA of the clicked video in your array
 
-                    const newIndex = i;
-                    // const newIndex = trailers.indexOf(object);
+                        const newIndex = i;
+                        // const newIndex = trailers.indexOf(object);
 
-                    if (newIndex !== -1) {
-                      setCurrentIndex(newIndex); // <-- THIS switches the video
-                      setOtherVideos(false); // hide the overlay
-                    }
-                  }}
-                  className="object-cover aspect-video border-4  
+                        if (newIndex !== -1) {
+                          setCurrentIndex(newIndex); // <-- THIS switches the video
+                          setOtherVideos(false); // hide the overlay
+                        }
+                      }}
+                      className="object-cover aspect-video border-4  
                   hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
-                  src={
-                    results[0]?.short_screenshots[i]
-                      ?.image || trailers[currentIndex]?.preview
-                  }
-                  // src={
-                  //   results[0]?.short_screenshots[trailers.indexOf(object)]
-                  //     ?.image || trailers[currentIndex]?.preview
-                  // }
-                  alt="Video thumbnail"
-                />
-              </div>
-              )
-})}
-
-          </div>
-          ) : ( <p>No related video</p>)}
+                      src={
+                        results[0]?.short_screenshots[i]?.image ||
+                        trailers[currentIndex]?.preview
+                      }
+                      // src={
+                      //   results[0]?.short_screenshots[trailers.indexOf(object)]
+                      //     ?.image || trailers[currentIndex]?.preview
+                      // }
+                      alt="Video thumbnail"
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p>No related video</p>
+          )}
           <ChevronRight
-            className="h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
+            className="text-white h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
               setIsAnimateLeft(false);
               handleRightOther(e);

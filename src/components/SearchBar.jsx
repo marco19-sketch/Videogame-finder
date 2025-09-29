@@ -99,7 +99,7 @@ export default function SearchBar({
           value={gameName}
           id="game-name"
           onChange={e => setGameName(e.target.value)}
-          className="text-base text-cyan-400 font-semibold w-1/2 block m-auto px-4 py-2 rounded-lg bg-gray-700  placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+          className="text-base text-cyan-400 font-semibold w-full sm:w-1/2 block m-auto px-4 py-2 rounded-lg bg-gray-700  placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           placeholder="e.g. The Witcher"
         />
       </div>
@@ -111,7 +111,7 @@ export default function SearchBar({
           handleFetch();
         }}
         // onClick={() => handleFetch()}
-        className="w-1/2 mx-auto my-4 block py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold shadow-lg shadow-cyan-500/30 transition">
+        className="w-full sm:w-1/2 mx-auto my-4 block py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold shadow-lg shadow-cyan-500/30 transition">
         🔍 Search games
       </button>
 

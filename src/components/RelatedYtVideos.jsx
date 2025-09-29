@@ -21,7 +21,7 @@ export default function RelatedYtVideos({
     },
     [videoIds, setAutoplay, setCurrentIndex]
   );
-  console.log('videoIds from relatedYTvideos', videoIds)
+ 
   const handleRight = useCallback(
     e => {
       e.stopPropagation();

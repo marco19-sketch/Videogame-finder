@@ -56,7 +56,7 @@ export default function ContextProvider({ children }) {
           const data = await fetchRAWG(`/games/${game.id}/movies`, '',{
             signal: controller.signal,
           });
-          console.log("game from context", game);
+        
           setTrailers(data.results);
 
           setShowTrailer(Boolean(data.results?.length));

@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback, useRef, useContext } from "react";
 import { findVideoIds } from "../lib/youtube";
 import YouTubeEmbed from "./YouTubeEmbed";
-// import screenfull from "screenfull";
 import FullScreenBtn from "./FullScreenBtn";
 import RelatedYtVideos from "./RelatedYtVideos";
 import { AppContext } from "../context/contextsCreation";
+import FavoritesSetter from './FavoritesSetter';
+import {fetchRAWG} from '../api/apiClient';
 
 export default function YouTubeVideos({ gameTitle, mode }) {
   const [videoIds, setVideoIds] = useState([]);
@@ -15,18 +16,14 @@ export default function YouTubeVideos({ gameTitle, mode }) {
   const pauseTimeout = useRef(null);
   const playerRef = useRef(null);
   const containerRef = useRef(null);
+  const [gameObj, setGameObj] = useState({});
   const { autoplay, setAutoplay } = useContext(AppContext);
   const handlePlayerReady = useCallback(event => {
     playerRef.current = event.target;
   }, []);
 
-  // const toggleFullscreen = useCallback(() => {
-  //   if (screenfull.isEnabled) {
-  //     screenfull.toggle(containerRef.current);
-  //   }
-  // }, []);
-
   useEffect(() => {
+    console.log('useEffect firing')
     if (!gameTitle) return;
     const controller = new AbortController();
     const timer = setTimeout(async () => {
@@ -35,11 +32,9 @@ export default function YouTubeVideos({ gameTitle, mode }) {
         // Nudge relevance by appending "trailer"
 
         const ids = await findVideoIds(gameTitle, mode);
-
+        console.log('gameTitle from youtubevideos ', gameTitle)
         setVideoIds(ids);
         setCurrentIndex(0);
-        // setStatus("idle");
-        // setStatus(ids.length ? "idle" : "empty");
         setUnMuted(true);
       } catch {
         setStatus("error");
@@ -57,38 +52,47 @@ export default function YouTubeVideos({ gameTitle, mode }) {
       ? "Trailer"
       : mode.charAt(0).toUpperCase() + mode.slice(1);
 
+      const queryToObj = `&search=${gameTitle}&page=1&page_size=1`
+
+      //implementing a fetch to get the game object the FavoritesSetter needs 
+      useEffect(() => {
+        const fetchGame = async () =>{
+         
+        try {
+          const data = await fetchRAWG('games', queryToObj);
+          console.log('data & gameTitle', data.results[0], queryToObj);
+          setGameObj(data.results[0])
+          
+        } catch (err) {
+          console.error('Fetch error from YouTubeVideos.jsx', err)
+        }
+      }
+      fetchGame();
+      }, [queryToObj, mode])
+
   return (
     <div className="w-full h-full bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4  mx-auto">
       <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
-        {/* {`🎬 ${gameTitle} ${
-          mode === "official trailer"
-            ? "Trailer"
-            : mode.charAt(0).toUpperCase() + mode.slice(1)
-        }`} */}
         {/* title from the youtube video */}
         {videoIds[currentIndex]?.title
           ? `${videoIds[currentIndex]?.title.slice(0, 30)}... ${modeUpdated}`
-          : gameTitle + modeUpdated }
-        {/* {`🎬 ${gameTitle} ${mode === 'official trailer' ? 'Trailer' : ''}${mode.charAt(0).toUpperCase()}${mode.slice(1)}`} */}
-       
+          : gameTitle + modeUpdated}
       </h3>
       <div ref={containerRef}>
         <div className="relative aspect-video w-auto mx-auto overflow-hidden rounded-xl shadow-lg">
-         
           {videoIds.length > 0 && (
             <YouTubeEmbed
               customOpts={{
                 playerVars: { start: 0, autoplay, playlist: null },
               }}
               unMuted={unMuted}
-              videoId={videoIds[currentIndex].videoId}
-              // videoId={videoIds[currentIndex]}
+              videoId={videoIds[currentIndex]}
+              // videoId={videoIds[currentIndex].videoId}
               title={
                 videoIds[currentIndex]?.title
                   ? `${videoIds[currentIndex]?.title.slice(0, 5)} ${mode}`
                   : gameTitle + mode
               }
-              // title={`${gameTitle} ${mode}`}
               onReady={handlePlayerReady}
               onStateChange={event => {
                 switch (event.data) {
@@ -120,6 +124,8 @@ export default function YouTubeVideos({ gameTitle, mode }) {
               currentIndex={currentIndex}
             />
           )}
+          {Object.keys(gameObj).length !== 0 && <FavoritesSetter game={gameObj} />} 
+          {console.log("gameObj from youtubeVideo", gameObj)}
         </div>
         <div className="hidden md:block">
           <FullScreenBtn container={containerRef} />

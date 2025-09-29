@@ -18,8 +18,7 @@ export async function fetchRAWG(endpoint, query = "") {
     endpoint
   )}${queryString ? `&query=${encodeURIComponent(query)}` : ""}`;
 
-  console.log("url from apiClient", url);
-
+console.log('url', url)
   const res = await fetch(url);
   if (!res.ok) throw new Error("Failed to fetch RAWG");
   return res.json();
