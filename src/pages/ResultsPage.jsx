@@ -4,13 +4,17 @@ import { Link } from "react-router-dom";
 import FavoritesSetter from "../components/FavoritesSetter";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-react";
 import clsx from "clsx";
 import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
-import RatingStars from '../components/RatingStars';
+import RatingStars from "../components/RatingStars";
 
 export default function ResultsPage() {
-   
   const { results, page, setPage, handleFetch, loading, setLoading } =
     useContext(AppContext);
   const [lastPage, setLastPage] = useState(false);
