@@ -5,7 +5,8 @@ import { AppContext } from '../context/contextsCreation';
 import { AnimatePresence, motion } from "framer-motion";
 import Slideshow from "./Slideshow";
 import FavoritesSetter from './FavoritesSetter';
-
+import RatingStars from './RatingStars';
+import RatingMsg from './RatingMsg';
 
 export default function GameDetails({ gameId, game, setAutoplay }) {
   // export default function GameDetails({ gameId, game }) {
@@ -50,7 +51,8 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
       <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">
         {game.name}
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 
+      <div
+        className="grid grid-cols-1 *:border-0 *:rounded-[8px] *:p-4 *:shadow-lg *:shadow-black sm:grid-cols-2 
       gap-4 items-start text-xl">
         <p className="font-bold text-cyan-300">
           Genres:{" "}
@@ -74,13 +76,22 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
           Playtime:{" "}
           <span className="font-normal ">{game.playtime || "N/A"} hours</span>
         </p>
-        <p className=" font-bold ">
-          Rating:{" "}
-          <span className="font-normal ">
-            {game.rating || "N/A"}{" "}
-            <span className="ml-1 text-yellow-400">★</span>
-          </span>
-        </p>
+      
+          <div className="flex">
+            <p className=" font-bold">Rating: </p>
+            <RatingStars
+              rating={game.rating}
+              ratings={game.ratings}
+              className="mt-1"
+            />
+            {/* <span className="font-normal text-sm ml-2 mt-1">
+            {" "}
+            ({game.rating || "N/A"}){" "}
+          </span> */}
+            <RatingMsg rating={game.rating} ratings={game.ratings} />
+           
+          </div>
+    
         <p className=" font-bold ">
           Released:{" "}
           <span className="font-normal ">
@@ -109,7 +120,7 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
       </div>
       {slides.length > 0 && (
         <div
-          className="relative w-full sm:w-160 hover:cursor-pointer
+          className="relative my-8 w-full sm:w-160 hover:cursor-pointer
            hover:scale-105 transition-scale duration-300 ease-out"
           onClick={() => {
             setAutoplay(1);

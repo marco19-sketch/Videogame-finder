@@ -20,6 +20,7 @@ import useMediaQuery from "../customHooks/useMediaQuery";
 import FavoritesSetter from "../components/FavoritesSetter";
 import Slideshow from '../components/Slideshow';
 import RatingStars from '../components/RatingStars';
+import RatingMsg from '../components/RatingMsg';
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
@@ -32,6 +33,7 @@ export default function RecommendationsPage() {
     useContext(AppContext);
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
+  const [dataResults, setDataResults] = useState({})
   
 
   useEffect(() => {
@@ -39,7 +41,7 @@ export default function RecommendationsPage() {
     setAutoplay(1);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-console.log('autoplay', autoplay)
+
   // Track first mount so initial animations don't run twice (React StrictMode double-mount)
   const firstMount = useRef(true);
   useEffect(() => {
@@ -53,7 +55,8 @@ console.log('autoplay', autoplay)
           recommendationsList[index].title
         )}`;
         const data = await fetchRAWG("games", query);
-        
+        console.log('results', data.results)
+        setDataResults(data.results)
         setBg(data.results[0].background_image);
         // store the full game object so FavoritesSetter receives the expected shape
         setGame(data.results[0]);
@@ -91,7 +94,7 @@ console.log('autoplay', autoplay)
           ...(isMobile ? { y: -100 } : { x: animationLeft ? -100 : 100 }),
         }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="relative w-full bg-center bg-cover flex flex-col"
+        className="relative w-full bg-center bg-cover flex flex-col text-xl"
         style={{ backgroundImage: `url(${bg})` }}>
         <div style={{ textShadow: "3px 3px 6px black" }}>
           <div className="inset-0 absolute bg-black/60 z-0"></div>
@@ -144,10 +147,14 @@ console.log('autoplay', autoplay)
                       {/* {recommendationsList[index].rating} */}
                     </p>
                     <RatingStars
-                      rating={recommendationsList[index].rating}
+                      rating={recommendationsList[index].rating}      
                       className="mt-1"
                     />
-                    <p className='ml-2 text-sm mt-0.5'>({recommendationsList[index].rating})</p>
+                    {/* {dataResults && (
+                    <RatingMsg rating={dataResults[0]?.rating} ratings={dataResults[0]?.ratings} />
+                    )} */}
+                    {/* {console.log('rating', dataResults[0].ratings)} */}
+                    
                   </div>
                   <p>
                     <strong>Released:</strong>{" "}
@@ -172,7 +179,7 @@ console.log('autoplay', autoplay)
 
                   {/* slideshow */}
                   <div
-                    className="relative cursor-pointer hover:scale-105 transition-scale duration-300 ease-in-out"
+                    className="relative place-self-center w-full sm:w-4/5 md:w-full lg:w-4/5 cursor-pointer hover:scale-105 transition-scale duration-300 ease-in-out"
                     onClick={() => {
                       handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
                       setMode("official trailer");
