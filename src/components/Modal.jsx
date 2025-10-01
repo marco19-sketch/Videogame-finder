@@ -3,6 +3,7 @@ import FocusTrap from "focus-trap-react";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import { createPortal } from 'react-dom'; // to place the modal outside the layout stack, so it can be always on top of everything
+import { FaPowerOff } from "react-icons/fa6";
 
 export default function Modal({ onClose, children }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -36,7 +37,8 @@ export default function Modal({ onClose, children }) {
             transition={{ duration: 0.5, ease: "easeInOut" }}
             className="h-full w-full flex justify-center items-center">
             <div
-              className={`relative w-full h-auto max-w-3xl p-0 rounded-2xl bg-gray-900 shadow-xl transform transition-all duration-300 ${
+              className={`relative w-full h-auto max-w-3xl  rounded-2xl bg-gray-900 
+                shadow-xl transform transition-all duration-300 ${
                 isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"
               }`}
               role="dialog"
@@ -46,9 +48,11 @@ export default function Modal({ onClose, children }) {
               <button
                 ref={closeButtonRef}
                 onClick={onClose}
-                className="absolute top-3 right-3 text-gray-400 hover:text-white text-2xl focus:outline-none cursor-pointer"
+                className="absolute top-3 right-3 text-gray-400 hover:text-white 
+                text-2xl focus:outline-none cursor-pointer"
                 aria-label="Close modal">
-                &times;
+                {/* &times; */}
+                <FaPowerOff className='text-cyan-300 hover:text-red-700 transition-colors duration-300'/>
               </button>
               {children}
             </div>

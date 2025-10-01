@@ -13,6 +13,7 @@ import {
 import clsx from "clsx";
 import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
 import RatingStars from "../components/RatingStars";
+// import { scrollTo } from "../lib/scrollTo";
 
 export default function ResultsPage() {
   const { results, page, setPage, handleFetch, loading, setLoading } =
@@ -48,6 +49,20 @@ export default function ResultsPage() {
     return () => clearTimeout(timer);
   }, [page, handleFetch]);
 
+  //  useEffect(() => {
+  //    if (results.length > 0) {
+  //     //decide direction based on animation
+  //     const delay = 3000;
+  //     if (animationLeft) {
+  //     scrollTo(1300, delay);
+  //    } else {
+  //      scrollTo(-1300, delay);
+  //    }
+  //   }
+  //  }, [animationLeft, results]);
+
+  
+
   return (
     <AnimatePresence mode="wait">
       <div
@@ -70,7 +85,8 @@ export default function ResultsPage() {
         </NavLink>
         {/* <AnimatePresence mode="wait"> */}
         <motion.div
-          key={results[0]?.id || page}
+          // key={results[0]?.id || page}
+          key={`page-${page}`}
           initial={{
             opacity: 0,
             ...(isMobile
@@ -85,16 +101,26 @@ export default function ResultsPage() {
               : { x: animationLeft ? -100 : 100 }),
           }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={`flex ${
-            isMobile ? "flex-col items-center " : ""
-          }`}>
-      
+          // onAnimationComplete={() => {
+          //   if (results.length > 0 && isMobile) {
+          //     //decide direction based on animation
+          //     const delay = 50;
+          //     if (animationLeft) {
+          //       scrollTo(1700, delay);
+          //     } else {
+          //       scrollTo(-1700, delay);
+          //     }
+          //     console.log(window.scrollY);
+          //   }
+          // }}
+          className={`flex ${isMobile ? "flex-col items-center " : ""}`}>
           <button
             type="button"
             onClick={() => {
               setAnimationLeft(true);
               handlePrevious();
               setLoading(true);
+              // scrollTo(1700, 50);
               console.log(
                 "animate and key from results page",
                 animationLeft,
@@ -181,6 +207,7 @@ export default function ResultsPage() {
               setAnimationLeft(false);
               handleNext();
               setLoading(true);
+              // scrollTo(- 1700, 50);
               console.log(
                 "animate and key from results page",
                 animationLeft,

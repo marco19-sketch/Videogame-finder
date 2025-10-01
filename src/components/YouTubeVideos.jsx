@@ -7,6 +7,7 @@ import { AppContext } from "../context/contextsCreation";
 import FavoritesSetter from './FavoritesSetter';
 import {fetchRAWG} from '../api/apiClient';
 
+
 export default function YouTubeVideos({ gameTitle, mode }) {
   const [videoIds, setVideoIds] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -32,7 +33,6 @@ export default function YouTubeVideos({ gameTitle, mode }) {
         // Nudge relevance by appending "trailer"
 
         const ids = await findVideoIds(gameTitle, mode);
-        console.log('gameTitle from youtubevideos ', gameTitle)
         setVideoIds(ids);
         setCurrentIndex(0);
         setUnMuted(true);
@@ -71,7 +71,7 @@ export default function YouTubeVideos({ gameTitle, mode }) {
       }, [queryToObj, mode])
 
   return (
-    <div className="w-full h-full bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4  mx-auto">
+    <div className="w-full h-full bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-0.5 mx-auto">
       <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
         {/* title from the youtube video */}
         {videoIds[currentIndex]?.title
