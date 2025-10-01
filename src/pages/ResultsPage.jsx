@@ -1,6 +1,6 @@
 import { useContext, useCallback, useEffect, useState } from "react";
 import { AppContext } from "../context/contextsCreation";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import FavoritesSetter from "../components/FavoritesSetter";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
@@ -49,35 +49,46 @@ export default function ResultsPage() {
   }, [page, handleFetch]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center justify-center py-8 px-4 text-white">
-      {loading && (
-        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 cursor-wait">
-          <p className="text-white text-lg font-semibold  cursor-progress animate-pulse ">
-            Loading...
-          </p>
-        </div>
-      )}
-      {/* Link back to Home */}
-      <Link
-        to="/home-page"
-        onClick={() => setPage(1)}
-        className="text-cyan-400 font-semibold hover:text-cyan-300 transition mb-6">
-        ⬅️ New search
-      </Link>
-      <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait">
+      <div
+        className="min-h-screen  bg-gradient-to-b from-gray-900 via-gray-800
+     to-black flex flex-col items-center justify-center py-8 px-4 text-white">
+        {loading && (
+          <div className="fixed inset-0 flex justify-center items-center z-50 cursor-wait">
+            <p className="text-white text-lg font-semibold  cursor-progress animate-pulse ">
+              Loading...
+            </p>
+          </div>
+        )}
+        {/* Link back to Home */}
+
+        <NavLink
+          to="/home-page"
+          onClick={() => setPage(1)}
+          className=" h-12 text-cyan-400 font-semibold hover:text-cyan-300 transition ">
+          ⬅️ New search
+        </NavLink>
+        {/* <AnimatePresence mode="wait"> */}
         <motion.div
           key={results[0]?.id || page}
           initial={{
             opacity: 0,
-            ...(isMobile ? { y: 100 } : { x: animationLeft ? 100 : -100 }),
+            ...(isMobile
+              ? { y: animationLeft ? 100 : -100 }
+              : { x: animationLeft ? 100 : -100 }),
           }}
-          animate={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
           exit={{
             opacity: 0,
-            ...(isMobile ? { y: -100 } : { x: animationLeft ? -100 : 100 }),
+            ...(isMobile
+              ? { y: animationLeft ? -100 : 100 }
+              : { x: animationLeft ? -100 : 100 }),
           }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={`flex ${isMobile ? "flex-col items-center" : ""}`}>
+          className={`flex ${
+            isMobile ? "flex-col items-center " : ""
+          }`}>
+      
           <button
             type="button"
             onClick={() => {
@@ -90,10 +101,12 @@ export default function ResultsPage() {
                 results[0].id
               );
             }}
-            disabled={page === 1}>
+            disabled={page === 1}
+            className="block ">
             {/* ⬅️ Previous */}
             <ArrowLeftUp
               className={clsx(
+                "block ",
                 page === 1
                   ? "text-gray-500 h-16 w-16 cursor-not-allowed"
                   : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
@@ -101,14 +114,16 @@ export default function ResultsPage() {
             />
           </button>
           {/* Games grid */}
-          <ul className=" grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
+          <ul className="relative  grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
             {results.map(game => (
               <li
                 key={game.id}
-                className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 transition duration-300 transform hover:-translate-y-1 hover:scale-105">
+                className="relative z-10 group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 
+                transition duration-300 transform hover:-translate-y-1 hover:scale-105">
                 <Link to={`/details-page/${game.id}`} className="block">
                   {/* Immagine con overlay */}
-                  <div className="relative">
+                  <div>
+                    {/* <div className="relative"> */}
                     <img
                       className="w-full h-52 object-cover"
                       src={
@@ -118,9 +133,12 @@ export default function ResultsPage() {
                       }
                       alt={`screenshot of ${game.name}`}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-black/70
+                     via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"
+                    />
+                    <FavoritesSetter game={game} />
                   </div>
-                  <FavoritesSetter game={game} />
 
                   {/* Info card */}
                   <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
@@ -143,14 +161,14 @@ export default function ResultsPage() {
                           : "N/A"}
                       </span>
                     </p>
-                    
-                    <p className="text-sm text-gray-300 flex items-center gap-1">
+
+                    <div className="text-sm text-gray-300 flex items-center gap-1">
                       Rating:{" "}
                       {/* <span className="font-medium text-yellow-400 flex items-center gap-1">
                         {game.rating || "N/A-"}
                       </span> */}
-                      <RatingStars rating={game.rating} className='text-sm'/>
-                    </p>
+                      <RatingStars rating={game.rating} className="text-sm" />
+                    </div>
                   </div>
                 </Link>
               </li>
@@ -180,7 +198,8 @@ export default function ResultsPage() {
             />
           </button>
         </motion.div>
-      </AnimatePresence>
-    </div>
+        {/* </AnimatePresence> */}
+      </div>
+    </AnimatePresence>
   );
 }

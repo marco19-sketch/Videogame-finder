@@ -6,8 +6,8 @@ import GameDetails from "../components/GameDetails";
 import Modal from "../components/Modal";
 import RawgVideos from "../components/RawgVideos";
 import { getDetails } from "../lib/getDetails";
-import { Star } from "lucide-react";
 import ThemedButton from "../ThemedComponents/ThemedButton";
+import { AnimatePresence } from "framer-motion";
 
 export default function DetailsPage() {
   const {
@@ -72,6 +72,7 @@ export default function DetailsPage() {
   }
 
   return (
+    // <AnimatePresence mode="wait">
     <div
       className="relative text-cyan-300 min-h-screen py-10 px-4  bg-cover bg-center"
       style={{ backgroundImage: `url(${gameToShow.background_image})` }}>
@@ -102,7 +103,8 @@ export default function DetailsPage() {
         />
 
         {/* Button section */}
-        <div className="w-full mt-8 sm:w-2/3 flex flex-col justify-center items-center 
+        <div
+          className="w-full mt-8 sm:w-2/3 flex flex-col justify-center items-center 
          [@media(min-width:860px)]:flex-row md:justify-between">
           <ThemedButton
             type="button"
@@ -140,30 +142,32 @@ export default function DetailsPage() {
             Review
           </ThemedButton>
         </div>
-        {/* Modal */}
-        {showModal && (
-          <Modal
-            onClose={() => {
-              setShowModal(false);
+        <AnimatePresence mode="wait">
+          {/* Modal */}
+          {showModal && (
+            <Modal
+              onClose={() => {
+                setShowModal(false);
 
-              setMode("");
-            }}
-            className="z-20 ">
-            {showTrailer &&
-            trailers.length > 0 &&
-            mode === "official trailer" ? (
-              <RawgVideos />
-            ) : (
-              <YouTubeVideos
-                key={mode}
-                gameTitle={gameToShow.name}
-                mode={mode}
-                autoplay={autoplay}
-                setAutoplay={setAutoplay}
-              />
-            )}
-          </Modal>
-        )}
+                setMode("");
+              }}
+              className="z-20 ">
+              {showTrailer &&
+              trailers.length > 0 &&
+              mode === "official trailer" ? (
+                <RawgVideos />
+              ) : (
+                <YouTubeVideos
+                  key={mode}
+                  gameTitle={gameToShow.name}
+                  mode={mode}
+                  autoplay={autoplay}
+                  setAutoplay={setAutoplay}
+                />
+              )}
+            </Modal>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ import useMediaQuery from "../customHooks/useMediaQuery";
 import FavoritesSetter from "../components/FavoritesSetter";
 import Slideshow from '../components/Slideshow';
 import RatingStars from '../components/RatingStars';
-import RatingMsg from '../components/RatingMsg';
+
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
@@ -55,7 +55,7 @@ export default function RecommendationsPage() {
           recommendationsList[index].title
         )}`;
         const data = await fetchRAWG("games", query);
-        console.log('results', data.results)
+       
         setDataResults(data.results)
         setBg(data.results[0].background_image);
         // store the full game object so FavoritesSetter receives the expected shape
@@ -78,6 +78,8 @@ export default function RecommendationsPage() {
       </ul>
     );
   }, [index]); // only recompute when index changes
+
+
 
   return (
     <AnimatePresence mode="wait" initial="false">
@@ -147,14 +149,13 @@ export default function RecommendationsPage() {
                       {/* {recommendationsList[index].rating} */}
                     </p>
                     <RatingStars
-                      rating={recommendationsList[index].rating}      
+                      rating={recommendationsList[index].rating}
                       className="mt-1"
                     />
                     {/* {dataResults && (
                     <RatingMsg rating={dataResults[0]?.rating} ratings={dataResults[0]?.ratings} />
                     )} */}
                     {/* {console.log('rating', dataResults[0].ratings)} */}
-                    
                   </div>
                   <p>
                     <strong>Released:</strong>{" "}
@@ -181,7 +182,7 @@ export default function RecommendationsPage() {
                   <div
                     className="relative place-self-center w-full sm:w-4/5 md:w-full lg:w-4/5 cursor-pointer hover:scale-105 transition-scale duration-300 ease-in-out"
                     onClick={() => {
-                      handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
+                      handleFetchTrailers(game); //dummy fetch to start YouTubeVideos
                       setMode("official trailer");
                       // setAutoplay(1)
                     }}>
@@ -225,7 +226,7 @@ export default function RecommendationsPage() {
               <ThemedButton
                 type="button"
                 onClick={() => {
-                  handleFetchTrailers(recommendationsList[0]); //dummy fetch to start YouTubeVideos
+                  handleFetchTrailers(game); //dummy fetch to start YouTubeVideos
                   setMode("official trailer");
                 }}
                 className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0 "}
@@ -235,7 +236,7 @@ export default function RecommendationsPage() {
               <ThemedButton
                 type="button"
                 onClick={() => {
-                  handleFetchTrailers(recommendationsList[0]);
+                  handleFetchTrailers(game);
                   setMode("gameplay");
                 }}
                 className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0"}
@@ -246,8 +247,9 @@ export default function RecommendationsPage() {
               <ThemedButton
                 type="button"
                 onClick={() => {
-                  handleFetchTrailers(recommendationsList[0]);
+                  handleFetchTrailers(game);
                   setMode("review");
+                  console.log('review button clicked')
                 }}
                 className="w-20 md:w-40 h-14 px-0 py-0 flex justify-center items-center "
                 style={{ textShadow: "3px 3px 6px black" }}>
@@ -261,23 +263,23 @@ export default function RecommendationsPage() {
                 )}
               </ThemedButton>
             </div>
+            <AnimatePresence mode="wait">
+              {showModal && (
+                <Modal
+                  onClose={() => {
+                    setShowModal(false);
+                  }}
+                  className="z-20">
+                  <YouTubeVideos
+                    gameTitle={recommendationsList[index].title}
+                    mode={mode}
+                    autoplay={autoplay}
+                    // autoplay="1"
+                  />
+                </Modal>
+              )}
+            </AnimatePresence>
           </div>
-          <AnimatePresence mode="wait">
-            {showModal && (
-              <Modal
-                onClose={() => {
-                  setShowModal(false);
-                }}
-                className="z-20">
-                <YouTubeVideos
-                  gameTitle={recommendationsList[index].title}
-                  mode={mode}
-                  autoplay={autoplay}
-                  // autoplay="1"
-                />
-              </Modal>
-            )}
-          </AnimatePresence>
         </div>
       </motion.div>
     </AnimatePresence>

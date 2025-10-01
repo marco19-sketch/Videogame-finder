@@ -12,6 +12,7 @@ export default function FavoritesSetter({ game, className }) {
   const [playRemove, RemoveAudio] = useSound(removeSound)
 
 
+
   useEffect(() => {
     localStorage.setItem("savedGames", JSON.stringify(favorites));
   }, [favorites]);

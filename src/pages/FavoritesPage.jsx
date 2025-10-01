@@ -36,7 +36,8 @@ export default function MyListPage() {
   }, [setPage]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800
+     to-black flex flex-col items-center py-8 px-4 text-white">
       {/* Link back to Home */}
       <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">
         My List ({favorites.length})
@@ -47,27 +48,7 @@ export default function MyListPage() {
         className="mb-6 text-cyan-400 font-semibold hover:text-cyan-300 transition">
         ⬅️ New search
       </Link>
-      <div className={`flex items-center ${isMobile ? "flex-col " : ""}`}>
-        {/* <AnimatePresence mode="wait">
-        <motion.div
-          key={page}
-          initial={{ opacity: 0, ...(isMobile ? { y: 100 } : { x: 100 }) }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          exit={{ opacity: 0, ...(isMobile ? { y: -100 } : { x: -100 }) }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}> */}
-        {/* // className={`flex items-center ${isMobile ? "flex-col " : ""}`}> */}
-        <ArrowLeftUp
-          onClick={() => {
-            setIsAnimationLeft(true);
-            handlePrevious();
-          }}
-          disabled={page === 1}
-          className={clsx(
-            page === 1
-              ? "text-gray-500 h-16 w-16 cursor-not-allowed"
-              : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
-          )}
-        />
+      {/* <div className={`flex items-center ${isMobile ? "flex-col " : ""}`}> */}
         <AnimatePresence mode="wait">
           <motion.div
             key={visibleFavorites[0]?.id || page}
@@ -84,7 +65,45 @@ export default function MyListPage() {
                 ? { y: isAnimationLeft ? -100 : 100 }
                 : { x: isAnimationLeft ? -100 : 100 }),
             }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}>
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+         className={`flex items-center ${isMobile ? "flex-col " : ""}`}> 
+        <button
+        type='button'
+        onClick={() => {
+            setIsAnimationLeft(true);
+            handlePrevious();
+          }}
+           disabled={page === 1}>
+        <ArrowLeftUp
+          // onClick={() => {
+          //   setIsAnimationLeft(true);
+          //   handlePrevious();
+          // }}
+          // disabled={page === 1}
+          className={clsx(
+            page === 1
+              ? "text-gray-500 h-16 w-16 cursor-not-allowed"
+              : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
+          )}
+        />
+        </button>
+        {/* <AnimatePresence mode="wait">
+          <motion.div
+            key={visibleFavorites[0]?.id || page}
+            initial={{
+              opacity: 0,
+              ...(isMobile
+                ? { y: isAnimationLeft ? 100 : -100 }
+                : { x: isAnimationLeft ? 100 : -100 }),
+            }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{
+              opacity: 0,
+              ...(isMobile
+                ? { y: isAnimationLeft ? -100 : 100 }
+                : { x: isAnimationLeft ? -100 : 100 }),
+            }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}> */}
             {/* Games grid */}
             <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
               {visibleFavorites?.map(fav => (
@@ -121,23 +140,31 @@ export default function MyListPage() {
                 </li>
               ))}
             </ul>
-          </motion.div>
-        </AnimatePresence>
-        <ArrowRightDown
-          disabled={lastPage}
+          {/* </motion.div>
+        </AnimatePresence> */}
+        <button
+        type='button'
+         disabled={lastPage}
           onClick={() => {
             setIsAnimationLeft(false);
             handleNext();
-          }}
+          }}>
+        <ArrowRightDown
+          // disabled={lastPage}
+          // onClick={() => {
+          //   setIsAnimationLeft(false);
+          //   handleNext();
+          // }}
           className={clsx(
             lastPage
               ? "text-gray-500 h-16 w-16 cursor-not-allowed"
               : "h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
           )}
         />
-        {/* </motion.div>
-        </AnimatePresence> */}
+        </button>
+        </motion.div>
+        </AnimatePresence>
       </div>
-    </div>
+    // </div>
   );
 }
