@@ -88,12 +88,12 @@ export default function RecommendationsPage() {
         key={bg}
         initial={{
           opacity: 0,
-          ...(isMobile ? { y: 100 } : { x: animationLeft ? 100 : -100 }),
+          ...(isMobile ? { y: animationLeft ? 100 : - 100 } : { x: animationLeft ? 100 : -100 }),
         }}
         animate={{ opacity: 1, x: 0, y: 0 }}
         exit={{
           opacity: 0,
-          ...(isMobile ? { y: -100 } : { x: animationLeft ? -100 : 100 }),
+          ...(isMobile ? { y: animationLeft ? -100 : 100 } : { x: animationLeft ? -100 : 100 }),
         }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
         className="relative w-full bg-center bg-cover flex flex-col text-xl"

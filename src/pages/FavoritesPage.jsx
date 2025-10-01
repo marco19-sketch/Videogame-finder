@@ -1,4 +1,4 @@
-import { useContext, useCallback, useState } from "react";
+import { useContext, useCallback, useState, useEffect } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
 import FavoritesSetter from "../components/FavoritesSetter";
@@ -12,7 +12,7 @@ import {
 import useMediaQuery from "../customHooks/useMediaQuery";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
-import { scrollTo } from '../lib/scrollTo';
+import { scrollTo } from "../lib/scrollTo";
 
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
@@ -36,6 +36,26 @@ export default function MyListPage() {
     setPage(prevPage => prevPage + 1);
   }, [setPage]);
 
+useEffect(() => {
+  console.log(
+    "🔄 isAnimationLeft applied:",
+    isAnimationLeft,
+    Date.now() / 1000
+  );
+}, [isAnimationLeft]);
+
+useEffect(() => {
+  console.log("📄 page applied:", page, Date.now() / 1000);
+}, [page]);
+
+useEffect(() => {
+  console.log(
+    "⭐ visibleFavorites recalculated:",
+    visibleFavorites.map(f => f.id),
+    Date.now() / 1000
+  );
+}, [visibleFavorites]);
+
   return (
     <div
       className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800
@@ -51,35 +71,54 @@ export default function MyListPage() {
         ⬅️ New search
       </Link>
       {/* <div className={`flex items-center ${isMobile ? "flex-col " : ""}`}> */}
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         <motion.div
-          key={visibleFavorites[0]?.id || page}
-          initial={{
+          key={ page}
+          // key={visibleFavorites[0]?.id || page}
+          custom={isAnimationLeft}
+          initial={custom => ({
             opacity: 0,
             ...(isMobile
-              ? { y: isAnimationLeft ? 100 : -100 }
-              : { x: isAnimationLeft ? 100 : -100 }),
-          }}
+              ? { y: custom ? 100 : -100 }
+              : { x: custom ? 100 : -100 }),
+          })}
           animate={{ opacity: 1, x: 0, y: 0 }}
-          exit={{
+          exit={custom => ({
             opacity: 0,
             ...(isMobile
-              ? { y: isAnimationLeft ? -100 : 100 }
-              : { x: isAnimationLeft ? -100 : 100 }),
-          }}
+              ? { y: custom ? -100 : 100 }
+              : { x: custom ? -100 : 100 }),
+          })}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          onAnimationComplete={() => {
-            if (visibleFavorites.length > 0 && isMobile) {
-              //decide direction based on animation
-              const delay = 50;
-              if (isAnimationLeft) {
-                scrollTo(1700, delay);
-              } else {
-                scrollTo(-1700, delay);
-              }
-              console.log(window.scrollY);
-            }
-          }}
+          // onAnimationComplete={() => {
+          //   console.log("animation", Date.now() / 1000);
+          //   if (visibleFavorites.length > 0 && isMobile) {
+          //     //decide direction based on animation
+          //     const delay = 50;
+          //     if (isAnimationLeft) {
+          //       scrollTo(1700, delay);
+          //     } else {
+          //       scrollTo(-1700, delay);
+          //     }
+          //     console.log(window.scrollY);
+          //   }
+          // }}
+          onAnimationStart={() =>
+            console.log(
+              "🎬 animation START",
+              Date.now() / 1000,
+              "direction:",
+              isAnimationLeft
+            )
+          }
+          onAnimationComplete={() =>
+            console.log(
+              "✅ animation COMPLETE",
+              Date.now() / 1000,
+              "direction:",
+              isAnimationLeft
+            )
+          }
           className={`flex items-center ${isMobile ? "flex-col " : ""}`}>
           <button
             type="button"

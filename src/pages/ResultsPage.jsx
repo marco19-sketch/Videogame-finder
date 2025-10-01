@@ -61,32 +61,49 @@ export default function ResultsPage() {
   //   }
   //  }, [animationLeft, results]);
 
-  
+  useEffect(() => {
+    console.log(
+      "🔄 isAnimationLeft applied:",
+      animationLeft,
+      Date.now() / 1000
+    );
+  }, [animationLeft]);
+
+  useEffect(() => {
+    console.log("📄 page applied:", page, Date.now() / 1000);
+  }, [page]);
+
+  useEffect(() => {
+    console.log(
+      "⭐ visibleFavorites recalculated:",
+      results.map(f => f.id),
+      Date.now() / 1000
+    );
+  }, [results]);
 
   return (
-    <AnimatePresence mode="wait">
-      <div
-        className="min-h-screen  bg-gradient-to-b from-gray-900 via-gray-800
+    <div
+      className="min-h-screen  bg-gradient-to-b from-gray-900 via-gray-800
      to-black flex flex-col items-center justify-center py-8 px-4 text-white">
-        {loading && (
-          <div className="fixed inset-0 flex justify-center items-center z-50 cursor-wait">
-            <p className="text-white text-lg font-semibold  cursor-progress animate-pulse ">
-              Loading...
-            </p>
-          </div>
-        )}
-        {/* Link back to Home */}
+      {loading && (
+        <div className="fixed inset-0 flex justify-center items-center z-50 cursor-wait">
+          <p className="text-white text-lg font-semibold  cursor-progress animate-pulse ">
+            Loading...
+          </p>
+        </div>
+      )}
+      {/* Link back to Home */}
 
-        <NavLink
-          to="/home-page"
-          onClick={() => setPage(1)}
-          className=" h-12 text-cyan-400 font-semibold hover:text-cyan-300 transition ">
-          ⬅️ New search
-        </NavLink>
-        {/* <AnimatePresence mode="wait"> */}
+      <NavLink
+        to="/home-page"
+        onClick={() => setPage(1)}
+        className=" h-12 text-cyan-400 font-semibold hover:text-cyan-300 transition ">
+        ⬅️ New search
+      </NavLink>
+      <AnimatePresence mode="wait">
         <motion.div
-          // key={results[0]?.id || page}
-          key={`page-${page}`}
+          key={results[0]?.id || page}
+          // key={`page-${page}`}
           initial={{
             opacity: 0,
             ...(isMobile
@@ -101,6 +118,22 @@ export default function ResultsPage() {
               : { x: animationLeft ? -100 : 100 }),
           }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
+          onAnimationStart={() =>
+            console.log(
+              "🎬 animation START",
+              Date.now() / 1000,
+              "direction:",
+              animationLeft
+            )
+          }
+          onAnimationComplete={() =>
+            console.log(
+              "✅ animation COMPLETE",
+              Date.now() / 1000,
+              "direction:",
+              animationLeft
+            )
+          }
           // onAnimationComplete={() => {
           //   if (results.length > 0 && isMobile) {
           //     //decide direction based on animation
@@ -207,12 +240,6 @@ export default function ResultsPage() {
               setAnimationLeft(false);
               handleNext();
               setLoading(true);
-              // scrollTo(- 1700, 50);
-              console.log(
-                "animate and key from results page",
-                animationLeft,
-                results[0].id
-              );
             }}
             // className="basis-1/12 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
           >
@@ -225,8 +252,7 @@ export default function ResultsPage() {
             />
           </button>
         </motion.div>
-        {/* </AnimatePresence> */}
-      </div>
-    </AnimatePresence>
+      </AnimatePresence>
+    </div>
   );
 }
