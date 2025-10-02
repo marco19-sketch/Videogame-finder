@@ -1,10 +1,10 @@
-import { useContext, useCallback, useEffect, useState } from "react";
+import { useContext, useCallback, useEffect, useState, useRef } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { NavLink, Link } from "react-router-dom";
 import FavoritesSetter from "../components/FavoritesSetter";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
-import { scrollTo } from '../lib/scrollTo';
+import { scrollTo } from "../lib/scrollTo";
 import {
   ChevronLeft,
   ChevronRight,
@@ -23,6 +23,7 @@ export default function ResultsPage() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
+ 
 
   const handlePrevious = useCallback(() => {
     if (page > 1) {
@@ -80,7 +81,7 @@ export default function ResultsPage() {
       Date.now() / 1000
     );
   }, [results]);
-
+ console.log('height', window.scrollY)
   return (
     <div
       className="min-h-screen  bg-gradient-to-b from-gray-900 via-gray-800
@@ -100,7 +101,22 @@ export default function ResultsPage() {
         className=" h-12 text-cyan-400 font-semibold hover:text-cyan-300 transition ">
         ⬅️ New search
       </NavLink>
-      <AnimatePresence mode="wait">
+      <AnimatePresence
+        mode="wait"
+        onExitComplete={() => {
+          if (results.length > 0 && isMobile) {
+            const delay = 3500;
+            console.log("doc height:", document.documentElement.scrollHeight);
+            console.log(
+              "max scroll:",
+              document.documentElement.scrollHeight - window.innerHeight
+            );
+
+            scrollTo(animationLeft ? 1600 : 0, delay);
+            console.log('scroll height', window.scrollY, Date.now() / 1000)
+            console.log("✅ exit animation completed → scrolled");
+          }
+        }}>
         <motion.div
           key={results[0]?.id || page}
           // key={`page-${page}`}
@@ -134,19 +150,26 @@ export default function ResultsPage() {
           //     animationLeft
           //   )
           // }
-          onAnimationComplete={() => {
-             console.log("animation completed", Date.now() / 1000);
-            if ( results.length > 0 && isMobile) {
-              //decide direction based on animation
-              const delay = 50;
-              if (animationLeft) {
-                scrollTo(1700, delay);
-              } else {
-                scrollTo(-1700, delay);
-              }
-              console.log(window.scrollY);
-            }
-          }}
+          // onAnimationComplete={() => {
+          //    console.log("animation completed", Date.now() / 1000);
+          //   if (!didScroll.current && results.length > 0 && isMobile) {
+          //     //decide direction based on animation
+          //     const delay = 500;
+          //     scrollTo(animationLeft ? 1700 : - 1000, delay);
+          //     console.log('scroll' ,window.scrollY, Date.now() / 1000);
+          //     didScroll.current = true;
+          //      setTimeout(() => {
+          //        didScroll.current = false;
+          //      }, 1000);
+          // if (animationLeft) {
+          //   scrollTo(1700, delay);
+          // } else {
+          //   scrollTo(-1000, delay);
+          // }
+
+          //   }
+
+          // }}
           className={`flex ${isMobile ? "flex-col items-center " : ""}`}>
           <button
             type="button"
