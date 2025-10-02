@@ -8,5 +8,6 @@ export function scrollTo(offset = 400, delay = 50) {
         top: offset,
         behavior: "smooth",
       });
+      console.log('scroll completed', Date.now() / 1000);
   }, delay);
 }

@@ -60,7 +60,7 @@ export default function YouTubeVideos({ gameTitle, mode }) {
          
         try {
           const data = await fetchRAWG('games', queryToObj);
-          console.log('data & gameTitle', data.results[0], queryToObj);
+         
           setGameObj(data.results[0])
           
         } catch (err) {
@@ -125,7 +125,7 @@ export default function YouTubeVideos({ gameTitle, mode }) {
             />
           )}
           {Object.keys(gameObj).length !== 0 && <FavoritesSetter game={gameObj} />} 
-          {console.log("gameObj from youtubeVideo", gameObj)}
+         
         </div>
         <div className="hidden md:block">
           <FullScreenBtn container={containerRef} />

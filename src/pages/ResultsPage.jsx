@@ -4,6 +4,7 @@ import { NavLink, Link } from "react-router-dom";
 import FavoritesSetter from "../components/FavoritesSetter";
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
+import { scrollTo } from '../lib/scrollTo';
 import {
   ChevronLeft,
   ChevronRight,
@@ -13,7 +14,6 @@ import {
 import clsx from "clsx";
 import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
 import RatingStars from "../components/RatingStars";
-// import { scrollTo } from "../lib/scrollTo";
 
 export default function ResultsPage() {
   const { results, page, setPage, handleFetch, loading, setLoading } =
@@ -118,34 +118,35 @@ export default function ResultsPage() {
               : { x: animationLeft ? -100 : 100 }),
           }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          onAnimationStart={() =>
-            console.log(
-              "🎬 animation START",
-              Date.now() / 1000,
-              "direction:",
-              animationLeft
-            )
-          }
-          onAnimationComplete={() =>
-            console.log(
-              "✅ animation COMPLETE",
-              Date.now() / 1000,
-              "direction:",
-              animationLeft
-            )
-          }
-          // onAnimationComplete={() => {
-          //   if (results.length > 0 && isMobile) {
-          //     //decide direction based on animation
-          //     const delay = 50;
-          //     if (animationLeft) {
-          //       scrollTo(1700, delay);
-          //     } else {
-          //       scrollTo(-1700, delay);
-          //     }
-          //     console.log(window.scrollY);
-          //   }
-          // }}
+          // onAnimationStart={() =>
+          //   console.log(
+          //     "🎬 animation START",
+          //     Date.now() / 1000,
+          //     "direction:",
+          //     animationLeft
+          //   )
+          // }
+          // onAnimationComplete={() =>
+          //   console.log(
+          //     "✅ animation COMPLETE",
+          //     Date.now() / 1000,
+          //     "direction:",
+          //     animationLeft
+          //   )
+          // }
+          onAnimationComplete={() => {
+             console.log("animation completed", Date.now() / 1000);
+            if ( results.length > 0 && isMobile) {
+              //decide direction based on animation
+              const delay = 50;
+              if (animationLeft) {
+                scrollTo(1700, delay);
+              } else {
+                scrollTo(-1700, delay);
+              }
+              console.log(window.scrollY);
+            }
+          }}
           className={`flex ${isMobile ? "flex-col items-center " : ""}`}>
           <button
             type="button"

@@ -13,6 +13,9 @@ import useMediaQuery from "../customHooks/useMediaQuery";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import { scrollTo } from "../lib/scrollTo";
+// flushSync forces an immediate render so the animatePresence key is forced to change before the isAnimationLeft. In this way
+// the animation starts always with the right direction.
+import { flushSync } from "react-dom";
 
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
@@ -26,35 +29,52 @@ export default function MyListPage() {
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
   const [isAnimationLeft, setIsAnimationLeft] = useState(false);
+
+  // setIsAnimationLeft has to come before the page update(framer motion key)
+  // so the start animation is set to the right direction, and flushSync helps with that
   const handlePrevious = useCallback(() => {
     if (page > 1) {
+      flushSync(() => {
+        setIsAnimationLeft(true);
+      });
       setPage(prevPage => prevPage - 1);
+      console.log(
+        "⬅️ handlePrevious -> isAnimationLeft set to TRUE",
+        Date.now() / 1000
+      );
     }
   }, [page, setPage]);
 
   const handleNext = useCallback(() => {
+    flushSync(() => {
+      setIsAnimationLeft(false);
+    });
     setPage(prevPage => prevPage + 1);
+    console.log(
+      "➡️ handleNext -> isAnimationLeft set to FALSE",
+      Date.now() / 1000
+    );
   }, [setPage]);
 
-useEffect(() => {
-  console.log(
-    "🔄 isAnimationLeft applied:",
-    isAnimationLeft,
-    Date.now() / 1000
-  );
-}, [isAnimationLeft]);
+  useEffect(() => {
+    console.log(
+      "🔄 isAnimationLeft applied:",
+      isAnimationLeft,
+      Date.now() / 1000
+    );
+  }, [isAnimationLeft]);
 
-useEffect(() => {
-  console.log("📄 page applied:", page, Date.now() / 1000);
-}, [page]);
+  useEffect(() => {
+    console.log("📄 page applied:", page, Date.now() / 1000);
+  }, [page]);
 
-useEffect(() => {
-  console.log(
-    "⭐ visibleFavorites recalculated:",
-    visibleFavorites.map(f => f.id),
-    Date.now() / 1000
-  );
-}, [visibleFavorites]);
+  useEffect(() => {
+    console.log(
+      "⭐ visibleFavorites recalculated:",
+      visibleFavorites.map(f => f.id),
+      Date.now() / 1000
+    );
+  }, [visibleFavorites]);
 
   return (
     <div
@@ -73,7 +93,7 @@ useEffect(() => {
       {/* <div className={`flex items-center ${isMobile ? "flex-col " : ""}`}> */}
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
-          key={ page}
+          key={visibleFavorites[0]?.id || page}
           // key={visibleFavorites[0]?.id || page}
           custom={isAnimationLeft}
           initial={custom => ({
@@ -87,7 +107,10 @@ useEffect(() => {
             opacity: 0,
             ...(isMobile
               ? { y: custom ? -100 : 100 }
-              : { x: custom ? -100 : 100 }),
+              : {
+                  x: custom ? -100 : 100,
+                  transition: { duration: 0.5, delay: 0.1 },
+                }),
           })}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           // onAnimationComplete={() => {
@@ -123,7 +146,7 @@ useEffect(() => {
           <button
             type="button"
             onClick={() => {
-              setIsAnimationLeft(true);
+              // setIsAnimationLeft(true);
               handlePrevious();
             }}
             disabled={page === 1}>
@@ -199,7 +222,7 @@ useEffect(() => {
             type="button"
             disabled={lastPage}
             onClick={() => {
-              setIsAnimationLeft(false);
+              // setIsAnimationLeft(false);
               handleNext();
             }}>
             <ArrowRightDown

@@ -6,6 +6,7 @@ import FavoritesSetter from "../components/FavoritesSetter";
 import clsx from 'clsx';
 // eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
+import { scrollTo } from '../lib/scrollTo';
 import {
   ChevronLeft,
   ChevronRight,
