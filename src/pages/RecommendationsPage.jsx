@@ -95,7 +95,7 @@ export default function RecommendationsPage() {
           ...(isMobile ? { y: animationLeft ? -100 : 100 } : { x: animationLeft ? -100 : 100 }),
         }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="relative w-full bg-center bg-cover flex flex-col text-xl"
+          className="relative w-full bg-center bg-cover flex flex-col text-xl"
         style={{ backgroundImage: `url(${bg})` }}>
         <div style={{ textShadow: "3px 3px 6px black" }}>
           <div className="inset-0 absolute bg-black/60 z-0"></div>
@@ -248,7 +248,7 @@ export default function RecommendationsPage() {
                 onClick={() => {
                   handleFetchTrailers(game);
                   setMode("review");
-                  console.log('review button clicked')
+                  console.log("review button clicked");
                 }}
                 className="w-20 md:w-40 h-14 px-0 py-0 flex justify-center items-center "
                 style={{ textShadow: "3px 3px 6px black" }}>

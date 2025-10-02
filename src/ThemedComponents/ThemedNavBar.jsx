@@ -15,39 +15,39 @@ const menuItems = [
       { name: "Welcome", path: "/" },
       { name: "Home", path: "/home-page" },
       { name: "My list", path: "/favorites-page" },
-      { name: "Sign in", path: "/log-in-page" },
-      { name: "Sign up", path: "/sign-up-page" },
-      { name: "Reset pw", path: "/reset-password-page" },
+      // { name: "Sign in", path: "/log-in-page" },
+      // { name: "Sign up", path: "/sign-up-page" },
+      // { name: "Reset pw", path: "/reset-password-page" },
       { name: "Recommended", path: "/recommendations-page" },
       { name: "Trending", path: "/trending-page" },
-      { name: "Results", path: "/results-page" },
-      { name: "Details", path: "/details-page" },
-      { name: "Test page", path: "/test-page" },
-      { name: "upd-pass & ver. email", path: "/action" },
+      // { name: "Results", path: "/results-page" },
+      // { name: "Details", path: "/details-page" },
+      // { name: "Test page", path: "/test-page" },
+      // { name: "upd-pass & ver. email", path: "/action" },
     ],
   },
-  {
-    name: "Features",
-    path: "/features",
-    dropdown: [
-      { name: "Core", path: "/features/core" },
-      { name: "Advanced", path: "/features/advanced" },
-    ],
-  },
-  {
-    name: "Pricing",
-    path: "/pricing",
-    dropdown: [
-      { name: "Free", path: "/pricing/free" },
-      { name: "Pro", path: "/pricing/pro" },
-    ],
-  },
+  // {
+  //   name: "Features",
+  //   path: "/features",
+  //   dropdown: [
+  //     { name: "Core", path: "/features/core" },
+  //     { name: "Advanced", path: "/features/advanced" },
+  //   ],
+  // },
+  // {
+  //   name: "Pricing",
+  //   path: "/pricing",
+  //   dropdown: [
+  //     { name: "Free", path: "/pricing/free" },
+  //     { name: "Pro", path: "/pricing/pro" },
+  //   ],
+  // },
   {
     name: "Contact",
     path: "/contact",
     dropdown: [
       { name: "Support", path: "/contact/support" },
-      { name: "Sales", path: "/contact/sales" },
+      // { name: "Sales", path: "/contact/sales" },
     ],
   },
   {
