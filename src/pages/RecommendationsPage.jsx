@@ -24,7 +24,6 @@ import RatingStars from '../components/RatingStars';
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
-  
   const [bg, setBg] = useState("");
   const [game, setGame] = useState({});
   const [animationLeft, setAnimationLeft] = useState(false);
