@@ -16,6 +16,7 @@ import {
 import RatingStars from "../components/RatingStars";
 import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
 import AnimateWrapper from "../components/AnimateWrapper";
+import addNavSound from "../lib/addNavSound";
 
 export default function TrendingPage(sortBy) {
   const { trendingGames, setTrendingGames } = useContext(AppContext);
@@ -47,17 +48,18 @@ export default function TrendingPage(sortBy) {
     fetchTrending();
   }, [page, setTrendingGames, sortBy]);
 
-  console.log("trending", trendingGames[0]?.id, Date.now() / 1000);
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
       <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">
         Best games right now
       </h1>
+
       {/* Link back to Home */}
       <Link
         to="/home-page"
-        onClick={() => setPage(1)}
+        onClick={() => {setPage(1);
+          addNavSound();
+        }}
         className="mb-6 text-xl text-cyan-400 font-semibold hover:text-cyan-300 transition">
         ⬅️ New search
       </Link>
@@ -71,11 +73,8 @@ export default function TrendingPage(sortBy) {
           onClick={() => {
             setAnimationLeft(true);
             handlePrevious();
-            console.log(
-              "animate and key from results page",
-              animationLeft,
-              trendingGames[0].id
-            );
+            addNavSound();
+            // addSound(blipSound);
           }}
           disabled={page === 1}
           className="block ">
@@ -138,11 +137,8 @@ export default function TrendingPage(sortBy) {
           onClick={() => {
             setAnimationLeft(false);
             handleNext();
-            console.log(
-              "animate and key from results page",
-              animationLeft,
-              trendingGames[0].id
-            );
+            addNavSound();
+            // addSound(blipSound);
           }}>
           <ArrowRightDown
             className={clsx(

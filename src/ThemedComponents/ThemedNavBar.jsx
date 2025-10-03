@@ -13,35 +13,20 @@ const menuItems = [
     path: null,
     dropdown: [
       { name: "Welcome", path: "/" },
-      { name: "Home", path: "/home-page" },
       { name: "My list", path: "/favorites-page" },
-      // { name: "Sign in", path: "/log-in-page" },
-      // { name: "Sign up", path: "/sign-up-page" },
-      // { name: "Reset pw", path: "/reset-password-page" },
       { name: "Recommended", path: "/recommendations-page" },
       { name: "Trending", path: "/trending-page" },
-      // { name: "Results", path: "/results-page" },
-      // { name: "Details", path: "/details-page" },
-      // { name: "Test page", path: "/test-page" },
-      // { name: "upd-pass & ver. email", path: "/action" },
+
     ],
   },
-  // {
-  //   name: "Features",
-  //   path: "/features",
-  //   dropdown: [
-  //     { name: "Core", path: "/features/core" },
-  //     { name: "Advanced", path: "/features/advanced" },
-  //   ],
-  // },
-  // {
-  //   name: "Pricing",
-  //   path: "/pricing",
-  //   dropdown: [
-  //     { name: "Free", path: "/pricing/free" },
-  //     { name: "Pro", path: "/pricing/pro" },
-  //   ],
-  // },
+  {
+    name: 'Search',
+    path: '/home-page'
+  },
+  {
+    name: "Profile",
+    path: "/profile-page",
+  },
   {
     name: "Contact",
     path: "/contact",
@@ -56,6 +41,12 @@ const menuItems = [
   {
     name: "Log in",
   },
+  {
+    name: 'Sound off'
+  },
+  {
+    name: 'Sound on'
+  }
 ];
 
 export default function Navbar() {
@@ -67,8 +58,7 @@ export default function Navbar() {
   return (
     <nav className=" bg-gray-900 text-cyan-400 shadow-md relative rounded-2xl z-30">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center">
-        <NavLink to="/" className="mr-5"
-        onClick={() => setIsOpen(false) }>
+        <NavLink to="/" className="mr-5" onClick={() => setIsOpen(false)}>
           <GhqLogo
             style={{ borderRadius: "50%" }}
             className="px-4 py-4"
@@ -107,45 +97,60 @@ export default function Navbar() {
               );
             }
 
-            // Regular menu items with dropdown
-            return (
-              <div
-                key={idx}
-                className="relative"
-                onMouseEnter={() => setOpenDropdown(item.name)}
-                onMouseLeave={() => setOpenDropdown(null)}
-                >
-                <NavLink
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `flex items-center gap-1 hover:text-cyan-400 transition ${
-                      isActive ? "text-cyan-400 font-semibold" : ""
-                    }`
-                  }>
-                  {item.name} <ChevronDown size={16} />
-                </NavLink>
+            // Regular menu items with  dropdown items
+            if (item.dropdown) {
+              return (
+                <div
+                  key={idx}
+                  className="relative"
+                  onMouseEnter={() => setOpenDropdown(item.name)}
+                  onMouseLeave={() => setOpenDropdown(null)}>
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive }) =>
+                      `flex items-center gap-1 hover:text-cyan-400 transition ${
+                        isActive ? "text-cyan-400 font-semibold" : ""
+                      }`
+                    }>
+                    {item.name} <ChevronDown size={16} />
+                  </NavLink>
 
-                {/* Dropdown */}
-                <AnimatePresence>
-                  {openDropdown === item.name && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute left-0 mt-2 w-40 bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                      {item.dropdown.map((sub, subIdx) => (
-                        <NavLink
-                          key={subIdx}
-                          to={sub.path}
-                          className="block px-4 py-2 hover:bg-gray-700 hover:text-cyan-400">
-                          {sub.name}
-                        </NavLink>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                  {/* Dropdown */}
+                  <AnimatePresence>
+                    {openDropdown === item.name && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute left-0 mt-2 w-40 bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                        {item.dropdown.map((sub, subIdx) => (
+                          <NavLink
+                            key={subIdx}
+                            to={sub.path}
+                            className="block px-4 py-2 hover:bg-gray-700 hover:text-cyan-400">
+                            {sub.name}
+                          </NavLink>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            }
+
+            // ✅ Item with NO dropdown (simple NavLink)
+            return (
+              <NavLink
+                key={idx}
+                to={item.path}
+                className={({ isActive }) =>
+                  `hover:text-cyan-400 transition ${
+                    isActive ? "text-cyan-400 font-semibold" : ""
+                  }`
+                }>
+                {item.name}
+              </NavLink>
             );
           })}
         </div>
@@ -171,14 +176,14 @@ export default function Navbar() {
               if (item.name === "Log out") {
                 if (!user) return null; // hide logout if not logged in
                 return (
-                  // <button key={idx} onClick={logOut} className="cursor-pointer">
-                  //   {/* Log out */}
-                  //   {item.name}
-                  // </button>
-                  <NavLink  to='/log-in-page' key={idx} 
-                  onClick={() =>{ logOut();
-                  setIsOpen(false);}} 
-                  className="cursor-pointer">
+                  <NavLink
+                    to="/log-in-page"
+                    key={idx}
+                    onClick={() => {
+                      logOut();
+                      setIsOpen(false);
+                    }}
+                    className="cursor-pointer">
                     {/* Log out */}
                     {item.name}
                   </NavLink>
@@ -188,47 +193,69 @@ export default function Navbar() {
               if (item.name === "Log in") {
                 if (user) return null; // hide login if logged in
                 return (
-                  <NavLink 
-                  onClick={() => setIsOpen(false)}
-                  key={idx} to="log-in-page">
+                  <NavLink
+                    onClick={() => setIsOpen(false)}
+                    key={idx}
+                    to="log-in-page">
                     {/* Log in */}
                     {item.name}
                   </NavLink>
                 );
               }
+
+              if (item.dropdown) {
+                return (
+                  <div key={idx} className="flex flex-col">
+                    <button
+                      className="flex justify-between items-center py-2 hover:text-cyan-400"
+                      onClick={() =>
+                        setOpenDropdown(
+                          openDropdown === item.name ? null : item.name
+                        )
+                      }>
+                      {item.name} <ChevronDown size={16} />
+                    </button>
+                    <AnimatePresence>
+                      {openDropdown === item.name && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className="pl-4 flex flex-col space-y-1">
+                          {item.dropdown.map((sub, subIdx) => (
+                            <NavLink
+                              key={subIdx}
+                              to={sub.path}
+                              onClick={() => {setIsOpen(false);
+                                setOpenDropdown(null);
+                              }}
+                              className="block py-1 hover:text-cyan-400">
+                              {sub.name}
+                            </NavLink>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+
               return (
-              <div key={idx} className="flex flex-col">
-                <button
-                  className="flex justify-between items-center py-2 hover:text-cyan-400"
-                  onClick={() =>
-                    setOpenDropdown(
-                      openDropdown === item.name ? null : item.name
-                    )
+                <NavLink
+                  key={idx}
+                  to={item.path}
+                  onClick={() => {setIsOpen(false);
+                    setOpenDropdown(null);
+                  }}
+                  className={({ isActive }) =>
+                    `hover:text-cyan-400 transition ${
+                      isActive ? "text-cyan-400 font-semibold" : ""
+                    }`
                   }>
-                  {item.name} <ChevronDown size={16} />
-                </button>
-                <AnimatePresence>
-                  {openDropdown === item.name && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="pl-4 flex flex-col space-y-1">
-                      {item.dropdown.map((sub, subIdx) => (
-                        <NavLink
-                          key={subIdx}
-                          to={sub.path}
-                          onClick={() => setIsOpen(false)}
-                          className="block py-1 hover:text-cyan-400">
-                          {sub.name}
-                        </NavLink>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-              )
+                  {item.name}
+                </NavLink>
+              );
             })}
           </motion.div>
         )}

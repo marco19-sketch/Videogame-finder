@@ -2,9 +2,6 @@ import { useContext, useCallback, useEffect, useState } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { NavLink, Link } from "react-router-dom";
 import FavoritesSetter from "../components/FavoritesSetter";
-// eslint-disable-next-line no-unused-vars
-import { motion, AnimatePresence } from "framer-motion";
-// import { scrollTo } from "../lib/scrollTo";
 import {
   ChevronLeft,
   ChevronRight,
@@ -15,6 +12,7 @@ import clsx from "clsx";
 import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
 import RatingStars from "../components/RatingStars";
 import AnimateWrapper from "../components/AnimateWrapper";
+import addNavSound from "../lib/addNavSound";
 
 export default function ResultsPage() {
   const { results, page, setPage, handleFetch, loading, setLoading } =
@@ -86,45 +84,14 @@ export default function ResultsPage() {
 
       <NavLink
         to="/home-page"
-        onClick={() => setPage(1)}
-        className=" h-12 text-cyan-400 font-semibold hover:text-cyan-300 transition ">
+        onClick={() => {
+          setPage(1);
+          addNavSound();
+        }}
+        className=" h-12 text-cyan-400 text-xl font-semibold hover:text-cyan-300 transition ">
         ⬅️ New search
       </NavLink>
-      {/* <AnimatePresence
-        mode="wait"
-        onExitComplete={() => {
-          if (results.length > 0 && isMobile) {
-            const delay = 500;
-            console.log("doc height:", document.documentElement.scrollHeight);
-            console.log(
-              "max scroll:",
-              document.documentElement.scrollHeight - window.innerHeight
-            );
 
-            scrollTo(animationLeft ? 1600 : 0, delay);
-            console.log('scroll height', window.scrollY, Date.now() / 1000)
-            console.log("✅ exit animation completed → scrolled");
-          }
-        }}>
-        <motion.div
-          key={results[0]?.id || page}
-        
-          initial={{
-            opacity: 0,
-            ...(isMobile
-              ? { y: animationLeft ? 100 : -100 }
-              : { x: animationLeft ? 100 : -100 }),
-          }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          exit={{
-            opacity: 0,
-            ...(isMobile
-              ? { y: animationLeft ? -100 : 100 }
-              : { x: animationLeft ? -100 : 100 }),
-          }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          
-          className={`flex ${isMobile ? "flex-col items-center " : ""}`}> */}
       <AnimateWrapper
         results={results}
         isMobile={isMobile}
@@ -136,12 +103,7 @@ export default function ResultsPage() {
             setAnimationLeft(true);
             handlePrevious();
             setLoading(true);
-            // scrollTo(1700, 50);
-            console.log(
-              "animate and key from results page",
-              animationLeft,
-              results[0].id
-            );
+            addNavSound();
           }}
           disabled={page === 1}
           className="block ">
@@ -220,6 +182,7 @@ export default function ResultsPage() {
             setAnimationLeft(false);
             handleNext();
             setLoading(true);
+            addNavSound();
           }}
           // className="basis-1/12 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
         >

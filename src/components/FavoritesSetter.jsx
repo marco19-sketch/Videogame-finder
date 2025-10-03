@@ -1,8 +1,10 @@
 import { useEffect, useContext } from "react";
 import { AppContext } from "../context/contextsCreation";
 import  useSound  from '../customHooks/useSound';
-import addSound from '../assets/sounds/add-to-favorite.mp3'
-import removeSound from "../assets/sounds/whoosh_zapsplat.mp3";
+import addSound from '/sounds/addFavorite.mp3'
+// import addSound from '../assets/sounds/add-to-favorite.mp3'
+import removeSound from "/sounds/removeFavorite.mp3";
+// import removeSound from "../assets/sounds/whoosh_zapsplat.mp3";
 
 
 export default function FavoritesSetter({ game, className }) {

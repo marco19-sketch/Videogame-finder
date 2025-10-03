@@ -1,4 +1,4 @@
-import { useContext, useCallback, useState, useEffect } from "react";
+import { useContext, useCallback, useState } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
 import FavoritesSetter from "../components/FavoritesSetter";
@@ -14,6 +14,7 @@ import AnimateWrapper from "../components/AnimateWrapper";
 // flushSync forces an immediate render so the animatePresence key is forced to change before the isAnimationLeft. In this way
 // the animation starts always with the right direction.
 import { flushSync } from "react-dom";
+import addNavSound from "../lib/addNavSound";
 
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
@@ -27,7 +28,7 @@ export default function MyListPage() {
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
   const [isAnimationLeft, setIsAnimationLeft] = useState(false);
-
+  const blipSound = "/sounds/blip-sfx-36568.mp3";
   // setIsAnimationLeft has to come before the page update(framer motion key)
   // so the start animation is set to the right direction, and flushSync helps with that
   const handlePrevious = useCallback(() => {
@@ -36,10 +37,6 @@ export default function MyListPage() {
         setIsAnimationLeft(true);
       });
       setPage(prevPage => prevPage - 1);
-      console.log(
-        "⬅️ handlePrevious -> isAnimationLeft set to TRUE",
-        Date.now() / 1000
-      );
     }
   }, [page, setPage]);
 
@@ -48,31 +45,7 @@ export default function MyListPage() {
       setIsAnimationLeft(false);
     });
     setPage(prevPage => prevPage + 1);
-    console.log(
-      "➡️ handleNext -> isAnimationLeft set to FALSE",
-      Date.now() / 1000
-    );
   }, [setPage]);
-
-  useEffect(() => {
-    console.log(
-      "🔄 isAnimationLeft applied:",
-      isAnimationLeft,
-      Date.now() / 1000
-    );
-  }, [isAnimationLeft]);
-
-  useEffect(() => {
-    console.log("📄 page applied:", page, Date.now() / 1000);
-  }, [page]);
-
-  useEffect(() => {
-    console.log(
-      "⭐ visibleFavorites recalculated:",
-      visibleFavorites.map(f => f.id),
-      Date.now() / 1000
-    );
-  }, [visibleFavorites]);
 
   return (
     <div
@@ -84,7 +57,10 @@ export default function MyListPage() {
       </h1>
       <Link
         to="/home-page"
-        onClick={() => setPage(1)}
+        onClick={() => {
+          setPage(1);
+          addNavSound();
+        }}
         className="mb-6 text-cyan-400 font-semibold hover:text-cyan-300 transition">
         ⬅️ New search
       </Link>
@@ -93,50 +69,11 @@ export default function MyListPage() {
         isMobile={isMobile}
         animationLeft={isAnimationLeft}
         page={page}>
-        {/* <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={visibleFavorites[0]?.id || page}
-          // key={visibleFavorites[0]?.id || page}
-          custom={isAnimationLeft}
-          initial={custom => ({
-            opacity: 0,
-            ...(isMobile
-              ? { y: custom ? 100 : -100 }
-              : { x: custom ? 100 : -100 }),
-          })}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          exit={custom => ({
-            opacity: 0,
-            ...(isMobile
-              ? { y: custom ? -100 : 100 }
-              : {
-                  x: custom ? -100 : 100,
-                  transition: { duration: 0.5, delay: 0.1 },
-                }),
-          })}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-         
-          onAnimationStart={() =>
-            console.log(
-              "🎬 animation START",
-              Date.now() / 1000,
-              "direction:",
-              isAnimationLeft
-            )
-          }
-          onAnimationComplete={() =>
-            console.log(
-              "✅ animation COMPLETE",
-              Date.now() / 1000,
-              "direction:",
-              isAnimationLeft
-            )
-          }
-          className={`flex items-center ${isMobile ? "flex-col " : ""}`}> */}
         <button
           type="button"
           onClick={() => {
             handlePrevious();
+            addNavSound();
           }}
           disabled={page === 1}>
           <ArrowLeftUp
@@ -189,6 +126,7 @@ export default function MyListPage() {
           disabled={lastPage}
           onClick={() => {
             handleNext();
+            addNavSound();
           }}>
           <ArrowRightDown
             className={clsx(

@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import FocusTrap from "focus-trap-react";
 // eslint-disable-next-line no-unused-vars
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { createPortal } from 'react-dom'; // to place the modal outside the layout stack, so it can be always on top of everything
 import { FaPowerOff } from "react-icons/fa6";
+import addBlipOffSound from '../lib/addBlipOffSound';
 
 export default function Modal({ onClose, children }) {
   const [isVisible, setIsVisible] = useState(false);
@@ -27,7 +28,9 @@ export default function Modal({ onClose, children }) {
     <FocusTrap>
       <div
         className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70"
-        onClick={onClose}>
+        onClick={() => {onClose();
+          addBlipOffSound();
+        }}>
         {/* <AnimatePresence mode="wait"> */}
           <motion.div
             key={children}
@@ -47,7 +50,9 @@ export default function Modal({ onClose, children }) {
               onClick={e => e.stopPropagation()}>
               <button
                 ref={closeButtonRef}
-                onClick={onClose}
+                onClick={() => {onClose();
+                  addBlipOffSound();
+                }}
                 className="absolute top-3 right-3 text-gray-400 hover:text-white 
                 text-2xl focus:outline-none cursor-pointer"
                 aria-label="Close modal">
