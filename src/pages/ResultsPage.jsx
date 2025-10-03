@@ -12,7 +12,8 @@ import clsx from "clsx";
 import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
 import RatingStars from "../components/RatingStars";
 import AnimateWrapper from "../components/AnimateWrapper";
-import addNavSound from "../lib/addNavSound";
+import useNavSound from "../customHooks/useNavSound";
+import useSelectSound from '../customHooks/useSelectSound';
 
 export default function ResultsPage() {
   const { results, page, setPage, handleFetch, loading, setLoading } =
@@ -22,6 +23,8 @@ export default function ResultsPage() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
+  const playNav = useNavSound();
+  const playSelect = useSelectSound();
 
   const handlePrevious = useCallback(() => {
     if (page > 1) {
@@ -86,7 +89,7 @@ export default function ResultsPage() {
         to="/home-page"
         onClick={() => {
           setPage(1);
-          addNavSound();
+          playNav();
         }}
         className=" h-12 text-cyan-400 text-xl font-semibold hover:text-cyan-300 transition ">
         ⬅️ New search
@@ -103,7 +106,7 @@ export default function ResultsPage() {
             setAnimationLeft(true);
             handlePrevious();
             setLoading(true);
-            addNavSound();
+            playNav();
           }}
           disabled={page === 1}
           className="block ">
@@ -123,7 +126,8 @@ export default function ResultsPage() {
             <li
               key={game.id}
               className="relative z-10 group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 
-                transition duration-300 transform hover:-translate-y-1 hover:scale-105">
+                transition duration-300 transform hover:-translate-y-1 hover:scale-105"
+                onClick={ playSelect}>
               <Link to={`/details-page/${game.id}`} className="block">
                 {/* Immagine con overlay */}
                 <div>
@@ -182,7 +186,7 @@ export default function ResultsPage() {
             setAnimationLeft(false);
             handleNext();
             setLoading(true);
-            addNavSound();
+            playNav();
           }}
           // className="basis-1/12 px-6 py-2 rounded-lg font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-400 hover:to-blue-500 transition-colors duration-300">
         >

@@ -32,6 +32,7 @@ export default function ContextProvider({ children }) {
   const [current, setCurrent] = useState(0);
   const [slides, setSlides] = useState([]);
   const [autoplay, setAutoplay] = useState(0);
+  const [sound, setSound] = useState(false);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -200,7 +201,9 @@ export default function ContextProvider({ children }) {
       slides,
       setSlides,
       autoplay,
-      setAutoplay
+      setAutoplay,
+      sound,
+      setSound
     }),
     [
       results,
@@ -248,7 +251,9 @@ export default function ContextProvider({ children }) {
       slides,
       setSlides,
       autoplay,
-      setAutoplay
+      setAutoplay,
+      sound,
+      setSound
     ]
   );
 

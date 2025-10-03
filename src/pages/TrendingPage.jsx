@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 import { getTrending } from "../lib/getTrending";
 import FavoritesSetter from "../components/FavoritesSetter";
 import clsx from "clsx";
-// eslint-disable-next-line no-unused-vars
-import { motion, AnimatePresence } from "framer-motion";
-// import { scrollTo } from '../lib/scrollTo';
 import {
   ChevronLeft,
   ChevronRight,
@@ -16,7 +13,7 @@ import {
 import RatingStars from "../components/RatingStars";
 import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
 import AnimateWrapper from "../components/AnimateWrapper";
-import addNavSound from "../lib/addNavSound";
+import useNavSound from "../customHooks/useNavSound";
 
 export default function TrendingPage(sortBy) {
   const { trendingGames, setTrendingGames } = useContext(AppContext);
@@ -25,7 +22,7 @@ export default function TrendingPage(sortBy) {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
-
+  const playNav = useNavSound();
   sortBy = "-rating";
 
   const handlePrevious = useCallback(() => {
@@ -57,8 +54,9 @@ export default function TrendingPage(sortBy) {
       {/* Link back to Home */}
       <Link
         to="/home-page"
-        onClick={() => {setPage(1);
-          addNavSound();
+        onClick={() => {
+          setPage(1);
+          playNav();
         }}
         className="mb-6 text-xl text-cyan-400 font-semibold hover:text-cyan-300 transition">
         ⬅️ New search
@@ -73,7 +71,7 @@ export default function TrendingPage(sortBy) {
           onClick={() => {
             setAnimationLeft(true);
             handlePrevious();
-            addNavSound();
+            playNav();
             // addSound(blipSound);
           }}
           disabled={page === 1}
@@ -137,7 +135,7 @@ export default function TrendingPage(sortBy) {
           onClick={() => {
             setAnimationLeft(false);
             handleNext();
-            addNavSound();
+            playNav();
             // addSound(blipSound);
           }}>
           <ArrowRightDown

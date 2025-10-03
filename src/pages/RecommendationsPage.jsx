@@ -20,8 +20,8 @@ import useMediaQuery from "../customHooks/useMediaQuery";
 import FavoritesSetter from "../components/FavoritesSetter";
 import Slideshow from "../components/Slideshow";
 import RatingStars from "../components/RatingStars";
-import addNavSound from "../lib/addNavSound";
-import addBlipVideoSound from '../lib/addBlipVideoSound';
+import useNavSound from "../customHooks/useNavSound";
+import useBlipVideoSound from "../customHooks/useBlipVideoSound";
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
@@ -44,7 +44,8 @@ export default function RecommendationsPage() {
   } = useContext(AppContext);
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
-  const [dataResults, setDataResults] = useState({});
+  const playNav = useNavSound();
+  const playBlipVideo = useBlipVideoSound();
 
   useEffect(() => {
     setShowModal(false);
@@ -66,7 +67,7 @@ export default function RecommendationsPage() {
         )}`;
         const data = await fetchRAWG("games", query);
 
-        setDataResults(data.results);
+        // setDataResults(data.results);
         setBg(data.results[0].background_image);
         // store the full game object so FavoritesSetter receives the expected shape
         setGame(data.results[0]);
@@ -126,7 +127,7 @@ export default function RecommendationsPage() {
                   setAnimationLeft(true);
                   setIndex(prev => prev - 1);
                   setMode("");
-                  addNavSound();
+                  playNav();
                 }}>
                 <ArrowLeftUp
                   className={clsx(
@@ -199,7 +200,7 @@ export default function RecommendationsPage() {
                     onClick={() => {
                       handleFetchTrailers(game); //dummy fetch to start YouTubeVideos
                       setMode("official trailer");
-                      // setAutoplay(1)
+                      playBlipVideo();
                     }}>
                     <Slideshow
                       slides={slides}
@@ -226,7 +227,7 @@ export default function RecommendationsPage() {
                   setAnimationLeft(false);
                   setIndex(prev => prev + 1);
                   setMode("");
-                  addNavSound();
+                  playNav();
                 }}>
                 <ArrowRightDown
                   className={clsx(
@@ -244,7 +245,7 @@ export default function RecommendationsPage() {
                 onClick={() => {
                   handleFetchTrailers(game); //dummy fetch to start YouTubeVideos
                   setMode("official trailer");
-                  addBlipVideoSound();
+                  playBlipVideo();
                 }}
                 className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0 "}
                 style={{ textShadow: "3px 3px 6px black" }}>
@@ -255,7 +256,7 @@ export default function RecommendationsPage() {
                 onClick={() => {
                   handleFetchTrailers(game);
                   setMode("gameplay");
-                  addBlipVideoSound();
+                  playBlipVideo();
                 }}
                 className={"w-20 md:w-40 md:mb-8 h-14 px-0 py-0"}
                 style={{ textShadow: "3px 3px 6px black" }}>
@@ -267,7 +268,7 @@ export default function RecommendationsPage() {
                 onClick={() => {
                   handleFetchTrailers(game);
                   setMode("review");
-                  addBlipVideoSound();
+                  playBlipVideo();
                 }}
                 className="w-20 md:w-40 h-14 px-0 py-0 flex justify-center items-center "
                 style={{ textShadow: "3px 3px 6px black" }}>

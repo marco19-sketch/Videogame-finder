@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import {AppContext} from '../context/contextsCreation';
 import { NavLink } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 // eslint-disable-next-line no-unused-vars
@@ -6,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import useLogOut from "../authentication/useLogOut";
 import { useAuth } from "../authentication/useAuth";
 import GhqLogo from "./GhqLogo";
+import { IoVolumeMute } from "react-icons/io5";
+import { IoVolumeHighSharp } from "react-icons/io5";
 
 const menuItems = [
   {
@@ -54,6 +57,7 @@ export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
   const { user } = useAuth();
   const logOut = useLogOut();
+  const { sound, setSound } = useContext(AppContext);
 
   return (
     <nav className=" bg-gray-900 text-cyan-400 shadow-md relative rounded-2xl z-30">
@@ -95,6 +99,28 @@ export default function Navbar() {
                   {item.name}
                 </NavLink>
               );
+            }
+
+            if (item.name === 'Sound off') {
+              if (!sound) return null; // hide sound off
+              return (
+                <button key={idx} type="button" onClick={() => setSound(false)}>
+                  <IoVolumeHighSharp />
+                </button>
+                // >{item.name}</button>
+              );
+            }
+
+            if (item.name === 'Sound on') {
+              if (sound) return null; // hide sound on
+              return (
+                <button 
+                key={idx}
+                type='button'
+                onClick={() => setSound(true)}
+                ><IoVolumeMute /></button>
+                // >{item.name}</button>
+              )
             }
 
             // Regular menu items with  dropdown items

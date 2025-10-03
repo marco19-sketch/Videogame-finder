@@ -8,8 +8,8 @@ import RawgVideos from "../components/RawgVideos";
 import { getDetails } from "../lib/getDetails";
 import ThemedButton from "../ThemedComponents/ThemedButton";
 import { AnimatePresence } from "framer-motion";
-import addBlipVideoSound from "../lib/addBlipVideoSound";
-import addNavSound from "../lib/addNavSound";
+import useBlipVideoSound from "../customHooks/useBlipVideoSound";
+import useNavSound from "../customHooks/useNavSound";
 
 export default function DetailsPage() {
   const {
@@ -33,6 +33,8 @@ export default function DetailsPage() {
     results?.find(g => g.id === Number(id)) ||
     trendingGames?.find(g => g.id === Number(id));
   const [fetchedGame, setFetchedGame] = useState(null);
+  const playBlip = useBlipVideoSound();
+  const playNav = useNavSound();
 
   // If game isn't in results or trending, try favorites or fetch details
   useEffect(() => {
@@ -94,7 +96,7 @@ export default function DetailsPage() {
           <button
             onClick={() => {
               navigate(-1);
-              addNavSound();
+              playNav();
             }}
             className="hover:text-cyan-300 transition text-xl">
             ⬅️ Back
@@ -116,7 +118,7 @@ export default function DetailsPage() {
               setAutoplay(1);
               setMode("official trailer");
               handleFetchTrailers(gameToShow);
-              addBlipVideoSound();
+              playBlip();
             }}
             className={"w-40 mb-8 h-14 px-0 py-0 "}
             style={{ textShadow: "3px 3px 6px black" }}>
@@ -129,7 +131,7 @@ export default function DetailsPage() {
               setAutoplay(1);
               setMode("gameplay");
               handleFetchTrailers(gameToShow);
-              addBlipVideoSound();
+              playBlip();
             }}
             className={"w-40 mb-8 h-14 px-0 py-0 "}
             style={{ textShadow: "3px 3px 6px black" }}>
@@ -142,7 +144,7 @@ export default function DetailsPage() {
               setAutoplay(1);
               setMode("review");
               handleFetchTrailers(gameToShow);
-              addBlipVideoSound();
+              playBlip();
             }}
             className={"w-40 mb-8 h-14 px-0 py-0 "}
             style={{ textShadow: "3px 3px 6px black" }}>

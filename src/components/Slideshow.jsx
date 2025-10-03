@@ -1,11 +1,11 @@
 import { useEffect, useContext } from "react";
-import { AppContext } from '../context/contextsCreation';
-import addBlipVideoSound from '../lib/addBlipVideoSound';
-
+import { AppContext } from "../context/contextsCreation";
+import useBlipVideoSound from "../customHooks/useBlipVideoSound";
 
 export default function Slideshow() {
   const interval = 3500;
   const { slides, current, setCurrent } = useContext(AppContext);
+  const playSound = useBlipVideoSound();
 
   useEffect(() => {
     if (slides.length > 0) {
@@ -24,8 +24,7 @@ export default function Slideshow() {
   }, [slides.length, setCurrent]);
 
   return (
-    <div className="relative "
-    onClick={() => addBlipVideoSound()}>
+    <div className="relative " onClick={playSound}>
       {slides.map((slide, index) => (
         <img
           src={slide.image}

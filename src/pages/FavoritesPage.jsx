@@ -14,7 +14,7 @@ import AnimateWrapper from "../components/AnimateWrapper";
 // flushSync forces an immediate render so the animatePresence key is forced to change before the isAnimationLeft. In this way
 // the animation starts always with the right direction.
 import { flushSync } from "react-dom";
-import addNavSound from "../lib/addNavSound";
+import useNavSound from "../customHooks/useNavSound";
 
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
@@ -28,7 +28,7 @@ export default function MyListPage() {
   const ArrowLeftUp = isMobile ? ChevronUp : ChevronLeft;
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
   const [isAnimationLeft, setIsAnimationLeft] = useState(false);
-  const blipSound = "/sounds/blip-sfx-36568.mp3";
+  const playNav = useNavSound();
   // setIsAnimationLeft has to come before the page update(framer motion key)
   // so the start animation is set to the right direction, and flushSync helps with that
   const handlePrevious = useCallback(() => {
@@ -59,7 +59,7 @@ export default function MyListPage() {
         to="/home-page"
         onClick={() => {
           setPage(1);
-          addNavSound();
+          playNav();
         }}
         className="mb-6 text-cyan-400 font-semibold hover:text-cyan-300 transition">
         ⬅️ New search
@@ -73,7 +73,7 @@ export default function MyListPage() {
           type="button"
           onClick={() => {
             handlePrevious();
-            addNavSound();
+            playNav();
           }}
           disabled={page === 1}>
           <ArrowLeftUp
@@ -126,7 +126,7 @@ export default function MyListPage() {
           disabled={lastPage}
           onClick={() => {
             handleNext();
-            addNavSound();
+            playNav();
           }}>
           <ArrowRightDown
             className={clsx(

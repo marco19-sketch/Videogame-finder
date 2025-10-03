@@ -1,9 +1,0 @@
-export default function addNavSound() {
-  const audio = new Audio("/sounds/blip-sfx-36568.mp3");
-  console.log("Playing sound:", audio);
-  //   const audio = new Audio(src);
-  audio.currentTime = 0;
-  audio.play().catch(err => {
-    console.error("Audio play failed:", err);
-  });
-}

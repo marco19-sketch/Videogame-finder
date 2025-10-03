@@ -1,19 +1,16 @@
 import { useEffect, useContext } from "react";
 import { AppContext } from "../context/contextsCreation";
-import  useSound  from '../customHooks/useSound';
-import addSound from '/sounds/addFavorite.mp3'
+import useSound from "../customHooks/useSound";
+import addSound from "/sounds/addFavorite.mp3";
 // import addSound from '../assets/sounds/add-to-favorite.mp3'
 import removeSound from "/sounds/removeFavorite.mp3";
 // import removeSound from "../assets/sounds/whoosh_zapsplat.mp3";
 
-
 export default function FavoritesSetter({ game, className }) {
-  const { setFavorites, favorites, isFavoritesPage } = useContext(AppContext);
+  const { setFavorites, favorites, isFavoritesPage, sound } = useContext(AppContext);
   const isAlreadyFavorite = favorites?.some(fav => fav.id === game.id);
-  const [playAdd, AddAudio] = useSound(addSound)
-  const [playRemove, RemoveAudio] = useSound(removeSound)
-
-
+  const [playAdd, AddAudio] = useSound(addSound);
+  const [playRemove, RemoveAudio] = useSound(removeSound);
 
   useEffect(() => {
     localStorage.setItem("savedGames", JSON.stringify(favorites));
@@ -32,15 +29,14 @@ export default function FavoritesSetter({ game, className }) {
         //physical removal after delay
         const timer = setTimeout(() => {
           setFavorites(prev => prev.filter(fav => fav.id !== game.id));
-          
-          
         }, 300);
         return () => clearTimeout(timer);
       } else {
         //remove immediately in every other page
         setFavorites(prev => prev.filter(fav => fav.id !== game.id));
-        playRemove();
-      
+        if (sound) {
+          playRemove();
+        }
       }
     } else {
       if (!game || !game.id) {
@@ -48,7 +44,9 @@ export default function FavoritesSetter({ game, className }) {
         return;
       }
       setFavorites(prev => [...prev, game]);
+      if (sound) {
       playAdd();
+      }
     }
   };
 
@@ -56,7 +54,7 @@ export default function FavoritesSetter({ game, className }) {
     <>
       {/*add to my list button */}
       <button
-       title='add to My List'
+        title="add to My List"
         className={`absolute top-2.5 right-2.5 z-20  bg-gradient-to-b from-cyan-500 to-blue-600 rounded-sm
          hover:from-cyan-400 hover:to-500 hover:scale-110 transition-all duration-300 cursor-pointer ${className}`}
         type="button"

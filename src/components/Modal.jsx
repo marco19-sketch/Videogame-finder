@@ -4,11 +4,12 @@ import FocusTrap from "focus-trap-react";
 import { motion } from "framer-motion";
 import { createPortal } from 'react-dom'; // to place the modal outside the layout stack, so it can be always on top of everything
 import { FaPowerOff } from "react-icons/fa6";
-import addBlipOffSound from '../lib/addBlipOffSound';
+import useBlipOffSound from '../customHooks/useBlipOffSound';
 
 export default function Modal({ onClose, children }) {
   const [isVisible, setIsVisible] = useState(false);
   const closeButtonRef = useRef(null);
+  const playBlipOff = useBlipOffSound();
 
   // Attiva animazione e focus
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function Modal({ onClose, children }) {
       <div
         className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70"
         onClick={() => {onClose();
-          addBlipOffSound();
+          playBlipOff();
         }}>
         {/* <AnimatePresence mode="wait"> */}
           <motion.div
@@ -51,7 +52,7 @@ export default function Modal({ onClose, children }) {
               <button
                 ref={closeButtonRef}
                 onClick={() => {onClose();
-                  addBlipOffSound();
+                  playBlipOff();
                 }}
                 className="absolute top-3 right-3 text-gray-400 hover:text-white 
                 text-2xl focus:outline-none cursor-pointer"
