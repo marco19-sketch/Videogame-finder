@@ -229,6 +229,29 @@ export default function Navbar() {
                 );
               }
 
+              if (item.name === 'Sound off') {
+              if (sound) return null
+              return (
+              <button 
+              type='button'
+              key={idx}
+              onClick={() => setSound(true)}
+              className='block mt-4'
+              >{item.name}</button>
+              )
+            }
+              if (item.name === 'Sound on') {
+              if (!sound) return null
+              return (
+              <button 
+              type='button'
+              key={idx}
+              onClick={() => setSound(false)}
+              className='block mt-4'
+              >{item.name}</button>
+              )
+            }
+
               if (item.dropdown) {
                 return (
                   <div key={idx} className="flex flex-col">
