@@ -112,7 +112,7 @@ export default function SignUpPage() {
         </ThemedButton>
         <p>
           Have already an account?{" "}
-          <NavLink to="/log-in-page" className="text-cyan-400">
+          <NavLink to="/username-page" className="text-cyan-400 underline underline-offset-1 decoration-cyan-400">
             Sign in
           </NavLink>
         </p>
@@ -125,6 +125,7 @@ export default function SignUpPage() {
         onClick={e => {
           e.stopPropagation();
           navigate("/home-page");
+          // navigate("/home-page");
         }}
         className="w-24 p-3">
         Home

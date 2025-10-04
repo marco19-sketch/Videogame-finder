@@ -16,6 +16,7 @@ import WelcomePage from "./pages/WelcomePage";
 import RecommendationsPage from "./pages/RecommendationsPage";
 import ProfilePage from './pages/ProfilePage';
 import ProtectedRoute from "./authentication/ProtectedRoute";
+import UsernameForm from './authentication/UsernameForm';
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -54,6 +55,7 @@ function App() {
               />
               <Route path="/sign-up-page" element={<SignUpPage />} />
               <Route path="/log-in-page" element={<LogInPage />} />
+              <Route path='/username-page' element={<UsernameForm /> } />
               <Route path='/profile-page' element={<ProfilePage />} />
               <Route
                 path="/reset-password-page"

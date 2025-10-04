@@ -31,6 +31,10 @@ const menuItems = [
     path: "/profile-page",
   },
   {
+    name: 'Username',
+    path: 'username-page'
+  },
+  {
     name: "Contact",
     path: "/contact",
     dropdown: [

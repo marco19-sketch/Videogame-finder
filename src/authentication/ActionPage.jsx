@@ -85,9 +85,10 @@ export default function ActionPage() {
           Log in
         </ThemedButton>
       ) : (
-        <ThemedButton type="button" onClick={() => navigate("/home-page")}
+        <ThemedButton type="button" onClick={() => navigate("/username-page")}
+        // <ThemedButton type="button" onClick={() => navigate("/home-page")}
         className='w-28 h-14'>
-          Home
+          Continue
         </ThemedButton>
       )}
     </div>

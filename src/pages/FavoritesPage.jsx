@@ -15,6 +15,7 @@ import AnimateWrapper from "../components/AnimateWrapper";
 // the animation starts always with the right direction.
 import { flushSync } from "react-dom";
 import useNavSound from "../customHooks/useNavSound";
+import useUsername from '../customHooks/useUsername';
 
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
@@ -30,6 +31,7 @@ export default function MyListPage() {
   const ArrowRightDown = isMobile ? ChevronDown : ChevronRight;
   const [isAnimationLeft, setIsAnimationLeft] = useState(false);
   const playNav = useNavSound();
+  const username = useUsername();
   // setIsAnimationLeft has to come before the page update(framer motion key)
   // so the start animation is set to the right direction, and flushSync helps with that
   const handlePrevious = useCallback(() => {
@@ -60,7 +62,8 @@ export default function MyListPage() {
           className="w-24 h-24 rounded-full border-4 border-indigo-500 shadow-lg"
         />
         <div>
-          <h1 className="text-2xl font-bold">{user?.name || "Guest Gamer"}</h1>
+          <h1 className="text-2xl font-bold">{username || "Guest Gamer"}</h1>
+          {/* <h1 className="text-2xl font-bold">{user?.name || "Guest Gamer"}</h1> */}
           <p className="text-gray-600">{user?.email || "Not logged in"}</p>
         </div>
       </div>
