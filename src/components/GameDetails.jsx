@@ -1,12 +1,13 @@
 import { getDetails } from "../lib/getDetails";
 import { useEffect, useState, useContext } from "react";
-import { AppContext } from '../context/contextsCreation';
+import { AppContext } from "../context/contextsCreation";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import Slideshow from "./Slideshow";
-import FavoritesSetter from './FavoritesSetter';
-import RatingStars from './RatingStars';
-import RatingMsg from './RatingMsg';
+import FavoritesSetter from "./FavoritesSetter";
+import RatingStars from "./RatingStars";
+import RatingMsg from "./RatingMsg";
+import useDescriptionSound from "../customHooks/useDescriptionSound";
 
 export default function GameDetails({ gameId, game, setAutoplay }) {
   // export default function GameDetails({ gameId, game }) {
@@ -20,6 +21,7 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
     setMode,
     handleFetchTrailers,
   } = useContext(AppContext);
+  const playDescription = useDescriptionSound();
 
   useEffect(() => {
     if (game?.short_screenshots?.length > 0) {
@@ -27,7 +29,6 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
       setCurrent(0); // reset to first slide
     }
   }, [game, setSlides, setCurrent]);
-
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -76,22 +77,21 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
           Playtime:{" "}
           <span className="font-normal ">{game.playtime || "N/A"} hours</span>
         </p>
-      
-          <div className="flex">
-            <p className=" font-bold">Rating: </p>
-            <RatingStars
-              rating={game.rating}
-              ratings={game.ratings}
-              className="mt-1"
-            />
-            {/* <span className="font-normal text-sm ml-2 mt-1">
+
+        <div className="flex">
+          <p className=" font-bold">Rating: </p>
+          <RatingStars
+            rating={game.rating}
+            ratings={game.ratings}
+            className="mt-1"
+          />
+          {/* <span className="font-normal text-sm ml-2 mt-1">
             {" "}
             ({game.rating || "N/A"}){" "}
           </span> */}
-            <RatingMsg rating={game.rating} ratings={game.ratings} />
-           
-          </div>
-    
+          <RatingMsg rating={game.rating} ratings={game.ratings} />
+        </div>
+
         <p className=" font-bold ">
           Released:{" "}
           <span className="font-normal ">
@@ -142,7 +142,10 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
          hover:text-yellow-400   font-semibold 
          shadow-md transition duration-200 cursor-pointer"
         type="button"
-        onClick={() => setShowDescription(!showDescription)}>
+        onClick={() => {
+          setShowDescription(!showDescription);
+          playDescription();
+        }}>
         Read the description
       </button>
       <AnimatePresence>

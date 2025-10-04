@@ -1,5 +1,5 @@
 import { useContext, useCallback, useState } from "react";
-import { AppContext } from "../context/contextsCreation";
+import { AppContext, AuthContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
 import FavoritesSetter from "../components/FavoritesSetter";
 import clsx from "clsx";
@@ -19,6 +19,7 @@ import useNavSound from "../customHooks/useNavSound";
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
   const { page, setPage, favorites } = useContext(AppContext);
+  const { user } = useContext(AuthContext);
   const gamesPerPage = 8;
   const start = (page - 1) * 8;
   const end = start + gamesPerPage;
@@ -51,6 +52,19 @@ export default function MyListPage() {
     <div
       className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800
      to-black flex flex-col items-center py-8 px-4 text-white">
+      {/* Profile Header */}
+      <div className="flex items-center place-self-start gap-6 ml-24 mb-8">
+        <img
+          src={user?.avatar || "https://via.placeholder.com/100"}
+          alt="User avatar"
+          className="w-24 h-24 rounded-full border-4 border-indigo-500 shadow-lg"
+        />
+        <div>
+          <h1 className="text-2xl font-bold">{user?.name || "Guest Gamer"}</h1>
+          <p className="text-gray-600">{user?.email || "Not logged in"}</p>
+        </div>
+      </div>
+
       {/* Link back to Home */}
       <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">
         My List ({favorites.length})
@@ -138,6 +152,5 @@ export default function MyListPage() {
         </button>
       </AnimateWrapper>
     </div>
-    // </div>
   );
 }

@@ -4,6 +4,13 @@ import { recommendationsList } from "../lib/recommendationsList";
 import { fetchRAWG } from "../api/apiClient";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
+import useSearchSound from "../customHooks/useSearchSound";
+import useDescriptionSound from "../customHooks/useDescriptionSound";
+import useCheckSound from "../customHooks/useCheckSound";
+import useUncheckSound from "../customHooks/useUncheckSound";
+import useRadioCheck from '../customHooks/useRadioCheck';
+import useResetSound from '../customHooks/useResetSound';
+import useTypeSound from '../customHooks/useTypeSound';
 
 const genresCheckboxes = [
   "Action",
@@ -56,6 +63,13 @@ export default function SearchBar({
   const [randomIndex] = useState(
     Math.floor(Math.random() * recommendationsList.length)
   );
+  const playDescription = useDescriptionSound();
+  const playSearch = useSearchSound();
+  const playCheck = useCheckSound();
+  const playUncheck = useUncheckSound();
+  const playRadio = useRadioCheck();
+  const playReset = useResetSound();
+  const playType = useTypeSound();
 
   // const [genresCBox, setGenresCBox] = useState(false);
   // Set genres
@@ -64,11 +78,13 @@ export default function SearchBar({
       const genre = e.target.value.toLowerCase();
       if (e.target.checked) {
         setGenres(prev => [...prev, genre]);
+        playCheck();
       } else {
         setGenres(prev => prev.filter(g => g !== genre));
+        playUncheck();
       }
     },
-    [setGenres]
+    [setGenres, playCheck, playUncheck]
   );
 
   useEffect(() => {
@@ -98,7 +114,9 @@ export default function SearchBar({
           type="text"
           value={gameName}
           id="game-name"
-          onChange={e => setGameName(e.target.value)}
+          onChange={e => {setGameName(e.target.value);
+            playType();
+          }}
           className="text-base text-cyan-400 font-semibold w-full sm:w-1/2 block m-auto px-4 py-2 rounded-lg bg-gray-700  placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           placeholder="e.g. The Witcher"
         />
@@ -109,9 +127,12 @@ export default function SearchBar({
         type="button"
         onClick={() => {
           handleFetch();
+          playSearch();
         }}
         // onClick={() => handleFetch()}
-        className="w-full sm:w-1/2 mx-auto my-4 block py-2 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold shadow-lg shadow-cyan-500/30 transition">
+        className="w-full sm:w-1/2 mx-auto my-4 block py-2 rounded-xl
+         bg-cyan-500 hover:bg-cyan-400 text-black font-semibold 
+         cursor-pointer shadow-lg shadow-cyan-500/30 transition">
         🔍 Search games
       </button>
 
@@ -123,7 +144,10 @@ export default function SearchBar({
           type="checkbox"
           id="enable-dates"
           checked={dates}
-          onChange={e => setDates(e.target.checked)}
+          onChange={e => {
+            setDates(e.target.checked);
+            playDescription();
+          }}
           className="w-4 h-4 mr-4 accent-cyan-500 cursor-pointer"
         />
         Enable search by dates
@@ -155,7 +179,14 @@ export default function SearchBar({
             type="checkbox"
             checked={exactSearch}
             id="exact-search"
-            onChange={e => setExactSearch(e.target.checked)}
+            onChange={e => {
+              setExactSearch(e.target.checked);
+              if (e.target.checked) {
+                playCheck();
+              } else {
+                playUncheck();
+              }
+            }}
             className="w-4 h-4 mr-4 accent-cyan-500 cursor-pointer"
           />
           Exact match
@@ -175,6 +206,7 @@ export default function SearchBar({
               } else {
                 setGenresCBox(false);
               }
+              playDescription();
             }}
             checked={genresCBox}
             className="w-4 h-4 mr-4 accent-cyan-500 cursor-pointer"
@@ -194,7 +226,12 @@ export default function SearchBar({
               onChange={e => {
                 const enabled = e.target.checked;
                 setIsSorting(enabled);
-                if (!enabled) setSort(null);
+                if (!enabled) {
+                  setSort(null);
+                  playUncheck();
+                } else {
+                  playCheck();
+                }
               }}
               className="w-4 h-4 mr-4 accent-cyan-500 cursor-pointer"
             />
@@ -212,7 +249,9 @@ export default function SearchBar({
                   value="rating"
                   checked={sort === "-rating"}
                   name="radio-btn"
-                  onChange={() => setSort("-rating")}
+                  onChange={() => {setSort("-rating");
+                    playRadio();
+                  }}
                   className="accent-cyan-500 cursor-pointer"
                 />
                 <span className="text-gray-200 text-sm">By Rating</span>
@@ -227,7 +266,9 @@ export default function SearchBar({
                   value="released"
                   checked={sort === "-released"}
                   name="radio-btn"
-                  onChange={() => setSort("-released")}
+                  onChange={() => {setSort("-released");
+                    playRadio();
+                  }}
                   className="accent-cyan-500 cursor-pointer"
                 />
                 <span className="text-gray-200 text-sm">By Release Date</span>
@@ -273,7 +314,9 @@ export default function SearchBar({
       {/* Reset button */}
       <button
         type="button"
-        onClick={handleReset}
+        onClick={() => {handleReset();
+          playReset();
+        }}
         className="block w-1/2 mx-auto py-2 rounded-xl bg-gray-700 hover:bg-red-500 text-white font-semibold shadow-lg transition">
         ♻️ Reset
       </button>
