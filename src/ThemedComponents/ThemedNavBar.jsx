@@ -23,6 +23,10 @@ const menuItems = [
     ],
   },
   {
+    name: 'Avatar',
+    path: '/choose-avatar'
+  },
+  {
     name: 'Search',
     path: '/home-page'
   },

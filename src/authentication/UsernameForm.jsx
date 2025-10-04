@@ -1,8 +1,9 @@
 import { useState } from "react";
-import setUsername  from "./setUsername";
-import ThemedLabel from '../ThemedComponents/ThemedLabel';
-import ThemedButton from '../ThemedComponents/ThemedButton';
-import ThemedInput from '../ThemedComponents/ThemedInput';
+import setUsername from "./setUsername";
+import ThemedLabel from "../ThemedComponents/ThemedLabel";
+import ThemedButton from "../ThemedComponents/ThemedButton";
+import ThemedInput from "../ThemedComponents/ThemedInput";
+import { NavLink } from "react-router-dom";
 
 export default function UsernameForm() {
   const [username, setUsernameInput] = useState("");
@@ -34,7 +35,7 @@ export default function UsernameForm() {
           onChange={e => setUsernameInput(e.target.value)}
           placeholder="Choose your username"
         />
-      
+
         <ThemedButton
           type="submit"
           // style={{
@@ -47,7 +48,9 @@ export default function UsernameForm() {
         {error && <p className="text-red-500">{error}</p>}
         {success && <p className="text-green-500">{success}</p>}
       </form>
+      <ThemedButton className="w-24 p-3">
+        <NavLink to="/home-page">Home</NavLink>
+      </ThemedButton>
     </div>
   );
 }
-    
