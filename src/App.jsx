@@ -17,7 +17,8 @@ import RecommendationsPage from "./pages/RecommendationsPage";
 import ProfilePage from './pages/ProfilePage';
 import ProtectedRoute from "./authentication/ProtectedRoute";
 import UsernameForm from './authentication/UsernameForm';
-import ChooseAvatar from './pages/ChooseAvatar';
+import AvatarPage from './pages/AvatarPage';
+
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -46,7 +47,7 @@ function App() {
               <Route path="/trending-page" element={<TrendingPage />} />
               <Route path="/results-page" element={<ResultsPage />} />
               <Route path="/details-page/:id" element={<DetailsPage />} />
-              <Route path='/choose-avatar' element={<ChooseAvatar />} />
+              <Route path='/avatar-page' element={<AvatarPage />} />
               <Route
                 path="/favorites-page"
                 element={

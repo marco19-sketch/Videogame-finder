@@ -51,26 +51,7 @@ export default function ResultsPage() {
     return () => clearTimeout(timer);
   }, [page, handleFetch]);
 
-  useEffect(() => {
-    console.log(
-      "🔄 isAnimationLeft applied:",
-      animationLeft,
-      Date.now() / 1000
-    );
-  }, [animationLeft]);
-
-  useEffect(() => {
-    console.log("📄 page applied:", page, Date.now() / 1000);
-  }, [page]);
-
-  useEffect(() => {
-    console.log(
-      "⭐ visibleFavorites recalculated:",
-      results.map(f => f.id),
-      Date.now() / 1000
-    );
-  }, [results]);
-  console.log("height", window.scrollY);
+  
 
   return (
     <div

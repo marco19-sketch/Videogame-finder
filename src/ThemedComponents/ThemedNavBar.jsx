@@ -24,7 +24,7 @@ const menuItems = [
   },
   {
     name: 'Avatar',
-    path: '/choose-avatar'
+    path: '/avatar-page'
   },
   {
     name: 'Search',

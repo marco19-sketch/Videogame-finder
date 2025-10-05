@@ -23,7 +23,7 @@ export default function UsernameForm() {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col justify-center items-center">
+    <div className="h-screen w-full flex flex-col mt-32 items-center">
       <form
         onSubmit={handleSubmit}
         className="bg-gray-800 mb-4 flex flex-col items-center p-6 

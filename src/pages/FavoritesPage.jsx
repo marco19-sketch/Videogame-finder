@@ -16,6 +16,7 @@ import AnimateWrapper from "../components/AnimateWrapper";
 import { flushSync } from "react-dom";
 import useNavSound from "../customHooks/useNavSound";
 import useUsername from '../customHooks/useUsername';
+import UserAvatar from '../components/UserAvatar';
 
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
@@ -56,11 +57,12 @@ export default function MyListPage() {
      to-black flex flex-col items-center py-8 px-4 text-white">
       {/* Profile Header */}
       <div className="flex items-center place-self-start gap-6 ml-24 mb-8">
-        <img
+        {/* <img
           src={user?.avatar || "https://via.placeholder.com/100"}
           alt="User avatar"
           className="w-24 h-24 rounded-full border-4 border-indigo-500 shadow-lg"
-        />
+        /> */}
+        <UserAvatar />
         <div>
           <h1 className="text-2xl font-bold">{username || "Guest Gamer"}</h1>
           {/* <h1 className="text-2xl font-bold">{user?.name || "Guest Gamer"}</h1> */}
