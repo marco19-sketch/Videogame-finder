@@ -1,50 +1,40 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import useConsent from "../customHooks/useConsent";
 
 const PrivacySettings = () => {
-  const [shareData, setShareData] = useState(false);
-  const [allowAnalytics, setAllowAnalytics] = useState(false);
-  const [showPrivacy, setShowPrivacy] = useState(true);
+  const { consent, saveConsent } = useConsent();
+  const [showPrivacy, setShowPrivacy] = useState(!consent.timestamp);
+  const [shareData, setShareData] = useState(consent.shareData);
+  const [allowAnalytics, setAllowAnalytics] = useState(consent.allowAnalytics);
 
-  // Check localStorage on mount
-  useEffect(() => {
-    const savedSettings = localStorage.getItem("privacySettings");
-    if (savedSettings) {
-      const { shareData, allowAnalytics } = JSON.parse(savedSettings);
-      setShareData(shareData);
-      setAllowAnalytics(allowAnalytics);
-      setShowPrivacy(false); // Hide popup if settings exist
-    }
-  }, []);
-
-  const handleSave = () => {
-    localStorage.setItem(
-      "privacySettings",
-      JSON.stringify({ shareData, allowAnalytics })
-    );
-    // alert("Privacy settings saved!");
+  const handleAcceptAll = () => {
+    saveConsent(true, true);
     setShowPrivacy(false);
   };
 
   const handleRejectAll = () => {
-    setShareData(false);
-    setAllowAnalytics(false);
-    localStorage.setItem(
-      "privacySettings",
-      JSON.stringify({ shareData: false, allowAnalytics: false })
-    );
-    alert("All privacy options rejected.");
+    saveConsent(false, false);
+    setShowPrivacy(false);
+  };
+
+  const handleSaveCustom = () => {
+    saveConsent(shareData, allowAnalytics);
     setShowPrivacy(false);
   };
 
   return (
     <>
       {showPrivacy && (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">
             Privacy Settings
           </h2>
+          <p className="text-gray-700 mb-4">
+            We use cookies and analytics to improve your experience. You can
+            choose your preferences below.
+          </p>
 
-          <div className="space-y-4">
+          <div className="space-y-4 mb-6">
             <label className="flex items-center space-x-3">
               <input
                 type="checkbox"
@@ -68,11 +58,11 @@ const PrivacySettings = () => {
             </label>
           </div>
 
-          <div className="mt-6 space-y-3">
+          <div className="flex flex-col gap-3">
             <button
-              onClick={handleSave}
+              onClick={handleAcceptAll}
               className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
-              Save Settings
+              Accept All
             </button>
 
             <button
@@ -80,7 +70,21 @@ const PrivacySettings = () => {
               className="w-full bg-gray-300 text-gray-800 py-2 px-4 rounded hover:bg-gray-400 transition">
               Reject All
             </button>
+
+            <button
+              onClick={handleSaveCustom}
+              className="w-full bg-cyan-500 text-white py-2 px-4 rounded hover:bg-cyan-600 transition">
+              Save Preferences
+            </button>
           </div>
+
+          <p className="mt-4 text-gray-500 text-sm">
+            Read our{" "}
+            <a href="/privacy" className="underline text-cyan-600">
+              Privacy Policy
+            </a>{" "}
+            for more info.
+          </p>
         </div>
       )}
     </>

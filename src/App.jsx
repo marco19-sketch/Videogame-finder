@@ -18,6 +18,12 @@ import ProfilePage from './pages/ProfilePage';
 import ProtectedRoute from "./authentication/ProtectedRoute";
 import UsernameForm from './authentication/UsernameForm';
 import AvatarPage from './pages/AvatarPage';
+import AnalyticsLoader from './components/AnalyticsLoader';
+import Privacy from './legals/Privacy';
+import Cookie from './legals/Cookie';
+import Terms from './legals/Terms';
+import Impressum from './legals/Impressum';
+import Accessibility from './legals/Accessibility';
 
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
@@ -69,11 +75,16 @@ function App() {
                 path="/recommendations-page"
                 element={<RecommendationsPage />}
               />
-              
+              <Route path='/privacy' element={<Privacy />}/>
+              <Route path='/cookie' element={<Cookie />}/>
+              <Route path='/accessibility' element={<Accessibility />}/>
+              <Route path='/impressum' element={<Impressum />}/>
+              <Route path='/terms' element={<Terms />}/>
             </Routes>
           </main>
         </motion.div>
         <ThemedFooter />
+        <AnalyticsLoader />
       </div>
     </AnimatePresence>
   );

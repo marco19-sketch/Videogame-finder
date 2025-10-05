@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="bg-gray-900 text-gray-300 py-10 px-6 mt-12">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Brand */}
-        <div className='md:flex md:flex-col md:justify-center md:items-center'>
+        <div className="md:flex md:flex-col md:justify-center md:items-center">
           <h2 className="text-2xl font-bold text-cyan-400">Game Quest Hub</h2>
           <p className="mt-3 text-sm text-gray-400">
             Built with ❤️ using React + Tailwind.
@@ -24,18 +24,22 @@ export default function Footer() {
         {/* Links */}
         <div className="flex flex-col space-y-2">
           <h3 className="text-lg font-semibold text-white">Quick Links</h3>
-          <a href="#" className="hover:text-cyan-400">
+          <NavLink to="/home-page" className="hover:text-cyan-400">
             Home
-          </a>
-          <a href="#" className="hover:text-cyan-400">
-            Features
-          </a>
-          <a href="#" className="hover:text-cyan-400">
-            Pricing
-          </a>
+          </NavLink>
+
           <a href="#" className="hover:text-cyan-400">
             Contact
           </a>
+        </div>
+
+        {/* legals */}
+        <div>
+          <NavLink to="/privacy">Privacy policy</NavLink>
+          <NavLink to="/terms">Terms of service</NavLink>
+          <NavLink to="/cookie">Cookies policy</NavLink>
+          <NavLink to="/impressum">Impressum</NavLink>
+          <NavLink to="/accessibility">Accessibility policy</NavLink>
         </div>
 
         {/* Social */}
