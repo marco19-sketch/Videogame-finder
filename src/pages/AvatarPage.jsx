@@ -19,6 +19,7 @@ const handleAvatarSelect  = async (avatarUrl) =>  {
     { avatar: avatarUrl },
     { merge: true } // keep other data like username
   );
+
   setMessage("✅ Avatar saved successfully!")
 } catch (err) {
   console.error('Error saving avatar:', err);
@@ -28,15 +29,16 @@ const handleAvatarSelect  = async (avatarUrl) =>  {
 
 return (
   <div
-      className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800
+    className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800
      to-black flex flex-col items-center py-8 px-4 text-white">
-      <h1 className="text-3xl font-bold text-cyan-400 mb-2 drop-shadow-lg">
-        Choose your avatar
-      </h1>
-    <AvatarPicker onSelect={handleAvatarSelect} />
+    <h1 className="text-3xl font-bold text-cyan-400 mb-2 drop-shadow-lg">
+      Choose your avatar
+    </h1>
     {message && (
       <p className="text-center text-cyan-400 font-semibold mt-6">{message}</p>
     )}
+    <AvatarPicker onSelect={handleAvatarSelect} />
+    {/* <AvatarPicker onSelect={handleAvatarSelect} url={avatarUrl}/> */}
   </div>
 );
 }

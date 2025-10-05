@@ -1,5 +1,9 @@
 import { useState, useCallback } from "react";
 import useRadioCheck from "../customHooks/useRadioCheck";
+import ThemedLabel from '../ThemedComponents/ThemedLabel';
+import ThemedInput from '../ThemedComponents/ThemedInput';
+import AvatarUrlInput from '../components/AvatarUrlInput';
+import AvatarFileUpload from '../components/AvatarFileUpload';
 
 const avatarArray = [
   "/avatar/doom.avif",
@@ -15,6 +19,7 @@ const avatarArray = [
 export default function AvatarPicker({ onSelect }) {
   const [selected, setSelected] = useState(null);
   const playSound = useRadioCheck();
+  const [url, setUrl] = useState('');
 
   const handleClick = useCallback(
     avatar => {
@@ -24,9 +29,15 @@ export default function AvatarPicker({ onSelect }) {
     [onSelect]
   );
 
+  const handleUrlSubmit = useCallback(() => {
+    if (!url.trim()) return;
+    onSelect(url);
+    setSelected(null); //unselect present avatar if  URL is used
+  }, [url, onSelect]);
+
   return (
-  
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 cursor-pointer">
+  <>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 cursor-pointer max-w-7xl">
         {avatarArray.map(pic => (
           <img
             key={pic}
@@ -40,7 +51,16 @@ export default function AvatarPicker({ onSelect }) {
             }}
           />
         ))}
+        
       </div>
-   
+      <div>
+   <AvatarUrlInput 
+    url={url}
+    setUrl={setUrl}
+    onSubmit={handleUrlSubmit}
+    />
+    {/* <AvatarFileUpload onUpload={onSelect}/> */}
+    </div>
+   </>
   );
 }

@@ -11,3 +11,13 @@ Sound Effect by <a href="https://pixabay.com/users/existentialtaco-51014313/?utm
 
 
 <a href="https://freesound.org/people/BryanSaraiva/sounds/820351/">Typewriter Key Press 04</a> by <a href="https://freesound.org/people/BryanSaraiva/">BryanSaraiva</a> | License: <a href="https://creativecommons.org/licenses/by/4.0/">Attribution 4.0</a>
+
+
+<a href="https://www.freepik.com/free-vector/blue-circle-with-white-user_145857007.htm">Image by juicy_fish on Freepik</a>
+
+
+https://drive.google.com/file/d/19JFHcOM4Ott4eSfas4yR1PsL8I2Pa219/view?usp=sharing
+https://drive.google.com/uc?export=view&id=19JFHcOM4Ott4eSfas4yR1PsL8I2Pa219
+
+
+https://drive.google.com/uc?export=view&id=1iuBgw8P5ZAf7CiiltYGtWxiLTtUMbZfN
