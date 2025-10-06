@@ -1,9 +1,16 @@
+import { useCallback } from 'react';
 import ThemedButton from '../ThemedComponents/ThemedButton';
 import useRadioCheck from '../customHooks/useRadioCheck';
 import ThemedInput from '../ThemedComponents/ThemedInput';
 
 export default function AvatarUrlInput({url, setUrl, onSubmit}) {
     const playSound = useRadioCheck();
+
+    const handleUseThisImage = useCallback(() => {
+      onSubmit();
+      localStorage.setItem('avatar', url); // persist
+      playSound();
+    }, [onSubmit, url, playSound])
    
   return (
     <div className="flex flex-col items-center   mt-12 gap-4 p-6 bg-gray-900 text-white rounded-xl">
@@ -38,10 +45,7 @@ export default function AvatarUrlInput({url, setUrl, onSubmit}) {
       )}
       
       <ThemedButton
-        onClick={() => {
-          onSubmit();
-          playSound();
-        }}
+        onClick={handleUseThisImage}
         className="p-4">
         Use This Image
       </ThemedButton>

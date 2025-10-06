@@ -6,6 +6,11 @@ export default function UserAvatar() {
   const [avatar, setAvatar] = useState(null);
 
   useEffect(() => {
+    const localAvatar = localStorage.getItem("avatar");
+    if (localAvatar) {
+      setAvatar(localAvatar);
+      return;
+    }
     const fetchAvatar = async () => {
       const user = auth.currentUser;
       if (!user) return;

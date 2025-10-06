@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import useRadioCheck from "../customHooks/useRadioCheck";
 import ThemedLabel from '../ThemedComponents/ThemedLabel';
 import ThemedInput from '../ThemedComponents/ThemedInput';
@@ -20,6 +20,16 @@ export default function AvatarPicker({ onSelect }) {
   const [selected, setSelected] = useState(null);
   const playSound = useRadioCheck();
   const [url, setUrl] = useState('');
+
+  useEffect(() => {
+    const savedAvatar = localStorage.getItem("avatar");
+    if (savedAvatar) {
+      setSelected(savedAvatar);
+      onSelect(savedAvatar); // inform parent on mount
+      setUrl(savedAvatar); // in case user used URL
+    }
+  }, [onSelect]);
+
 
   const handleClick = useCallback(
     avatar => {
