@@ -6,6 +6,7 @@ export default function useConsent() {
     allowAnalytics: false,
     timestamp: null,
   });
+  const [loaded, setLoaded] = useState(false);
 
   // Load saved settings from localStorage on mount
   useEffect(() => {
@@ -13,6 +14,7 @@ export default function useConsent() {
     if (saved) {
       setConsent(JSON.parse(saved));
     }
+    setLoaded(true)
   }, []);
 
   const saveConsent = (shareData, allowAnalytics) => {
@@ -31,5 +33,5 @@ export default function useConsent() {
     }
   };
 
-  return { consent, saveConsent };
+  return { consent, saveConsent, loaded };
 }

@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useConsent from "../customHooks/useConsent";
 
 const PrivacySettings = () => {
-  const { consent, saveConsent } = useConsent();
+  const { consent, saveConsent, loaded } = useConsent();
   const [showPrivacy, setShowPrivacy] = useState(!consent.timestamp);
   const [shareData, setShareData] = useState(consent.shareData);
   const [allowAnalytics, setAllowAnalytics] = useState(consent.allowAnalytics);
+
+  // When data is loaded, decide if the modal should show
+  useEffect(() => {
+    if (loaded) {
+      setShareData(consent.shareData);
+      setAllowAnalytics(consent.allowAnalytics);
+      setShowPrivacy(!consent.timestamp); //only show if never saved
+    }
+  }, [loaded, consent])
+
+  if (!loaded) return null; // prevent flash before loading
 
   const handleAcceptAll = () => {
     saveConsent(true, true);
