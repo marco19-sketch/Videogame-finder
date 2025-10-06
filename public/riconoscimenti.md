@@ -16,8 +16,3 @@ Sound Effect by <a href="https://pixabay.com/users/existentialtaco-51014313/?utm
 <a href="https://www.freepik.com/free-vector/blue-circle-with-white-user_145857007.htm">Image by juicy_fish on Freepik</a>
 
 
-https://drive.google.com/file/d/19JFHcOM4Ott4eSfas4yR1PsL8I2Pa219/view?usp=sharing
-https://drive.google.com/uc?export=view&id=19JFHcOM4Ott4eSfas4yR1PsL8I2Pa219
-
-
-https://drive.google.com/uc?export=view&id=1iuBgw8P5ZAf7CiiltYGtWxiLTtUMbZfN

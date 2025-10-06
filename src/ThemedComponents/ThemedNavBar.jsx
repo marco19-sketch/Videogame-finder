@@ -12,6 +12,10 @@ import { IoVolumeHighSharp } from "react-icons/io5";
 
 const menuItems = [
   {
+    name: "Home",
+    path: "/home-page",
+  },
+  {
     name: "Pages",
     path: null,
     dropdown: [
@@ -19,32 +23,23 @@ const menuItems = [
       { name: "My list", path: "/favorites-page" },
       { name: "Recommended", path: "/recommendations-page" },
       { name: "Trending", path: "/trending-page" },
-
     ],
   },
+
   {
-    name: 'Avatar',
-    path: '/avatar-page'
+    name: "Account",
+    path: null,
+    dropdown: [
+      { name: "Avatars", path: "/avatar-page" },
+      { name: "Username", path: "/username-page" },
+      { name: 'Profile', path: '/profile-page'}
+    ],
   },
-  {
-    name: 'Search',
-    path: '/home-page'
-  },
-  {
-    name: "Profile",
-    path: "/profile-page",
-  },
-  {
-    name: 'Username',
-    path: 'username-page'
-  },
+
   {
     name: "Contact",
     path: "/contact",
-    dropdown: [
-      { name: "Support", path: "/contact/support" },
-      // { name: "Sales", path: "/contact/sales" },
-    ],
+    
   },
   {
     name: "Log out",
@@ -53,11 +48,11 @@ const menuItems = [
     name: "Log in",
   },
   {
-    name: 'Sound off'
+    name: "Sound off",
   },
   {
-    name: 'Sound on'
-  }
+    name: "Sound on",
+  },
 ];
 
 export default function Navbar() {
@@ -102,7 +97,7 @@ export default function Navbar() {
             if (item.name === "Log in") {
               if (user) return null; // hide login if logged in
               return (
-                <NavLink key={idx} to="log-in-page">
+                <NavLink key={idx} to="log-in-page" >
                   {/* Log in */}
                   {item.name}
                 </NavLink>
@@ -205,7 +200,7 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-gray-800 px-6 pb-4 space-y-3">
+            className="md:hidden bg-gray-800 px-6 py-4 flex flex-col space-y-4 rounded-b-2xl">
             {menuItems.map((item, idx) => {
               if (item.name === "Log out") {
                 if (!user) return null; // hide logout if not logged in
@@ -217,7 +212,8 @@ export default function Navbar() {
                       logOut();
                       setIsOpen(false);
                     }}
-                    className="cursor-pointer">
+                    // className="block py-4"
+                    >
                     {/* Log out */}
                     {item.name}
                   </NavLink>
@@ -230,7 +226,9 @@ export default function Navbar() {
                   <NavLink
                     onClick={() => setIsOpen(false)}
                     key={idx}
-                    to="log-in-page">
+                    to="log-in-page"
+                    // className='block mt-4'
+                    >
                     {/* Log in */}
                     {item.name}
                   </NavLink>
@@ -244,7 +242,7 @@ export default function Navbar() {
               type='button'
               key={idx}
               onClick={() => setSound(true)}
-              className='block mt-4'
+              className='place-self-start'
               >{item.name}</button>
               )
             }
@@ -255,7 +253,7 @@ export default function Navbar() {
               type='button'
               key={idx}
               onClick={() => setSound(false)}
-              className='block mt-4'
+              className='place-self-start'
               >{item.name}</button>
               )
             }
@@ -264,7 +262,7 @@ export default function Navbar() {
                 return (
                   <div key={idx} className="flex flex-col">
                     <button
-                      className="flex justify-between items-center py-2 hover:text-cyan-400"
+                      className="flex justify-between items-center  hover:text-cyan-400 "
                       onClick={() =>
                         setOpenDropdown(
                           openDropdown === item.name ? null : item.name

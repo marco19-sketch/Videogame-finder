@@ -56,7 +56,7 @@ export default function MyListPage() {
       className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800
      to-black flex flex-col items-center py-8 px-4 text-white">
       {/* Profile Header */}
-      <div className="flex items-center place-self-start gap-6 ml-24 mb-8 cursor-pointer">
+      <div className="flex items-center  sm:place-self-start gap-6 justify-center sm:ml-24 mb-8 cursor-pointer">
         <Link to='/avatar-page'>
         <UserAvatar />
         </Link>
