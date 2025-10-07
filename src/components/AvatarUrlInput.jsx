@@ -1,16 +1,20 @@
-import { useCallback } from 'react';
+import { useCallback, useContext } from 'react';
 import ThemedButton from '../ThemedComponents/ThemedButton';
 import useRadioCheck from '../customHooks/useRadioCheck';
 import ThemedInput from '../ThemedComponents/ThemedInput';
+import { AppContext } from '../context/contextsCreation';
 
 export default function AvatarUrlInput({url, setUrl, onSubmit}) {
     const playSound = useRadioCheck();
+    const { setAvatar } = useContext(AppContext);
+    console.log('avatar url', url)
 
     const handleUseThisImage = useCallback(() => {
       onSubmit();
       localStorage.setItem('avatar', url); // persist
       playSound();
-    }, [onSubmit, url, playSound])
+      setAvatar(url)
+    }, [onSubmit, url, playSound, setAvatar])
    
   return (
     <div className="flex flex-col items-center   mt-12 gap-4 p-6 bg-gray-900 text-white rounded-xl">

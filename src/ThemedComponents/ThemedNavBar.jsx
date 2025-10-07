@@ -9,6 +9,7 @@ import { useAuth } from "../authentication/useAuth";
 import GhqLogo from "./GhqLogo";
 import { IoVolumeMute } from "react-icons/io5";
 import { IoVolumeHighSharp } from "react-icons/io5";
+import UserAvatar from '../components/UserAvatar';
 
 const menuItems = [
   {
@@ -26,19 +27,19 @@ const menuItems = [
     ],
   },
 
-  {
-    name: "Account",
-    path: null,
-    dropdown: [
-      { name: "Avatars", path: "/avatar-page" },
-      { name: "Username", path: "/username-page" },
-      { name: 'Profile', path: '/profile-page'}
-    ],
-  },
+  // {
+  //   name: "Account",
+  //   path: null,
+  //   dropdown: [
+  //     { name: "Avatars", path: "/avatar-page" },
+  //     { name: "Username", path: "/username-page" },
+  //     { name: 'Profile', path: '/profile-page'}
+  //   ],
+  // },
 
   {
     name: "Contact",
-    path: "/contact",
+    path: "/contact-page",
     
   },
   {
@@ -79,6 +80,7 @@ export default function Navbar() {
           style={{ textShadow: "2px 2px 6px cyan" }}>
           Game Quest Hub
         </div>
+        <UserAvatar className='w-12 h-12 ml-auto mr-4 sm:mr-0' />
 
         {/* Desktop Links */}
         <div className="hidden md:flex space-x-6 ml-auto">
@@ -212,7 +214,7 @@ export default function Navbar() {
                       logOut();
                       setIsOpen(false);
                     }}
-                    // className="block py-4"
+                  
                     >
                     {/* Log out */}
                     {item.name}
@@ -227,7 +229,7 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     key={idx}
                     to="log-in-page"
-                    // className='block mt-4'
+                 
                     >
                     {/* Log in */}
                     {item.name}
@@ -241,7 +243,9 @@ export default function Navbar() {
               <button 
               type='button'
               key={idx}
-              onClick={() => setSound(true)}
+              onClick={() => {setSound(true);
+                setIsOpen(false);
+              }}
               className='place-self-start'
               >{item.name}</button>
               )
@@ -252,7 +256,9 @@ export default function Navbar() {
               <button 
               type='button'
               key={idx}
-              onClick={() => setSound(false)}
+              onClick={() => {setSound(false);
+                setIsOpen(false);
+              }}
               className='place-self-start'
               >{item.name}</button>
               )

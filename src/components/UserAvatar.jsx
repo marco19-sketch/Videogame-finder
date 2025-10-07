@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useContext } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
-export default function UserAvatar() {
-  const [avatar, setAvatar] = useState(null);
+import { AppContext } from '../context/contextsCreation';
+
+export default function UserAvatar({ className }) {
+  
+  // const [avatar, setAvatar] = useState(null);
+  const { avatar, setAvatar } = useContext(AppContext);
+
 
   useEffect(() => {
     const localAvatar = localStorage.getItem("avatar");
@@ -20,15 +25,16 @@ export default function UserAvatar() {
       }
     };
     fetchAvatar();
-  }, []);
+  }, [setAvatar]);
 
   if (!avatar) return null;
+  console.log('avatar', avatar)
 
   return (
     <img
       src={avatar || "https://via.placeholder.com/100"}
       alt="User avatar"
-      className="w-24 h-24 rounded-full object-cover border-4 border-cyan-400"
+      className={`rounded-full object-cover border-4 border-cyan-400 ${className}`}
     />
   );
 }

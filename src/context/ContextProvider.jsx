@@ -33,6 +33,7 @@ export default function ContextProvider({ children }) {
   const [slides, setSlides] = useState([]);
   const [autoplay, setAutoplay] = useState(0);
   const [sound, setSound] = useState(false);
+  const [avatar, setAvatar] = useState(null);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -44,6 +45,8 @@ export default function ContextProvider({ children }) {
     }
   });
 
+
+  console.log('avatar', avatar)
   //Getting trailers using gameId
   const handleFetchTrailers = useCallback(
     async game => {
@@ -93,7 +96,7 @@ export default function ContextProvider({ children }) {
     });
     return () => unsubscribe();
   }, []);
-
+ console.log('loading', loading)
   const isFavoritesPage = location.pathname === "/favorites-page";
 
   const handleFetch = useCallback(
@@ -203,7 +206,9 @@ export default function ContextProvider({ children }) {
       autoplay,
       setAutoplay,
       sound,
-      setSound
+      setSound,
+      avatar,
+      setAvatar
     }),
     [
       results,
@@ -253,7 +258,9 @@ export default function ContextProvider({ children }) {
       autoplay,
       setAutoplay,
       sound,
-      setSound
+      setSound,
+      avatar,
+      setAvatar
     ]
   );
 
@@ -270,7 +277,7 @@ export default function ContextProvider({ children }) {
     }),
     [user, setUser, loading, setLoading, email, setEmail, password, setPassword]
   );
-
+ 
   return (
     <AuthContext.Provider value={AuthContextValues}>
       <AppContext.Provider value={AppContextValues}>

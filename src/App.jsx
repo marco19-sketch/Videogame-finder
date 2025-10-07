@@ -24,6 +24,7 @@ import Cookie from './legals/Cookie';
 import Terms from './legals/Terms';
 import Impressum from './legals/Impressum';
 import Accessibility from './legals/Accessibility';
+import ContactPage from './pages/ContactPage';
 
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
@@ -75,6 +76,7 @@ function App() {
                 path="/recommendations-page"
                 element={<RecommendationsPage />}
               />
+              <Route path='/contact-page' element={<ContactPage />}/>
               <Route path='/privacy' element={<Privacy />}/>
               <Route path='/cookie' element={<Cookie />}/>
               <Route path='/accessibility' element={<Accessibility />}/>

@@ -56,12 +56,16 @@ export default function MyListPage() {
       className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800
      to-black flex flex-col items-center py-8 px-4 text-white">
       {/* Profile Header */}
-      <div className="flex items-center  sm:place-self-start gap-6 justify-center sm:ml-24 mb-8 cursor-pointer">
-        <Link to='/avatar-page'>
-        <UserAvatar />
+      <div className="flex items-center  sm:place-self-start gap-6 justify-center sm:ml-24 mb-8 ">
+        <Link to="/avatar-page" title="modify avatar">
+          <UserAvatar className='w-24 h-24'/>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold">{username || "Guest Gamer"}</h1>
+          <Link to="/username-page" title="modify username">
+            <h1 className="text-2xl font-bold cursor-pointer">
+              {username || "Guest Gamer"}
+            </h1>
+          </Link>
           {/* <h1 className="text-2xl font-bold">{user?.name || "Guest Gamer"}</h1> */}
           <p className="text-gray-600">{user?.email || "Not logged in"}</p>
         </div>
