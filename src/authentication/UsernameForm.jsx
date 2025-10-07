@@ -54,7 +54,7 @@ export default function UsernameForm() {
         {success && <p className="text-green-500">{success}</p>}
       </form>
       <ThemedButton className="w-24 p-3">
-        <NavLink to="/home-page">Home</NavLink>
+        <NavLink to="/avatar-page">Continue</NavLink>
       </ThemedButton>
     </div>
   );
