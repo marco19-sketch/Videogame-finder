@@ -5,6 +5,7 @@ import ThemedInput from '../ThemedComponents/ThemedInput';
 import AvatarUrlInput from '../components/AvatarUrlInput';
 import AvatarFileUpload from '../components/AvatarFileUpload';
 import { AppContext } from '../context/contextsCreation';
+import { AuthContext } from '../context/contextsCreation';
 
 const avatarArray = [
   "/avatar/doom.avif",
@@ -19,48 +20,38 @@ const avatarArray = [
 
 export default function AvatarPicker({ onSelect }) {
   // const [selected, setSelected] = useState(null);
-  const { avatar, setAvatar } = useContext(AppContext);
+  const { avatar, setAvatar, setMessage } = useContext(AppContext);
+  const { user } = useContext(AuthContext);
   const playSound = useRadioCheck();
   const [url, setUrl] = useState('');
 
-  // useEffect(() => {
-  //   if (avatar) return
-  //   const savedAvatar = localStorage.getItem("avatar");
-  //   if (savedAvatar) {
-  //     setAvatar(savedAvatar);
-  //     // setSelected(savedAvatar);
-  //     onSelect(savedAvatar); // inform parent on mount
-  //     setUrl(savedAvatar); // in case user used URL
-  //   }
-  // }, [onSelect, setAvatar, avatar]);
-
+  
   useEffect(() => {
-    const savedAvatar = localStorage.getItem("avatar");
+    const savedAvatar = localStorage.getItem(`avatar_${user.uid}`);
     // Only apply the saved avatar if context doesn't already have one
     if (!avatar && savedAvatar) {
       setAvatar(savedAvatar);
       setUrl(savedAvatar);
       // ❌ DO NOT call onSelect here, it will trigger Firestore writes on every render
     }
-  }, [avatar, setAvatar]);
+  }, [avatar, setAvatar, user]);
 
 
 
   const handleClick = useCallback(
     avatar => {
-      setAvatar(avatar);
-      // setSelected(avatar);
+      setAvatar(avatar); //update context
       onSelect(avatar); //send to parent or save in Firestore
+      setMessage('');
     },
-    [onSelect, setAvatar]
+    [onSelect, setAvatar, setMessage]
   );
 
   const handleUrlSubmit = useCallback(() => {
     if (!url.trim()) return;
-    onSelect(url);
-    setAvatar(null); //unselect present avatar if  URL is used
-    // setSelected(null); //unselect present avatar if  URL is used
-  }, [url, onSelect, setAvatar]);
+    onSelect(url); //calls AvatarPage.handleAvatarSelect
+  }, [url, onSelect]);
+  // }, [url, onSelect, setAvatar]);
 
  
   return (

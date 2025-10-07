@@ -34,6 +34,8 @@ export default function ContextProvider({ children }) {
   const [autoplay, setAutoplay] = useState(0);
   const [sound, setSound] = useState(false);
   const [avatar, setAvatar] = useState(null);
+  const [formUrl, setFormUrl] = useState(false);
+  const [message, setMessage] = useState("");
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -45,7 +47,7 @@ export default function ContextProvider({ children }) {
     }
   });
 
-
+  console.log("formUrl", formUrl);
   console.log('avatar', avatar)
   //Getting trailers using gameId
   const handleFetchTrailers = useCallback(
@@ -208,7 +210,11 @@ export default function ContextProvider({ children }) {
       sound,
       setSound,
       avatar,
-      setAvatar
+      setAvatar,
+      formUrl,
+      setFormUrl,
+      message,
+      setMessage,
     }),
     [
       results,
@@ -260,7 +266,11 @@ export default function ContextProvider({ children }) {
       sound,
       setSound,
       avatar,
-      setAvatar
+      setAvatar,
+      formUrl,
+      setFormUrl,
+      message,
+      setMessage,
     ]
   );
 

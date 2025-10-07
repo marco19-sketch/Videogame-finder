@@ -2,7 +2,8 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import { db, auth } from "../firebase";
 
-export default async function setUsername(username) {
+
+export default async function setUsername(username, avatar) {
   const user = auth.currentUser;
   if (!user) throw new Error("Not authenticated");
 
@@ -20,9 +21,11 @@ export default async function setUsername(username) {
   await setDoc(doc(db, "users", user.uid), {
     username,
     email: user.email,
-    photoURL: user.photoURL || "",
-  });
+    photoURL: avatar || "",
+  },
+  { merge: true}
+);
 
   // Update Firebase Auth display name
-  await updateProfile(user, { displayName: username });
+  await updateProfile(user, { displayName: username, photoURL: avatar });
 }

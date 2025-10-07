@@ -4,23 +4,25 @@ import ThemedLabel from "../ThemedComponents/ThemedLabel";
 import ThemedButton from "../ThemedComponents/ThemedButton";
 import ThemedInput from "../ThemedComponents/ThemedInput";
 import { NavLink } from "react-router-dom";
-import { AuthContext } from '../context/contextsCreation';
+import { AuthContext, AppContext } from '../context/contextsCreation';
+
 
 export default function UsernameForm() {
   const [username, setUsernameInput] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const { loading } = useContext(AuthContext);
+  const { avatar, setMessage } = useContext(AppContext);
 
   const handleSubmit = async e => {
     if (loading) {
-      return "⏳ Checking authentication...";
+      setMessage("⏳ Checking authentication...");
     }
     e.preventDefault();
     setError("");
     setSuccess("");
     try {
-      await setUsername(username);
+      await setUsername(username, avatar );
       setSuccess("Username set successfully 🎉");
     } catch (err) {
       setError(err.message);

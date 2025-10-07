@@ -1,15 +1,17 @@
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import AvatarPicker from "../components/AvatarPicker";
-import { useState, useContext, useRef } from "react";
+import { useContext, useRef, useEffect } from "react";
 import { AuthContext, AppContext } from "../context/contextsCreation";
 
 
 export default function AvatarPage() {
-  const [message, setMessage] = useState("");
   const { user, loading } = useContext(AuthContext);
-  const { avatar, setAvatar } = useContext(AppContext);
+  const { avatar, setAvatar, formUrl, setFormUrl, message, setMessage } =
+    useContext(AppContext);
   const prevAvatarRef = useRef(null);
+  
+ 
 
   const handleAvatarSelect = async avatarUrl => {
    if (prevAvatarRef.current === avatarUrl) return
@@ -27,21 +29,29 @@ export default function AvatarPage() {
     try {
       await setDoc(
         doc(db, "users", user.uid),
-        { avatar: avatarUrl },
+        { photoURL: avatarUrl },// save in firestore
         { merge: true } // keep other data like username
       );
       setAvatar(avatarUrl)
-      if (avatar !== prevAvatarRef.current) {
-      setMessage("✅ Avatar saved successfully!");
-      }
-      prevAvatarRef.current = avatarUrl
+      // if (formUrl && avatar !== prevAvatarRef.current) {
+      // setMessage("✅ Avatar saved successfully!");
+      
+      // }
+      // prevAvatarRef.current = avatarUrl
     } catch (err) {
       console.error("Error saving avatar:", err);
       setMessage("❌ Failed to save avatar.");
     }
   };
 
- 
+  useEffect(() => {
+    if(!formUrl) return
+     if (formUrl && avatar !== prevAvatarRef.current) {
+       setMessage("✅ Avatar saved successfully!");
+       prevAvatarRef.current = avatar;
+       setFormUrl(false)
+     }
+  }, [avatar, formUrl, setFormUrl, setMessage])
  
   console.log('avatar', avatar)
 
