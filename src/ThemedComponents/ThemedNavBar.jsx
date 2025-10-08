@@ -80,7 +80,7 @@ export default function Navbar() {
           style={{ textShadow: "2px 2px 6px cyan" }}>
           Game Quest Hub
         </div>
-        <UserAvatar className='w-12 h-12 ml-auto mr-4 sm:mr-0' />
+        {user && <UserAvatar className="w-12 h-12 ml-auto mr-4 sm:mr-0" />}
 
         {/* Desktop Links */}
         <div className="hidden md:flex space-x-6 ml-auto">
@@ -99,14 +99,14 @@ export default function Navbar() {
             if (item.name === "Log in") {
               if (user) return null; // hide login if logged in
               return (
-                <NavLink key={idx} to="log-in-page" >
+                <NavLink key={idx} to="log-in-page">
                   {/* Log in */}
                   {item.name}
                 </NavLink>
               );
             }
 
-            if (item.name === 'Sound off') {
+            if (item.name === "Sound off") {
               if (!sound) return null; // hide sound off
               return (
                 <button key={idx} type="button" onClick={() => setSound(false)}>
@@ -116,16 +116,14 @@ export default function Navbar() {
               );
             }
 
-            if (item.name === 'Sound on') {
+            if (item.name === "Sound on") {
               if (sound) return null; // hide sound on
               return (
-                <button 
-                key={idx}
-                type='button'
-                onClick={() => setSound(true)}
-                ><IoVolumeMute /></button>
+                <button key={idx} type="button" onClick={() => setSound(true)}>
+                  <IoVolumeMute />
+                </button>
                 // >{item.name}</button>
-              )
+              );
             }
 
             // Regular menu items with  dropdown items
@@ -213,9 +211,7 @@ export default function Navbar() {
                     onClick={() => {
                       logOut();
                       setIsOpen(false);
-                    }}
-                  
-                    >
+                    }}>
                     {/* Log out */}
                     {item.name}
                   </NavLink>
@@ -228,41 +224,43 @@ export default function Navbar() {
                   <NavLink
                     onClick={() => setIsOpen(false)}
                     key={idx}
-                    to="log-in-page"
-                 
-                    >
+                    to="log-in-page">
                     {/* Log in */}
                     {item.name}
                   </NavLink>
                 );
               }
 
-              if (item.name === 'Sound off') {
-              if (sound) return null
-              return (
-              <button 
-              type='button'
-              key={idx}
-              onClick={() => {setSound(true);
-                setIsOpen(false);
-              }}
-              className='place-self-start'
-              >{item.name}</button>
-              )
-            }
-              if (item.name === 'Sound on') {
-              if (!sound) return null
-              return (
-              <button 
-              type='button'
-              key={idx}
-              onClick={() => {setSound(false);
-                setIsOpen(false);
-              }}
-              className='place-self-start'
-              >{item.name}</button>
-              )
-            }
+              if (item.name === "Sound off") {
+                if (sound) return null;
+                return (
+                  <button
+                    type="button"
+                    key={idx}
+                    onClick={() => {
+                      setSound(true);
+                      setIsOpen(false);
+                    }}
+                    className="place-self-start">
+                    {item.name}
+                  </button>
+                );
+              }
+              if (item.name === "Sound on") {
+                if (!sound) return null;
+                return (
+                  <button
+                    type="button"
+                    key={idx}
+                    onClick={() => {
+                      setSound(false);
+                      setIsOpen(false);
+                    }}
+                    className="place-self-start">
+                    {item.name}
+                  </button>
+                );
+              }
 
               if (item.dropdown) {
                 return (
@@ -288,7 +286,8 @@ export default function Navbar() {
                             <NavLink
                               key={subIdx}
                               to={sub.path}
-                              onClick={() => {setIsOpen(false);
+                              onClick={() => {
+                                setIsOpen(false);
                                 setOpenDropdown(null);
                               }}
                               className="block py-1 hover:text-cyan-400">
@@ -306,7 +305,8 @@ export default function Navbar() {
                 <NavLink
                   key={idx}
                   to={item.path}
-                  onClick={() => {setIsOpen(false);
+                  onClick={() => {
+                    setIsOpen(false);
                     setOpenDropdown(null);
                   }}
                   className={({ isActive }) =>

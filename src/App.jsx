@@ -26,6 +26,7 @@ import Impressum from './legals/Impressum';
 import Accessibility from './legals/Accessibility';
 import ContactPage from './pages/ContactPage';
 
+
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -82,6 +83,7 @@ function App() {
               <Route path='/accessibility' element={<Accessibility />}/>
               <Route path='/impressum' element={<Impressum />}/>
               <Route path='/terms' element={<Terms />}/>
+             
             </Routes>
           </main>
         </motion.div>

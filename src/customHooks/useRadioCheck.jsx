@@ -8,7 +8,7 @@ export default function useRadioCheck() {
     if (sound) {
       const audio = new Audio("/sounds/confirm-tap-394001.mp3");
       
-      //   const audio = new Audio(src);
+      console.trace("Audio played:", audio.src);
       audio.currentTime = 0;
       audio.play().catch(err => {
         console.error("Audio play failed:", err);

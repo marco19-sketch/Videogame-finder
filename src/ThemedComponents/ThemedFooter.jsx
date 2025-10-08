@@ -76,36 +76,102 @@ export default function Footer() {
             Contact us: <IoMail className="mt-0.5" />
           </a>
         </div>
-        <div className="text-sm flex flex-wrap gap-0.5 md:justify-end">
-          Sound Effect by:{" "}
-          <a href="http://bit.ly/46CZdO7">freesound_community,</a>{" "}
-          <a href="http://bit.ly/46Cb2Ei">Jurij,</a>
-          <a href="http://bit.ly/4o2lN8z">Existential Taco</a>
-          from <a href="http://bit.ly/47aRFCl">Pixabay;</a>
-          <a href="https://freesound.org/people/Wdomino/sounds/508575/">
-            BoulderReset.wav
-          </a>{" "}
-          by <a href="https://freesound.org/people/Wdomino/">Wdomino</a> |
-          License:{" "}
-          <a href="http://creativecommons.org/publicdomain/zero/1.0/">
-            Creative Commons 0;
-          </a>
-          <a href="https://freesound.org/people/BryanSaraiva/sounds/820351/">
-            Typewriter Key Press 04
-          </a>{" "}
-          by{" "}
-          <a href="https://freesound.org/people/BryanSaraiva/">BryanSaraiva</a>{" "}
-          | License:{" "}
-          <a href="https://creativecommons.org/licenses/by/4.0/">
-            Attribution 4.0;
-          </a>
-          <a href="https://www.freepik.com/free-vector/blue-circle-with-white-user_145857007.htm">
-            Image by juicy_fish on Freepik
-          </a>
+        <div className="text-sm flex flex-wrap gap-0.5 md:justify-end sm:text-right">
+          <p>
+            Sound Effect by:{" "}
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="http://bit.ly/46CZdO7">
+              freesound_community,
+            </a>{" "}
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="http://bit.ly/46Cb2Ei">
+              Jurij,
+            </a>{' '}
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="http://bit.ly/4o2lN8z">
+              Existential Taco
+            </a>{' '}
+            from{" "}
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="http://bit.ly/47aRFCl">
+              Pixabay;
+            </a>
+          </p>
+          <p>
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://freesound.org/people/Wdomino/sounds/508575/">
+              BoulderReset.wav
+            </a>{" "}
+            by{" "}
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://freesound.org/people/Wdomino/">
+              Wdomino
+            </a>{" "}
+            | License:{" "}
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="http://creativecommons.org/publicdomain/zero/1.0/">
+              Creative Commons 0;
+            </a>
+          </p>
+          <p>
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://freesound.org/people/BryanSaraiva/sounds/820351/">
+              Typewriter Key Press 04
+            </a>{" "}
+            by{" "}
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://freesound.org/people/BryanSaraiva/">
+              BryanSaraiva
+            </a>{" "}
+            | License:{" "}
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://creativecommons.org/licenses/by/4.0/">
+              Attribution 4.0;
+            </a>
+          </p>
+          <p>
+            <a
+              className="underline underline-offset-2 text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://www.freepik.com/free-vector/blue-circle-with-white-user_145857007.htm">
+              Image by juicy_fish on Freepik
+            </a>
+          </p>
         </div>
       </div>
       {/* legals */}
-      <div className="flex flex-col sm:flex-row gap-4 text-sm sm:justify-center">
+      <div className="flex flex-col sm:flex-row gap-2 mt-4  text-sm sm:justify-center">
         <NavLink to="/privacy">Privacy policy</NavLink>
         <NavLink to="/terms">Terms of service</NavLink>
         <NavLink to="/cookie">Cookies policy</NavLink>

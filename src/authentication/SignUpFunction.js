@@ -1,11 +1,8 @@
-import { auth 
-  //   signInWithEmailAndPassword,
-  //   signOut,
-  //   onAuthStateChanged,
-  //   GoogleAuthProvider,
-  //   signInWithPopup,
-} from "../firebase";
-import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { auth } from "../firebase";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 
 export default async function SignUp(email, password) {
   try {
@@ -21,19 +18,16 @@ export default async function SignUp(email, password) {
     //   url: `${window.location.origin}/action`,
     //   handleCodeInApp: true
     // });
-    
 
-const baseUrl =
-  window.location.hostname === "localhost"
-    ? `http://localhost:8888`
-    : "https://dev--gamequesthub.netlify.app";
+    const baseUrl =
+      window.location.hostname === "localhost"
+        ? `http://localhost:8888`
+        : "https://dev--gamequesthub.netlify.app";
 
-await sendEmailVerification(user, {
-  url: `${baseUrl}/action`,
-  handleCodeInApp: true
-});
-
-
+    await sendEmailVerification(user, {
+      url: `${baseUrl}/action`,
+      handleCodeInApp: true,
+    });
 
     return user;
   } catch (error) {
