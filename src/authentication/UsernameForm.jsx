@@ -5,6 +5,9 @@ import ThemedButton from "../ThemedComponents/ThemedButton";
 import ThemedInput from "../ThemedComponents/ThemedInput";
 import { NavLink } from "react-router-dom";
 import { AuthContext, AppContext } from '../context/contextsCreation';
+import useRadioCheck from '../customHooks/useRadioCheck';
+import useNavSound from '../customHooks/useNavSound';
+import useErrorSound from '../customHooks/useErrorSound';
 
 
 export default function UsernameForm() {
@@ -13,8 +16,13 @@ export default function UsernameForm() {
   const [success, setSuccess] = useState("");
   const { loading } = useContext(AuthContext);
   const { avatar, setMessage } = useContext(AppContext);
+  const playBlip = useRadioCheck();
+  const playNav = useNavSound();
+  const playError = useErrorSound();
+
 
   const handleSubmit = async e => {
+    
     if (loading) {
       setMessage("⏳ Checking authentication...");
     }
@@ -24,8 +32,10 @@ export default function UsernameForm() {
     try {
       await setUsername(username, avatar );
       setSuccess("Username set successfully 🎉");
+      playBlip();
     } catch (err) {
       setError(err.message);
+      playError();
     }
   };
 
@@ -45,17 +55,14 @@ export default function UsernameForm() {
 
         <ThemedButton
           type="submit"
-          // style={{
-          //   background: disabled ? "gray" : "",
-          // }}
-          // disabled={disabled}
           className="w-24 p-3">
           Save
         </ThemedButton>
         {error && <p className="text-red-500">{error}</p>}
         {success && <p className="text-green-500">{success}</p>}
       </form>
-      <ThemedButton className="w-24 p-3">
+      <ThemedButton className="w-24 p-3"
+      onClick={() => playNav()}>
         <NavLink to="/avatar-page">Continue</NavLink>
       </ThemedButton>
     </div>

@@ -1,23 +1,30 @@
 import { useCallback, useContext } from 'react';
 import ThemedButton from '../ThemedComponents/ThemedButton';
-import useRadioCheck from '../customHooks/useRadioCheck';
+import useErrorSound from '../customHooks/useErrorSound';
+
 import ThemedInput from '../ThemedComponents/ThemedInput';
 import { AppContext } from '../context/contextsCreation';
 import { AuthContext } from '../context/contextsCreation';
 
 export default function AvatarUrlInput({url, setUrl, onSubmit}) {
-    const playSound = useRadioCheck();
-    const { setAvatar, setFormUrl } = useContext(AppContext);
+
+    const { setAvatar, setFormUrl, setMessage } = useContext(AppContext);
     const { user } = useContext(AuthContext);
+    const playError = useErrorSound();
    
 
     const handleUseThisImage = useCallback(() => {
-      onSubmit();//triggers AvatarPicker.handleUrlSubmit
+      if (!user) {
+        setMessage("❌ You must be authenticated to choose an avatar");
+        playError();
+        return;
+      }
+      onSubmit(); //triggers avatarPage.handleAvatarSelect
       localStorage.setItem(`avatar_${user.uid}`, url); // persist
-      playSound();
-      setAvatar(url);//updates context
+
+      setAvatar(url); //updates context
       setFormUrl(true);
-    }, [onSubmit, url, playSound, setAvatar, setFormUrl, user])
+    }, [onSubmit, url, setAvatar, setFormUrl, user, setMessage, playError])
    
   return (
     <div className="flex flex-col items-center   mt-12 gap-4 p-6 bg-gray-900 text-white rounded-xl">
@@ -38,7 +45,7 @@ export default function AvatarUrlInput({url, setUrl, onSubmit}) {
       
       {url && (
         <>
-          {console.log("Rendering preview with URL:", url)}
+         
         <img
           src={url}
           alt="Avatar preview"

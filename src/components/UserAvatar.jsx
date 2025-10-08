@@ -1,12 +1,10 @@
 import { useEffect, useContext } from "react";
 import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
 
 import { AppContext, AuthContext } from '../context/contextsCreation';
 
 export default function UserAvatar({ className }) {
-  
-  // const [avatar, setAvatar] = useState(null);
   const { avatar, setAvatar } = useContext(AppContext);
   const { user } = useContext(AuthContext);
 
@@ -19,7 +17,6 @@ export default function UserAvatar({ className }) {
       return;
     }
     const fetchAvatar = async () => {
-      // const user = auth.currentUser;
       if (!user) return;
       const docSnap = await getDoc(doc(db, "users", user.uid));
       if (docSnap.exists()) {
@@ -30,7 +27,7 @@ export default function UserAvatar({ className }) {
   }, [setAvatar, user]);
 
   if (!avatar) return null;
-  console.log('avatar', avatar)
+ 
 
   return (
     <img

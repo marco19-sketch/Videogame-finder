@@ -11,7 +11,7 @@ export default function ThemedInput({
       id={id}
       type={type}
       placeholder={placeholder}
-      value={value}
+      value={value || ''}
       onChange={onChange}
       className={`
         w-full 

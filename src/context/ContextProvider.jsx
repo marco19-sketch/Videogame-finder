@@ -32,7 +32,7 @@ export default function ContextProvider({ children }) {
   const [current, setCurrent] = useState(0);
   const [slides, setSlides] = useState([]);
   const [autoplay, setAutoplay] = useState(0);
-  const [sound, setSound] = useState(false);
+  const [sound, setSound] = useState(true);
   const [avatar, setAvatar] = useState(null);
   const [formUrl, setFormUrl] = useState(false);
   const [message, setMessage] = useState("");
@@ -47,8 +47,7 @@ export default function ContextProvider({ children }) {
     }
   });
 
-  console.log("formUrl", formUrl);
-  console.log('avatar', avatar)
+ 
   //Getting trailers using gameId
   const handleFetchTrailers = useCallback(
     async game => {
@@ -73,7 +72,7 @@ export default function ContextProvider({ children }) {
           // }, 300);
           return data.results;
         } catch (err) {
-          // console.error("Error trying to fetch game trailers:", err);
+         
           if (err.name === "AbortError") return; // fetch was cancelled
           console.error("Error trying to fetch game trailers:", err);
         } finally {
@@ -98,7 +97,7 @@ export default function ContextProvider({ children }) {
     });
     return () => unsubscribe();
   }, []);
- console.log('loading', loading)
+ 
   const isFavoritesPage = location.pathname === "/favorites-page";
 
   const handleFetch = useCallback(

@@ -16,3 +16,6 @@ Sound Effect by <a href="https://pixabay.com/users/existentialtaco-51014313/?utm
 <a href="https://www.freepik.com/free-vector/blue-circle-with-white-user_145857007.htm">Image by juicy_fish on Freepik</a>
 
 
+NEW ATTRIBUTION
+
+<a href="https://freesound.org/people/distillerystudio/sounds/327736/">Error_03.wav</a> by <a href="https://freesound.org/people/distillerystudio/">distillerystudio</a> | License: <a href="http://creativecommons.org/licenses/by/3.0/">Attribution 3.0</a>

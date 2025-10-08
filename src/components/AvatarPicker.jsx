@@ -18,6 +18,7 @@ const avatarArray = [
   "/avatar/witcher.avif",
 ];
 
+//this component just renders the avatar imgs and sets the selected one
 export default function AvatarPicker({ onSelect }) {
   // const [selected, setSelected] = useState(null);
   const { avatar, setAvatar, setMessage } = useContext(AppContext);
@@ -42,16 +43,16 @@ export default function AvatarPicker({ onSelect }) {
   const handleClick = useCallback(
     avatar => {
       setAvatar(avatar); //update context
-      onSelect(avatar); //send to parent or save in Firestore
-      setMessage('');
+      // onSelect(avatar); //send to parent or save in Firestore
+      setMessage('');//reset msg
     },
-    [onSelect, setAvatar, setMessage]
+    [setAvatar, setMessage]
   );
 
-  const handleUrlSubmit = useCallback(() => {
-    if (!url.trim()) return;
-    onSelect(url); //calls AvatarPage.handleAvatarSelect
-  }, [url, onSelect]);
+  // const handleUrlSubmit = useCallback(() => {//passaggio inutile ?!
+  //   if (!url.trim()) return;
+  //   onSelect(url); //calls AvatarPage.handleAvatarSelect
+  // }, [url, onSelect]);
   // }, [url, onSelect, setAvatar]);
 
  
@@ -78,11 +79,11 @@ export default function AvatarPicker({ onSelect }) {
       </div>
      
       <div>
-   <AvatarUrlInput 
+   {/* <AvatarUrlInput 
     url={url}
     setUrl={setUrl}
     onSubmit={handleUrlSubmit}
-    />
+    /> */}
     {/* <AvatarFileUpload onUpload={onSelect}/> */}
     </div>
    </>

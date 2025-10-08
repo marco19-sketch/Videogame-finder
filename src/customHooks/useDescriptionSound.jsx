@@ -7,7 +7,7 @@ export default function useDescriptionSound() {
   return useCallback(() => {
     if (sound) {
       const audio = new Audio("/sounds/whoosh-end-384629.mp3");
-      console.log("Playing sound:", audio);
+      
       //   const audio = new Audio(src);
       audio.currentTime = 0;
       audio.play().catch(err => {

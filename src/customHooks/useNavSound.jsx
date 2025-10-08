@@ -7,7 +7,7 @@ export default function useNavSound() {
   return useCallback(() => {
   if (sound) {
   const audio = new Audio("/sounds/blip-sfx-36568.mp3");
-  console.log("Playing sound:", audio);
+  
   //   const audio = new Audio(src);
   audio.currentTime = 0;
   audio.play().catch(err => {

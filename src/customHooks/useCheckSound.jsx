@@ -7,7 +7,7 @@ export default function useCheckSound() {
   return useCallback(() => {
     if (sound) {
       const audio = new Audio("/sounds/check-83184.mp3");
-      console.log("Playing sound:", audio);
+      
       //   const audio = new Audio(src);
       audio.currentTime = 0;
       audio.play().catch(err => {

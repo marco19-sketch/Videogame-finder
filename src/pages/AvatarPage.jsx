@@ -1,14 +1,19 @@
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import AvatarPicker from "../components/AvatarPicker";
+import AvatarUrlInput from '../components/AvatarUrlInput';
 import { useContext, useRef, useEffect } from "react";
 import { AuthContext, AppContext } from "../context/contextsCreation";
+import useErrorSound from '../customHooks/useErrorSound';
+import useRadioCheck from '../customHooks/useRadioCheck';
 
 export default function AvatarPage() {
   const { user, loading } = useContext(AuthContext);
   const { avatar, setAvatar, formUrl, setFormUrl, message, setMessage } =
     useContext(AppContext);
   const prevAvatarRef = useRef(null);
+  const playBlip = useRadioCheck();
+
 
   const handleAvatarSelect = async avatarUrl => {
     if (prevAvatarRef.current === avatarUrl) return;
@@ -17,18 +22,20 @@ export default function AvatarPage() {
       setMessage("⏳ Checking authentication...");
       return;
     }
-    if (!user) {
-      setMessage("❌ You must be authenticated to choose an avatar");
-      return;
-    }
+    // if (!user) {
+    //   setMessage("❌ You must be authenticated to choose an avatar");
+    //   // playError();
+    //   return;
+    // }
 
     try {
       await setDoc(
         doc(db, "users", user.uid),
-        { photoURL: avatarUrl }, // save in firestore
+        { photoURL: avatar }, // save in firestore
         { merge: true } // keep other data like username
       );
-      setAvatar(avatarUrl);
+      // setAvatar(avatarUrl);
+      // console.log('setAvatar', avatarUrl)
       // if (formUrl && avatar !== prevAvatarRef.current) {
       // setMessage("✅ Avatar saved successfully!");
 
@@ -44,12 +51,13 @@ export default function AvatarPage() {
     if (!formUrl) return;
     if (formUrl && avatar !== prevAvatarRef.current) {
       setMessage("✅ Avatar saved successfully!");
+      playBlip();
       prevAvatarRef.current = avatar;
       setFormUrl(false);
     }
-  }, [avatar, formUrl, setFormUrl, setMessage]);
+  }, [avatar, formUrl, setFormUrl, setMessage, playBlip]);
 
-  console.log("avatar", avatar);
+
 
   return (
     <div
@@ -63,8 +71,8 @@ export default function AvatarPage() {
           {message}
         </p>
       )}
-      <AvatarPicker onSelect={handleAvatarSelect} />
-      {/* <AvatarPicker onSelect={handleAvatarSelect} url={avatarUrl}/> */}
+      <AvatarUrlInput url={avatar} setUrl={setAvatar} onSubmit={handleAvatarSelect} />
+      <AvatarPicker  />
     </div>
   );
 }
