@@ -4,38 +4,34 @@ import AvatarPicker from "../components/AvatarPicker";
 import { useContext, useRef, useEffect } from "react";
 import { AuthContext, AppContext } from "../context/contextsCreation";
 
-
 export default function AvatarPage() {
   const { user, loading } = useContext(AuthContext);
   const { avatar, setAvatar, formUrl, setFormUrl, message, setMessage } =
     useContext(AppContext);
   const prevAvatarRef = useRef(null);
-  
- 
 
   const handleAvatarSelect = async avatarUrl => {
-   if (prevAvatarRef.current === avatarUrl) return
-    
+    if (prevAvatarRef.current === avatarUrl) return;
+
     if (loading) {
-      setMessage("⏳ Checking authentication...")
+      setMessage("⏳ Checking authentication...");
       return;
     }
     if (!user) {
       setMessage("❌ You must be authenticated to choose an avatar");
-
       return;
     }
 
     try {
       await setDoc(
         doc(db, "users", user.uid),
-        { photoURL: avatarUrl },// save in firestore
+        { photoURL: avatarUrl }, // save in firestore
         { merge: true } // keep other data like username
       );
-      setAvatar(avatarUrl)
+      setAvatar(avatarUrl);
       // if (formUrl && avatar !== prevAvatarRef.current) {
       // setMessage("✅ Avatar saved successfully!");
-      
+
       // }
       // prevAvatarRef.current = avatarUrl
     } catch (err) {
@@ -45,15 +41,15 @@ export default function AvatarPage() {
   };
 
   useEffect(() => {
-    if(!formUrl) return
-     if (formUrl && avatar !== prevAvatarRef.current) {
-       setMessage("✅ Avatar saved successfully!");
-       prevAvatarRef.current = avatar;
-       setFormUrl(false)
-     }
-  }, [avatar, formUrl, setFormUrl, setMessage])
- 
-  console.log('avatar', avatar)
+    if (!formUrl) return;
+    if (formUrl && avatar !== prevAvatarRef.current) {
+      setMessage("✅ Avatar saved successfully!");
+      prevAvatarRef.current = avatar;
+      setFormUrl(false);
+    }
+  }, [avatar, formUrl, setFormUrl, setMessage]);
+
+  console.log("avatar", avatar);
 
   return (
     <div

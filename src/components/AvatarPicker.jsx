@@ -27,6 +27,7 @@ export default function AvatarPicker({ onSelect }) {
 
   
   useEffect(() => {
+    if (!user) return
     const savedAvatar = localStorage.getItem(`avatar_${user.uid}`);
     // Only apply the saved avatar if context doesn't already have one
     if (!avatar && savedAvatar) {
