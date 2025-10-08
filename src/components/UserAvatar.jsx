@@ -1,12 +1,13 @@
 import { useEffect, useContext } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
-
+import { useNavigate } from 'react-router-dom';
 import { AppContext, AuthContext } from '../context/contextsCreation';
 
 export default function UserAvatar({ className }) {
   const { avatar, setAvatar } = useContext(AppContext);
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -33,7 +34,8 @@ export default function UserAvatar({ className }) {
     <img
       src={avatar || "https://via.placeholder.com/100"}
       alt="User avatar"
-      className={`rounded-full object-cover border-4 border-cyan-400 ${className}`}
+      onClick={() => navigate('/avatar-page')}
+      className={`rounded-full object-cover border-4 border-cyan-400  cursor-pointer ${className}`}
     />
   );
 }

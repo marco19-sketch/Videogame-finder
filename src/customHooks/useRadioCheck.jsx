@@ -13,8 +13,6 @@ export default function useRadioCheck() {
       audio.play().catch(err => {
         console.error("Audio play failed:", err);
       });
-      console.log("🔊 Audio triggered from:");
-      console.trace();
     }
   }, [sound])
 }

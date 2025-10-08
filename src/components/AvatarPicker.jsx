@@ -1,9 +1,5 @@
 import { useState, useCallback, useEffect, useContext } from "react";
 import useRadioCheck from "../customHooks/useRadioCheck";
-import ThemedLabel from '../ThemedComponents/ThemedLabel';
-import ThemedInput from '../ThemedComponents/ThemedInput';
-import AvatarUrlInput from '../components/AvatarUrlInput';
-import AvatarFileUpload from '../components/AvatarFileUpload';
 import { AppContext } from '../context/contextsCreation';
 import { AuthContext } from '../context/contextsCreation';
 
@@ -19,11 +15,10 @@ const avatarArray = [
 ];
 
 //this component just renders the avatar imgs and sets the selected one
-export default function AvatarPicker({ onSelect }) {
-  // const [selected, setSelected] = useState(null);
+export default function AvatarPicker() {
   const { avatar, setAvatar, setMessage } = useContext(AppContext);
   const { user } = useContext(AuthContext);
-  const playSound = useRadioCheck();
+  const playBlip = useRadioCheck();
   const [url, setUrl] = useState('');
 
   
@@ -38,23 +33,19 @@ export default function AvatarPicker({ onSelect }) {
     }
   }, [avatar, setAvatar, user]);
 
-
+  useEffect(() => {
+    setMessage('');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleClick = useCallback(
     avatar => {
       setAvatar(avatar); //update context
-      // onSelect(avatar); //send to parent or save in Firestore
       setMessage('');//reset msg
+      playBlip();
     },
-    [setAvatar, setMessage]
+    [setAvatar, setMessage, playBlip]
   );
-
-  // const handleUrlSubmit = useCallback(() => {//passaggio inutile ?!
-  //   if (!url.trim()) return;
-  //   onSelect(url); //calls AvatarPage.handleAvatarSelect
-  // }, [url, onSelect]);
-  // }, [url, onSelect, setAvatar]);
-
  
   return (
   <>
@@ -71,21 +62,12 @@ export default function AvatarPicker({ onSelect }) {
               // setSelected(pic);
               handleClick(pic);
               setUrl(pic);
-              playSound();
+              playBlip();
             }}
           />
         ))}
         
       </div>
-     
-      <div>
-   {/* <AvatarUrlInput 
-    url={url}
-    setUrl={setUrl}
-    onSubmit={handleUrlSubmit}
-    /> */}
-    {/* <AvatarFileUpload onUpload={onSelect}/> */}
-    </div>
    </>
   );
 }
