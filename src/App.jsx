@@ -14,18 +14,16 @@ import ActionPage from "./authentication/ActionPage";
 import ThemedFooter from "./ThemedComponents/ThemedFooter";
 import WelcomePage from "./pages/WelcomePage";
 import RecommendationsPage from "./pages/RecommendationsPage";
-import ProfilePage from './pages/ProfilePage';
 import ProtectedRoute from "./authentication/ProtectedRoute";
-import UsernameForm from './authentication/UsernameForm';
-import AvatarPage from './pages/AvatarPage';
-import AnalyticsLoader from './components/AnalyticsLoader';
-import Privacy from './legals/Privacy';
-import Cookie from './legals/Cookie';
-import Terms from './legals/Terms';
-import Impressum from './legals/Impressum';
-import Accessibility from './legals/Accessibility';
-import ContactPage from './pages/ContactPage';
-
+import UsernameForm from "./authentication/UsernameForm";
+import AvatarPage from "./pages/AvatarPage";
+import AnalyticsLoader from "./components/AnalyticsLoader";
+import Privacy from "./legals/Privacy";
+import Cookie from "./legals/Cookie";
+import Terms from "./legals/Terms";
+import Impressum from "./legals/Impressum";
+import Accessibility from "./legals/Accessibility";
+import ContactPage from "./pages/ContactPage";
 
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
@@ -45,8 +43,7 @@ function App() {
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -100 }}
-          transition={{ duration: .5 }}
-          >
+          transition={{ duration: 0.5 }}>
           <main>
             {/* <main className="px-6 py-8"> */}
             <Routes location={location}>
@@ -55,7 +52,7 @@ function App() {
               <Route path="/trending-page" element={<TrendingPage />} />
               <Route path="/results-page" element={<ResultsPage />} />
               <Route path="/details-page/:id" element={<DetailsPage />} />
-              <Route path='/avatar-page' element={<AvatarPage />} />
+              <Route path="/avatar-page" element={<AvatarPage />} />
               <Route
                 path="/favorites-page"
                 element={
@@ -66,8 +63,7 @@ function App() {
               />
               <Route path="/sign-up-page" element={<SignUpPage />} />
               <Route path="/log-in-page" element={<LogInPage />} />
-              <Route path='/username-page' element={<UsernameForm /> } />
-              <Route path='/profile-page' element={<ProfilePage />} />
+              <Route path="/username-page" element={<UsernameForm />} />
               <Route
                 path="/reset-password-page"
                 element={<ResetPasswordPage />}
@@ -77,13 +73,12 @@ function App() {
                 path="/recommendations-page"
                 element={<RecommendationsPage />}
               />
-              <Route path='/contact-page' element={<ContactPage />}/>
-              <Route path='/privacy' element={<Privacy />}/>
-              <Route path='/cookie' element={<Cookie />}/>
-              <Route path='/accessibility' element={<Accessibility />}/>
-              <Route path='/impressum' element={<Impressum />}/>
-              <Route path='/terms' element={<Terms />}/>
-             
+              <Route path="/contact-page" element={<ContactPage />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/cookie" element={<Cookie />} />
+              <Route path="/accessibility" element={<Accessibility />} />
+              <Route path="/impressum" element={<Impressum />} />
+              <Route path="/terms" element={<Terms />} />
             </Routes>
           </main>
         </motion.div>

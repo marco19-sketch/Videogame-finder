@@ -6,7 +6,7 @@ export default function PrivacyPolicy() {
       <h1>Privacy Policy</h1>
       <p>Last updated: October 2025</p>
 
-      <p>GameQuest (“we”, “us”, or “our”) respects your privacy and is committed to protecting your personal data.</p>
+      <p>GameQuest  respects your privacy and is committed to protecting your personal data.</p>
 
       <h2>1. Information We Collect</h2>
       <p>We may collect and store information you provide, such as your name, email address, or profile image when you create an account or upload an avatar. We also use anonymous analytics data to improve our services.</p>
@@ -21,10 +21,10 @@ export default function PrivacyPolicy() {
       <p>We use trusted third parties such as Firebase (for authentication, database, and storage) and Google Analytics. These providers may process limited user data under their own privacy policies.</p>
 
       <h2>5. Your Rights</h2>
-      <p>Under the GDPR, you have the right to access, correct, delete, or restrict your personal data. To exercise your rights, contact us at: <strong>[your email here]</strong></p>
+      <p>Under the GDPR, you have the right to access, correct, delete, or restrict your personal data. To exercise your rights, contact us at: <strong>Marco19_70@hotmail.it</strong></p>
 
       <h2>6. Contact</h2>
-      <p>If you have questions about this Privacy Policy, please contact: <strong>[your email]</strong></p>
+      <p>If you have questions about this Privacy Policy, please contact: <strong>Marco19_70@hotmail.it</strong></p>
     </div>
   );
 }

@@ -8,6 +8,7 @@ export default function AvatarPage() {
   const { avatar, setAvatar } =
     useContext(AppContext);
 
+console.log("AvatarPage re-rendered with url:", avatar);
 
   return (
     <div

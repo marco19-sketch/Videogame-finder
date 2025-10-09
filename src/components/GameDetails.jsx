@@ -8,6 +8,7 @@ import FavoritesSetter from "./FavoritesSetter";
 import RatingStars from "./RatingStars";
 import RatingMsg from "./RatingMsg";
 import useDescriptionSound from "../customHooks/useDescriptionSound";
+import AmazonButton from './AmazonButton';
 
 export default function GameDetails({ gameId, game, setAutoplay }) {
   // export default function GameDetails({ gameId, game }) {
@@ -118,6 +119,10 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
           ))}
         </p>
       </div>
+      <AmazonButton
+        title={game.name}
+        // platform={game.parent_platforms[1].platform.name}
+      />
       {slides.length > 0 && (
         <div
           className="relative my-8 w-full sm:w-160 hover:cursor-pointer
@@ -136,11 +141,17 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
           <FavoritesSetter game={game} className="top-2.5 right-2.5" />
         </div>
       )}
+
       <button
-        className="mb-1 rounded-lg px-4 py-2 bg-transparent
-        underline text-yellow-200 text-xl
-         hover:text-yellow-400   font-semibold 
-         shadow-md transition duration-200 cursor-pointer"
+        // className="mb-1 rounded-lg px-4 py-2 bg-transparent
+        // underline text-yellow-200 text-xl
+        //  hover:text-yellow-400   font-semibold
+        //  shadow-md transition duration-200 cursor-pointer"
+        className="relative text-yellow-300 font-bold flex items-center p-2 rounded-xl
+             after:content-[''] after:absolute after:left-0 after:bottom-0 
+             after:h-[2px] after:bg-yellow-300 after:w-0 
+             after:transition-all after:duration-300 
+             hover:after:w-full"
         type="button"
         onClick={() => {
           setShowDescription(!showDescription);

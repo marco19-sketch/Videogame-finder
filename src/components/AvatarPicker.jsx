@@ -31,7 +31,8 @@ export default function AvatarPicker() {
       setUrl(savedAvatar);
       // ❌ DO NOT call onSelect here, it will trigger Firestore writes on every render
     }
-  }, [avatar, setAvatar, user]);
+  }, [user]);
+  // }, [avatar, setAvatar, user]);
 
   useEffect(() => {
     setMessage('');
@@ -61,8 +62,8 @@ export default function AvatarPicker() {
             onClick={() => {
               // setSelected(pic);
               handleClick(pic);
-              setUrl(pic);
-              playBlip();
+              // setUrl(pic);
+              // playBlip();
             }}
           />
         ))}

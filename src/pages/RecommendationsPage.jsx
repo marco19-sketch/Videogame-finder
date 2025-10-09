@@ -22,6 +22,7 @@ import Slideshow from "../components/Slideshow";
 import RatingStars from "../components/RatingStars";
 import useNavSound from "../customHooks/useNavSound";
 import useBlipVideoSound from "../customHooks/useBlipVideoSound";
+import { scrollTo } from '../lib/scrollTo';
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
@@ -228,6 +229,7 @@ export default function RecommendationsPage() {
                   setIndex(prev => prev + 1);
                   setMode("");
                   playNav();
+                  scrollTo(0, 500);
                 }}>
                 <ArrowRightDown
                   className={clsx(

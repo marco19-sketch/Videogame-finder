@@ -128,7 +128,7 @@ export default function WelcomePage() {
         </div>
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/40 z-0" />
+        <div className="absolute inset-0 bg-black/20 z-0" />
 
         {/* Foreground content */}
         <div className="relative  flex flex-col items-center justify-center h-full bg-black/40">

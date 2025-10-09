@@ -8,6 +8,7 @@ import ThemedInput from "../ThemedComponents/ThemedInput";
 import { AppContext } from "../context/contextsCreation";
 import { AuthContext } from "../context/contextsCreation";
 
+
 export default function AvatarUrlInput({ url, setUrl }) {
   const { setAvatar, setFormUrl, avatar, message, setMessage } = useContext(AppContext);
   const { user, loading } = useContext(AuthContext);
@@ -26,15 +27,33 @@ export default function AvatarUrlInput({ url, setUrl }) {
       playError();
       return;
     }
+    // ✅ Allow clearing the avatar
+    if (!url.trim()) {
+      setAvatar("");
+      localStorage.removeItem(`avatar_${user.uid}`);
+      setMessage("🧹 Avatar cleared.");
+      return;
+    }
     // onSubmit(); //triggers avatarPage.handleAvatarSelect
-    localStorage.setItem(`avatar_${user.uid}`, url); // persist
+    // localStorage.setItem(`avatar_${user.uid}`, url); // persist
     try {
+      const res = await fetch(url, { method: "HEAD" });
+      const contentType = res.headers.get("content-type");
+
+      // if (!res.ok) {
+      if (!res.ok || !contentType?.includes("image/")) {
+        console.log('res', res)
+        playError();
+        throw new Error("Not a valid image");
+        
+      }
+      localStorage.setItem(`avatar_${user.uid}`, url); // persist
       await setDoc(
         doc(db, "users", user.uid),
         { photoURL: url }, // save in firestore
         { merge: true } // keep other data like username
       );
-      
+      console.log('code reached')
       setMessage("✅ Avatar saved successfully!");
       setAvatar(url); //updates context
       prevAvatarRef.current = url;
@@ -43,6 +62,7 @@ export default function AvatarUrlInput({ url, setUrl }) {
     } catch (err) {
       console.error("Error saving avatar:", err);
       setMessage("❌ Failed to save avatar.");
+      playError();
     }
   }, [
     url,
@@ -55,6 +75,7 @@ export default function AvatarUrlInput({ url, setUrl }) {
     user,
     playBlip,
   ]);
+console.log("url changed to:", url);
 
   return (
     <>
@@ -85,10 +106,10 @@ export default function AvatarUrlInput({ url, setUrl }) {
               src={url}
               alt="Avatar preview"
               className="w-32 h-32 rounded-full object-cover border-4 border-cyan-400 shadow-lg"
-              onError={e => {
-                console.error("Image failed to load:", e);
-                setUrl("/avatar/default.jpg"); // fallback if broken URL
-              }}
+              // onError={e => {
+              //   console.error("Image failed to load:", e);
+              //   setUrl("/avatar/default.jpg"); // fallback if broken URL
+              // }}
             />
           </>
         )}

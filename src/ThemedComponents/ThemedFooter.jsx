@@ -6,6 +6,7 @@ import { FaFacebookF } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaFreeCodeCamp } from "react-icons/fa";
+import { scrollTo } from "../lib/scrollTo";
 
 export default function Footer() {
   return (
@@ -92,14 +93,14 @@ export default function Footer() {
               target="_blank"
               href="http://bit.ly/46Cb2Ei">
               Jurij,
-            </a>{' '}
+            </a>{" "}
             <a
               className="underline underline-offset-2 text-white"
               rel="noopener noreferrer"
               target="_blank"
               href="http://bit.ly/4o2lN8z">
               Existential Taco
-            </a>{' '}
+            </a>{" "}
             from{" "}
             <a
               className="underline underline-offset-2 text-white"
@@ -171,15 +172,20 @@ export default function Footer() {
         </div>
       </div>
       {/* legals */}
-      <div className="flex flex-col sm:flex-row gap-2 mt-4  text-sm sm:justify-center">
+      <div
+        className="flex flex-col sm:flex-row gap-2 mt-4  text-sm sm:justify-center"
+        onClick={() => scrollTo(0, 500)}>
         <NavLink to="/privacy">Privacy policy</NavLink>
         <NavLink to="/terms">Terms of service</NavLink>
         <NavLink to="/cookie">Cookies policy</NavLink>
         <NavLink to="/impressum">Impressum</NavLink>
         <NavLink to="/accessibility">Accessibility policy</NavLink>
       </div>
+      <p className="text-sm text-gray-400 mt-4">
+        As an Amazon Associate, GameQuest earns from qualifying purchases.
+      </p>
 
-      <div className="border-t border-gray-700 mt-10 pt-6 text-center text-sm text-gray-500">
+      <div className="border-t border-gray-700 mt-5 pt-6 text-center text-sm text-gray-500">
         © {new Date().getFullYear()} Game Quest Hub. All rights reserved.
       </div>
     </footer>
