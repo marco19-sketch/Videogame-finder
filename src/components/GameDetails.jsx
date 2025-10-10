@@ -54,8 +54,8 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
         {game.name}
       </h1>
       <div
-        className="grid grid-cols-1 *:border-0 *:rounded-[8px] *:p-4 *:shadow-lg *:shadow-black sm:grid-cols-2 
-      gap-4 items-start text-xl">
+        className="grid grid-cols-1 *:border-1 *:border-cyan-400 *:rounded-[8px] *:p-4 *:shadow-lg *:shadow-black sm:grid-cols-2 
+      gap-4 items-start text-xl mb-8">
         <p className="font-bold text-cyan-300">
           Genres:{" "}
           {game.genres.map((g, index) => (

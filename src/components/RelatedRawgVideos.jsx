@@ -1,19 +1,25 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useContext } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
+import useNavSound from "../customHooks/useNavSound";
+import { AppContext } from "../context/contextsCreation";
 
 export default function OtherRawgVideos({
-  trailers,
-  setCurrentIndex,
-  currentIndex,
-  indexA,
-  setIndexA,
-  results,
-  setOtherVideos,
-  handleOnPlay,
+  // trailers,
+  setCurrentIndex, // lifted to parent
+  currentIndex, //lifted to parent
+  // indexA,
+  // setIndexA,
+  // results,
+  // setOtherVideos,//???
+  setRelatedRawgVideos, //lifting to parent
+  handleOnPlay, // ???
 }) {
+  const { trailers, indexA, setIndexA, results } = useContext(AppContext);
+
   const [isAnimateLeft, setIsAnimateLeft] = useState(false);
+  const playNav = useNavSound();
 
   const handleLeftOther = useCallback(
     e => {
@@ -52,8 +58,7 @@ export default function OtherRawgVideos({
             onClick={e => {
               setIsAnimateLeft(true);
               handleLeftOther(e);
-              console.log("key from related rawg", trailers[indexA].id);
-              console.log("animation left from related rawg", isAnimateLeft);
+              playNav();
             }}
           />
           {trailers.length >= 2 ? (
@@ -67,15 +72,18 @@ export default function OtherRawgVideos({
 
                         // find the indexA of the clicked video in your array
 
-                        const newIndex = i;
+                        const newIndex = indexA + i;
+                        // const newIndex = i;
+
                         // const newIndex = trailers.indexOf(object);
 
                         if (newIndex !== -1) {
                           setCurrentIndex(newIndex); // <-- THIS switches the video
-                          setOtherVideos(false); // hide the overlay
+                          setRelatedRawgVideos(false); // hides the overlay and starts the rawg video
+                          // setOtherVideos(false); // hides the overlay
                         }
                       }}
-                      className="object-cover aspect-video border-4  
+                      className="object-cover aspect-video border-1  
                   hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
                       src={
                         results[0]?.short_screenshots[i]?.image ||
@@ -99,6 +107,7 @@ export default function OtherRawgVideos({
             onClick={e => {
               setIsAnimateLeft(false);
               handleRightOther(e);
+              playNav();
             }}
           />
         </motion.div>

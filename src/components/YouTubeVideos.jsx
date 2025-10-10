@@ -33,6 +33,7 @@ export default function YouTubeVideos({ gameTitle, mode }) {
         // Nudge relevance by appending "trailer"
 
         const ids = await findVideoIds(gameTitle, mode);
+        console.log('video ids', ids)
         setVideoIds(ids);
         setCurrentIndex(0);
         setUnMuted(true);
@@ -86,8 +87,8 @@ export default function YouTubeVideos({ gameTitle, mode }) {
                 playerVars: { start: 0, autoplay, playlist: null },
               }}
               unMuted={unMuted}
-              videoId={videoIds[currentIndex]}
-              // videoId={videoIds[currentIndex].videoId}
+              // videoId={videoIds[currentIndex]}
+              videoId={videoIds[currentIndex].videoId}
               title={
                 videoIds[currentIndex]?.title
                   ? `${videoIds[currentIndex]?.title.slice(0, 5)} ${mode}`

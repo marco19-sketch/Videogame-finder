@@ -8,38 +8,38 @@ export async function findVideoIds(gameTitle, mode) {
    if (!gameTitle || !gameTitle.trim()) return null;
 
   //mock ids fetch
-  return [
-    "2MhfjBZw4ZI",
-    "Xovvmew4lEQ",
-    "1Q-H9BMSwTQ",
-    "T9cTArd30Dw",
-    "gWlOuekJY3E",
-    "iTDvYvlyPaE",
-    "yWMu6JeT2g8",
-    "hfJ4Km46A-0",
-    "yPq_NVi-TC4",
-    "F3JeYDw1J0A",
-    "pWdQ49JtnwU",
-    "2gUtfBmw86Y",
-    "QdBZY2fkU-0",
-    "f3QF3F6kZ3I",
-    "KiXFD-9j58k",
-    "9Ok8bNCRj0A",
-  ];
+  // return [
+  //   "2MhfjBZw4ZI",
+  //   "Xovvmew4lEQ",
+  //   "1Q-H9BMSwTQ",
+  //   "T9cTArd30Dw",
+  //   "gWlOuekJY3E",
+  //   "iTDvYvlyPaE",
+  //   "yWMu6JeT2g8",
+  //   "hfJ4Km46A-0",
+  //   "yPq_NVi-TC4",
+  //   "F3JeYDw1J0A",
+  //   "pWdQ49JtnwU",
+  //   "2gUtfBmw86Y",
+  //   "QdBZY2fkU-0",
+  //   "f3QF3F6kZ3I",
+  //   "KiXFD-9j58k",
+  //   "9Ok8bNCRj0A",
+  // ];
 
-  // try {
-  //   const data = await fetchYouTube(gameTitle, mode);
-  //   return (
-  //     data?.items
-  //       ?.filter(item => item.id?.videoId)
-  //       .map(item => ({
-  //         videoId: item.id.videoId,
-  //         title: item.snippet?.title || "YouTube video",
-  //       })) ?? []
-  //   );
-  //   // return data?.items?.map(item => item.id?.videoId).filter(Boolean);
-  // } catch (err) {
-  //   console.error("Error inside findVideo.js", err);
-  //   return null
-  // }
+  try {
+    const data = await fetchYouTube(gameTitle, mode);
+    return (
+      data?.items
+        ?.filter(item => item.id?.videoId)
+        .map(item => ({
+          videoId: item.id.videoId,
+          title: item.snippet?.title || "YouTube video",
+        })) ?? []
+    );
+    
+  } catch (err) {
+    console.error("Error inside findVideo.js", err);
+    return null
+  }
 }

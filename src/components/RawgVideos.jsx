@@ -1,4 +1,4 @@
-import { useContext, useRef, useCallback, useState } from 'react';
+import { useContext, useRef, useCallback, useState, useEffect } from 'react';
 import { AppContext } from '../context/contextsCreation';
 import RelatedRawgVideos from "./RelatedRawgVideos";
 import FullScreenBtn from './FullScreenBtn';
@@ -9,6 +9,12 @@ export default function RawgVideos() {
      const videoRef = useRef(null);
      const [relatedRawgVideos, setRelatedRawgVideos] = useState(false); // other RAWG videos
      const [currentIndex, setCurrentIndex] = useState(0);
+
+     useEffect(() => {
+       console.log("currentIndex", currentIndex);
+       console.log("trailers data video", trailers[currentIndex]?.data["max"]);
+       console.log("relatedVideos", relatedRawgVideos);
+     }, [currentIndex, relatedRawgVideos, trailers]);
 
      const handleOnPlay = useCallback(() => {
        if (videoRef.current) {
@@ -44,7 +50,7 @@ export default function RawgVideos() {
               type="video/mp4"
             />
           </video>
-
+         
           {relatedRawgVideos && (
             <RelatedRawgVideos
               trailers={trailers}
@@ -53,6 +59,7 @@ export default function RawgVideos() {
               setCurrentIndex={setCurrentIndex}
               setIndexA={setIndexA}
               results={results}
+              // setOhterVideos={setRelatedRawgVideos}
               setRelatedRawgVideos={setRelatedRawgVideos}
               handleOnPlay={handleOnPlay}
             />
