@@ -8,7 +8,7 @@ import FavoritesSetter from "./FavoritesSetter";
 import RatingStars from "./RatingStars";
 import RatingMsg from "./RatingMsg";
 import useDescriptionSound from "../customHooks/useDescriptionSound";
-import AmazonButton from './AmazonButton';
+import AmazonButton from "./AmazonButton";
 
 export default function GameDetails({ gameId, game, setAutoplay }) {
   // export default function GameDetails({ gameId, game }) {
@@ -50,9 +50,11 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
     <div
       className="flex flex-col justify-center items-center text-cyan-300"
       style={{ textShadow: "3px 3px 6px black" }}>
-      <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">
-        {game.name}
-      </h1>
+    
+        <h1 className="text-3xl font-bold text-cyan-400 mb-8 drop-shadow-lg">
+          {game.name}
+        </h1>
+        
       <div
         className="grid grid-cols-1 *:border-1 *:border-cyan-400 *:rounded-[8px] *:p-4 *:shadow-lg *:shadow-black sm:grid-cols-2 
       gap-4 items-start text-xl mb-8">
@@ -61,16 +63,17 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
           {game.genres.map((g, index) => (
             <span key={g.id} className="font-normal text-cyan-300 ">
               {g.name || "N/A"}
-              {index === game.genres.length - 1 ? "." : ", "}
+              {index === game.genres.length - 1 ? "" : ", "}
             </span>
           ))}
         </p>
         <p className=" font-bold ">
           Platforms:{" "}
-          {game.parent_platforms.map((p, index) => (
+          {game.platforms.map((p, index) => (
+            // {game.parent_platforms.map((p, index) => (
             <span key={p.platform.id} className="font-normal">
               {p.platform.name || "N/A"}
-              {index === game.parent_platforms.length - 1 ? "." : ", "}
+              {index === game.platforms.length - 1 ? "" : ", "}
             </span>
           ))}
         </p>
@@ -111,13 +114,32 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
         </p>
         <p className=" font-bold ">
           Publishers:{" "}
-          {details?.publishers?.map((p, index) => (
-            <span key={p.id} className="font-normal ">
-              {p.name}
-              {index === details?.publishers?.length - 1 ? "." : ", "}
+          {details?.publishers?.length > 0 ? (
+            details?.publishers?.map((p, index) => (
+              <span key={p.id} className="font-normal ">
+                {p.name || "N/A"}
+                {index === details?.publishers?.length - 1 ? "" : ", "}
+              </span>
+            ))
+          ) : (
+            <span className="font-normal">N/A</span>
+          )}
+        </p>
+        <p className="font-bold">
+          Developers:{" "}
+          {details?.developers?.map(dev => (
+            <span key={dev.id} className="font-normal">
+              {dev.name || "N/A"}{" "}
             </span>
           ))}
+          {console.log("episodes", details)}
         </p>
+        {details?.game_series_count > 0 && (
+          <p>
+            Part of a series of{" "}
+            <span>{details?.game_series_count || "N/A"}</span> episodes
+          </p>
+        )}
       </div>
       <AmazonButton
         title={game.name}

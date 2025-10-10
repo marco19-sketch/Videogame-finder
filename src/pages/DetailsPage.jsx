@@ -10,6 +10,7 @@ import ThemedButton from "../ThemedComponents/ThemedButton";
 import { AnimatePresence } from "framer-motion";
 import useBlipVideoSound from "../customHooks/useBlipVideoSound";
 import useNavSound from "../customHooks/useNavSound";
+import { scrollTo} from '../lib/scrollTo';
 
 export default function DetailsPage() {
   const {
@@ -35,6 +36,10 @@ export default function DetailsPage() {
   const [fetchedGame, setFetchedGame] = useState(null);
   const playBlip = useBlipVideoSound();
   const playNav = useNavSound();
+
+  useEffect(() => {
+    scrollTo(100, 500);
+  }, [])
 
   // If game isn't in results or trending, try favorites or fetch details
   useEffect(() => {

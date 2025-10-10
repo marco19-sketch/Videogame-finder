@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import useNavSound from '../customHooks/useNavSound';
 
 export default function RelatedYtVideos({
   playerRef,
@@ -12,18 +13,20 @@ export default function RelatedYtVideos({
   currentIndex,
 }) {
   const [isLeft, setIsLeft] = useState(false);
+  const playNav = useNavSound();
 
   const handleLeft = useCallback(
     e => {
       setIsLeft(true);
       e.stopPropagation();
       setAutoplay(0);
+      playNav();
       const timer = setTimeout(() => {
       setCurrentIndex(prev => (prev - 2 + videoIds.length) % videoIds.length);
       }, 50);
       return () => clearTimeout(timer);
     },
-    [videoIds, setAutoplay, setCurrentIndex]
+    [videoIds, setAutoplay, setCurrentIndex, playNav]
   );
 
   const handleRight = useCallback(
@@ -31,12 +34,13 @@ export default function RelatedYtVideos({
       setIsLeft(false);
       e.stopPropagation();
       setAutoplay(0);
+      playNav();
       const timer = setTimeout(() => {
       setCurrentIndex(prev => (prev + 2) % videoIds.length);
       }, 50);
       return () => clearTimeout(timer);
     },
-    [videoIds, setAutoplay, setCurrentIndex]
+    [videoIds, setAutoplay, setCurrentIndex, playNav]
   );
 
   useEffect(() => {
