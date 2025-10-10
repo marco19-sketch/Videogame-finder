@@ -1,4 +1,4 @@
-import { useCallback, useState, useContext } from "react";
+import { useCallback, useState, useContext, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
@@ -6,13 +6,8 @@ import useNavSound from "../customHooks/useNavSound";
 import { AppContext } from "../context/contextsCreation";
 
 export default function OtherRawgVideos({
-  // trailers,
   setCurrentIndex, // lifted to parent
   currentIndex, //lifted to parent
-  // indexA,
-  // setIndexA,
-  // results,
-  // setOtherVideos,//???
   setRelatedRawgVideos, //lifting to parent
   handleOnPlay, // ???
 }) {
@@ -24,8 +19,10 @@ export default function OtherRawgVideos({
   const handleLeftOther = useCallback(
     e => {
       e.stopPropagation();
-
+      const timer = setTimeout(() => {
       setIndexA(prev => (prev - 2 + trailers.length) % trailers.length);
+      }, 50)
+      return () => clearTimeout(timer)
     },
     [trailers, setIndexA]
   );
@@ -34,10 +31,15 @@ export default function OtherRawgVideos({
     e => {
       e.stopPropagation();
       setIsAnimateLeft(false);
+      const timer = setTimeout(() => {
       setIndexA(prev => (prev + 2) % trailers.length);
+      }, 50);
+      return () => clearTimeout(timer)
     },
     [trailers, setIndexA]
   );
+
+
 
   return (
     <div

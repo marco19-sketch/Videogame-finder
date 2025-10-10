@@ -1,6 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function RelatedYtVideos({
@@ -9,27 +9,40 @@ export default function RelatedYtVideos({
   setCurrentIndex,
   videoIds,
   setRelatedVideos,
-  currentIndex
+  currentIndex,
 }) {
-  
+  const [isLeft, setIsLeft] = useState(false);
 
   const handleLeft = useCallback(
     e => {
+      setIsLeft(true);
       e.stopPropagation();
       setAutoplay(0);
+      const timer = setTimeout(() => {
       setCurrentIndex(prev => (prev - 2 + videoIds.length) % videoIds.length);
+      }, 50);
+      return () => clearTimeout(timer);
     },
     [videoIds, setAutoplay, setCurrentIndex]
   );
- 
+
   const handleRight = useCallback(
     e => {
+      setIsLeft(false);
       e.stopPropagation();
       setAutoplay(0);
+      const timer = setTimeout(() => {
       setCurrentIndex(prev => (prev + 2) % videoIds.length);
+      }, 50);
+      return () => clearTimeout(timer);
     },
     [videoIds, setAutoplay, setCurrentIndex]
   );
+
+  useEffect(() => {
+    console.log("isLeft", isLeft, Date.now() / 1000);
+    console.log('currentIndex', currentIndex, Date.now() / 1000);
+  }, [currentIndex, isLeft]);
 
   return (
     <div
@@ -38,7 +51,6 @@ export default function RelatedYtVideos({
           return;
         }
         if (!playerRef.current) {
-          
           return;
         }
 
@@ -57,12 +69,12 @@ export default function RelatedYtVideos({
         backgroundImage: `url(https://img.youtube.com/vi/${videoIds[0].videoId}/hqdefault.jpg)`,
         // backgroundImage: `url(https://img.youtube.com/vi/${videoIds[currentIndex]}/hqdefault.jpg)`,
       }}>
-      <AnimatePresence>
+      <AnimatePresence mode='wait'>
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, x: -100 }}
+          initial={{ opacity: 0, x: isLeft ? 100 : -100 }}
           animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: 100 }}
+          exit={{ opacity: 0, x: isLeft ? -100 : 100 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="flex gap-4 justify-center items-center w-full">
           <ChevronLeft

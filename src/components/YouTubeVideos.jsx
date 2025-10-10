@@ -24,7 +24,6 @@ export default function YouTubeVideos({ gameTitle, mode }) {
   }, []);
 
   useEffect(() => {
-    console.log('useEffect firing')
     if (!gameTitle) return;
     const controller = new AbortController();
     const timer = setTimeout(async () => {
@@ -33,7 +32,6 @@ export default function YouTubeVideos({ gameTitle, mode }) {
         // Nudge relevance by appending "trailer"
 
         const ids = await findVideoIds(gameTitle, mode);
-        console.log('video ids', ids)
         setVideoIds(ids);
         setCurrentIndex(0);
         setUnMuted(true);

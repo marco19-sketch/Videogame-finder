@@ -16,7 +16,7 @@ export function useAuth() {
         let username = localStorage.getItem(`username_${uid}`);
         let avatar = localStorage.getItem(`avatar_${uid}`);
 
-        console.log("avatar", avatar);
+       
         // Only fetch from Firestore if value is truly missing, not empty
         // 🔹 If missing, fetch from Firestore
         if (!username || !avatar) {
