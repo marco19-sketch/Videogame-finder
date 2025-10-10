@@ -12,22 +12,6 @@ export default function Footer() {
   return (
     <footer className="bg-gray-900 text-cyan-400 py-10 px-6 mt-12">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-        {/* Brand */}
-        <div className="md:flex md:flex-col md:justify-center md:items-center mb-4">
-          <h2 className="text-2xl font-bold text-cyan-400">Game Quest Hub</h2>
-          <p className="mt-3 text-sm text-gray-400">
-            Built with ❤️ using React + Tailwind.
-          </p>
-          <NavLink to="/" className="inline-flex">
-            {" "}
-            <GhqLogo
-              className="mt-4 md:mt-6"
-              style={{ borderRadius: "50%" }}
-              textClass=" text-1xl text-center"
-            />
-          </NavLink>
-        </div>
-
         {/* Social */}
         <div className="mb-4">
           <h3 className="text-lg font-semibold">Follow Us</h3>
@@ -77,110 +61,34 @@ export default function Footer() {
             Contact us: <IoMail className="mt-0.5" />
           </a>
         </div>
-        <div className="text-sm flex flex-wrap gap-0.5 md:justify-end sm:text-right">
-          <p>
-            Sound Effect by:{" "}
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="http://bit.ly/46CZdO7">
-              freesound_community,
-            </a>{" "}
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="http://bit.ly/46Cb2Ei">
-              Jurij,
-            </a>{" "}
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="http://bit.ly/4o2lN8z">
-              Existential Taco
-            </a>{" "}
-            from{" "}
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="http://bit.ly/47aRFCl">
-              Pixabay;
-            </a>
+        {/* Brand */}
+        <div className="md:flex md:flex-col md:justify-center md:items-center mb-4">
+          <h2 className="text-2xl font-bold text-cyan-400">Game Quest Hub</h2>
+          <p className="mt-3 text-sm text-gray-400">
+            Built with ❤️ using React + Tailwind.
           </p>
-          <p>
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="https://freesound.org/people/Wdomino/sounds/508575/">
-              BoulderReset.wav
-            </a>{" "}
-            by{" "}
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="https://freesound.org/people/Wdomino/">
-              Wdomino
-            </a>{" "}
-            | License:{" "}
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="http://creativecommons.org/publicdomain/zero/1.0/">
-              Creative Commons 0;
-            </a>
-          </p>
-          <p>
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="https://freesound.org/people/BryanSaraiva/sounds/820351/">
-              Typewriter Key Press 04
-            </a>{" "}
-            by{" "}
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="https://freesound.org/people/BryanSaraiva/">
-              BryanSaraiva
-            </a>{" "}
-            | License:{" "}
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="https://creativecommons.org/licenses/by/4.0/">
-              Attribution 4.0;
-            </a>
-          </p>
-          <p>
-            <a
-              className="underline underline-offset-2 text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-              href="https://www.freepik.com/free-vector/blue-circle-with-white-user_145857007.htm">
-              Image by juicy_fish on Freepik
-            </a>
-          </p>
+          <NavLink to="/" className="inline-flex">
+            {" "}
+            <GhqLogo
+              className="mt-4 md:mt-6"
+              style={{ borderRadius: "50%" }}
+              textClass=" text-1xl text-center"
+            />
+          </NavLink>
+        </div>
+        {/* legals */}
+        <div
+          className="flex flex-col md:items-end justify-start  text-sm "
+          onClick={() => scrollTo(0, 500)}>
+          <NavLink to="/privacy">Privacy policy</NavLink>
+          <NavLink to="/terms">Terms of service</NavLink>
+          <NavLink to="/cookie">Cookies policy</NavLink>
+          <NavLink to="/impressum">Impressum</NavLink>
+          <NavLink to="/accessibility">Accessibility policy</NavLink>
+          <NavLink to='/attributions-page'>Attributions</NavLink>
         </div>
       </div>
-      {/* legals */}
-      <div
-        className="flex flex-col sm:flex-row gap-2 mt-4  text-sm sm:justify-center"
-        onClick={() => scrollTo(0, 500)}>
-        <NavLink to="/privacy">Privacy policy</NavLink>
-        <NavLink to="/terms">Terms of service</NavLink>
-        <NavLink to="/cookie">Cookies policy</NavLink>
-        <NavLink to="/impressum">Impressum</NavLink>
-        <NavLink to="/accessibility">Accessibility policy</NavLink>
-      </div>
+     
       <p className="text-sm text-gray-400 mt-4">
         As an Amazon Associate, GameQuest earns from qualifying purchases.
       </p>

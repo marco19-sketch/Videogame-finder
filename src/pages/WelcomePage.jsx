@@ -8,6 +8,7 @@ import GhqLogo from "../ThemedComponents/GhqLogo";
 import PrivacySettings from "../components/PrivacySettings";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
+import useEntrySound from '../customHooks/useEntrySound';
 
 export default function WelcomePage() {
   const videoRef = useRef(null);
@@ -17,6 +18,7 @@ export default function WelcomePage() {
   const [featuredGame, setFeaturedGame] = useState(0);
   const [videoEnd, setVideoEnd] = useState(false);
   const { handleFetchTrailers } = useContext(AppContext);
+  const playEntry = useEntrySound();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -135,7 +137,9 @@ export default function WelcomePage() {
           {/*navigation*/}
           <NavLink
             to="/recommendations-page"
-            className="flex flex-col justify-center items-center hover:scale-110 transition-scale ease-in-out duration-300">
+            className="flex flex-col justify-center items-center hover:scale-110 transition-scale ease-in-out duration-300"
+            onClick={() => playEntry()}
+            >
             <h1
               className="text-5xl text-cyan-400 mb-7 font-semibold text-center "
               style={{ textShadow: "2px 2px 6px cyan" }}>
