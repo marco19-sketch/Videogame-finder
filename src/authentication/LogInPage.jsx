@@ -9,6 +9,7 @@ import ThemedButton from "../ThemedComponents/ThemedButton";
 import ThemedLabel from "../ThemedComponents/ThemedLabel";
 import ThemedInput from "../ThemedComponents/ThemedInput";
 import ShowPassword from "../ThemedComponents/ShowPassword";
+import useEntrySound from '../customHooks/useEntrySound';
 
 export default function LogInPage() {
   const [error, setError] = useState("");
@@ -17,6 +18,7 @@ export default function LogInPage() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { showPassword } = useContext(AppContext);
+  const playEntry = useEntrySound();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -26,6 +28,7 @@ export default function LogInPage() {
       await LogInFunction(email, password);
 
       navigate("/favorites-page");
+      playEntry();
     } catch (err) {
       setError(authErrorToMessage(err.code));
     } finally {

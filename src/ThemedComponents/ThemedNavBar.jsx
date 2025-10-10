@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import {AppContext} from '../context/contextsCreation';
+import { AppContext } from "../context/contextsCreation";
 import { NavLink } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 // eslint-disable-next-line no-unused-vars
@@ -9,7 +9,8 @@ import { useAuth } from "../authentication/useAuth";
 import GhqLogo from "./GhqLogo";
 import { IoVolumeMute } from "react-icons/io5";
 import { IoVolumeHighSharp } from "react-icons/io5";
-import UserAvatar from '../components/UserAvatar';
+import UserAvatar from "../components/UserAvatar";
+import useNavSound from "../customHooks/useNavSound";
 
 const menuItems = [
   {
@@ -27,20 +28,9 @@ const menuItems = [
     ],
   },
 
-  // {
-  //   name: "Account",
-  //   path: null,
-  //   dropdown: [
-  //     { name: "Avatars", path: "/avatar-page" },
-  //     { name: "Username", path: "/username-page" },
-  //     { name: 'Profile', path: '/profile-page'}
-  //   ],
-  // },
-
   {
     name: "Contact",
     path: "/contact-page",
-    
   },
   {
     name: "Log out",
@@ -62,11 +52,18 @@ export default function Navbar() {
   const { user } = useAuth();
   const logOut = useLogOut();
   const { sound, setSound } = useContext(AppContext);
+  const playNav = useNavSound();
 
   return (
     <nav className=" bg-gray-900 text-cyan-400 shadow-md relative rounded-2xl z-30">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center">
-        <NavLink to="/" className="mr-5" onClick={() => setIsOpen(false)}>
+        <NavLink
+          to="/"
+          className="mr-5"
+          onClick={() => {
+            setIsOpen(false);
+            playNav();
+          }}>
           <GhqLogo
             style={{ borderRadius: "50%" }}
             className="px-4 py-4"
@@ -89,7 +86,7 @@ export default function Navbar() {
             if (item.name === "Log out") {
               if (!user) return null; // hide logout if not logged in
               return (
-                <button key={idx} onClick={logOut} className="cursor-pointer">
+                <button key={idx} onClick={() => {logOut(); playNav();}} className="cursor-pointer">
                   {/* Log out */}
                   {item.name}
                 </button>
@@ -99,10 +96,13 @@ export default function Navbar() {
             if (item.name === "Log in") {
               if (user) return null; // hide login if logged in
               return (
+                <button onClick={playNav}
+                type='button'>
                 <NavLink key={idx} to="log-in-page">
                   {/* Log in */}
                   {item.name}
                 </NavLink>
+                </button>
               );
             }
 

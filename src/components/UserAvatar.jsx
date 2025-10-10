@@ -3,11 +3,13 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from 'react-router-dom';
 import { AppContext, AuthContext } from '../context/contextsCreation';
+import useNavSound from '../customHooks/useNavSound';
 
 export default function UserAvatar({ className }) {
   const { avatar, setAvatar } = useContext(AppContext);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const playNav = useNavSound();
 
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function UserAvatar({ className }) {
     <img
       src={avatar || "https://via.placeholder.com/100"}
       alt="User avatar"
-      onClick={() => navigate('/avatar-page')}
+      onClick={() => {navigate('/avatar-page'); playNav();}}
       className={`rounded-full object-cover border-4 border-cyan-400  cursor-pointer ${className}`}
     />
   );
