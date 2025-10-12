@@ -36,6 +36,7 @@ export default function ContextProvider({ children }) {
   const [avatar, setAvatar] = useState(null);
   const [formUrl, setFormUrl] = useState(false);
   const [message, setMessage] = useState("");
+  const [USE_MOCK, setUSE_MOCK] = useState(false);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -58,7 +59,7 @@ export default function ContextProvider({ children }) {
         try {
           setLoading(true);
 
-          const data = await fetchRAWG(`/games/${game.id}/movies`, '',{
+          const data = await fetchRAWG(`/games/${game.id}/movies`, '', USE_MOCK, {
             signal: controller.signal,
           });
         
@@ -214,6 +215,8 @@ export default function ContextProvider({ children }) {
       setFormUrl,
       message,
       setMessage,
+      USE_MOCK,
+      setUSE_MOCK,
     }),
     [
       results,
@@ -270,6 +273,8 @@ export default function ContextProvider({ children }) {
       setFormUrl,
       message,
       setMessage,
+      USE_MOCK,
+      setUSE_MOCK,
     ]
   );
 

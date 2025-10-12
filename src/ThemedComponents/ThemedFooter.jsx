@@ -10,7 +10,7 @@ import { scrollTo } from "../lib/scrollTo";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-cyan-400 py-10 px-6 mt-12">
+    <footer className="bg-gray-900 text-cyan-400 py-10 px-6 mt-">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Social */}
         <div className="mb-4">
@@ -85,16 +85,17 @@ export default function Footer() {
           <NavLink to="/cookie">Cookies policy</NavLink>
           <NavLink to="/impressum">Impressum</NavLink>
           <NavLink to="/accessibility">Accessibility policy</NavLink>
-          <NavLink to='/attributions-page'>Attributions</NavLink>
+          <NavLink to="/attributions-page">Attributions</NavLink>
         </div>
       </div>
-     
+
       <p className="text-sm text-gray-400 mt-4">
         As an Amazon Associate, GameQuest earns from qualifying purchases.
       </p>
 
       <div className="border-t border-gray-700 mt-5 pt-6 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} Game Quest Hub. All rights reserved.
+        © {new Date().getFullYear()} Game Quest Hub. Open source under the MIT
+        License.
       </div>
     </footer>
   );

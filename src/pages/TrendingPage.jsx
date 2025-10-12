@@ -46,7 +46,7 @@ export default function TrendingPage(sortBy) {
   }, [page, setTrendingGames, sortBy]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center py-8 px-4 text-white">
+    <div className="h-fit pb-30 pt-16 px-4 bg-gradient-to-b from-gray-900 via-gray-800 to-black flex flex-col items-center  text-white">
       <h1 className="text-3xl font-bold text-cyan-400 mb-6 drop-shadow-lg">
         Best games right now
       </h1>

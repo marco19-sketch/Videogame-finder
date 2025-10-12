@@ -9,6 +9,7 @@ export async function findVideoIds(gameTitle, mode) {
 
   //mock ids fetch
   // return [
+  //   "Nr928g2uHA4",
   //   "2MhfjBZw4ZI",
   //   "Xovvmew4lEQ",
   //   "1Q-H9BMSwTQ",
@@ -27,8 +28,11 @@ export async function findVideoIds(gameTitle, mode) {
   //   "9Ok8bNCRj0A",
   // ];
 
+
+  //real id fetch
   try {
     const data = await fetchYouTube(gameTitle, mode);
+    console.log('data items', data?.items)
     return (
       data?.items
         ?.filter(item => item.id?.videoId)

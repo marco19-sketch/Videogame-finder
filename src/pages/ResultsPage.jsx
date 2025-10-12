@@ -55,8 +55,8 @@ export default function ResultsPage() {
 
   return (
     <div
-      className="min-h-screen  bg-gradient-to-b from-gray-900 via-gray-800
-     to-black flex flex-col items-center justify-center py-8 px-4 text-white">
+      className="h-fit pb-30 pt-16 px-4 bg-gradient-to-b from-gray-900 via-gray-800
+     to-black flex flex-col items-center justify-center   text-white">
       {loading && (
         <div className="fixed inset-0 flex justify-center items-center z-50 cursor-wait">
           <p className="text-white text-lg font-semibold  cursor-progress animate-pulse ">
@@ -72,7 +72,7 @@ export default function ResultsPage() {
           setPage(1);
           playNav();
         }}
-        className=" h-12 text-cyan-400 text-xl font-semibold hover:text-cyan-300 transition ">
+        className=" h-12 text-cyan-400 text-xl  mb-8 font-semibold hover:text-cyan-300 transition ">
         ⬅️ New search
       </NavLink>
 
@@ -108,7 +108,7 @@ export default function ResultsPage() {
               key={game.id}
               className="relative z-10 group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 
                 transition duration-300 transform hover:-translate-y-1 hover:scale-105"
-                onClick={ playSelect}>
+              onClick={playSelect}>
               <Link to={`/details-page/${game.id}`} className="block">
                 {/* Immagine con overlay */}
                 <div>

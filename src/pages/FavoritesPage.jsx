@@ -53,12 +53,12 @@ export default function MyListPage() {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800
-     to-black flex flex-col items-center py-8 px-4 text-white">
+      className="h-fit pb-30 px-4 w-fit  mx-auto bg-gradient-to-b from-gray-900 via-gray-800
+     to-black flex flex-col items-center  text-white ">
       {/* Profile Header */}
       <div className="flex items-center  sm:place-self-start gap-6 justify-center sm:ml-24 mb-8 ">
         <Link to="/avatar-page" title="modify avatar">
-          <UserAvatar className='w-24 h-24'/>
+          <UserAvatar className="w-24 h-24 mt-4" />
         </Link>
         <div>
           <Link to="/username-page" title="modify username">
@@ -117,7 +117,7 @@ export default function MyListPage() {
               <Link to={`/details-page/${fav.id}`} className="block">
                 <div className="relative">
                   <img
-                    className="w-full h-52 object-cover"
+                    className="w-full h-52 object-cover "
                     src={fav?.short_screenshots[1].image}
                     alt={`screenshot of ${fav.name}`}
                   />

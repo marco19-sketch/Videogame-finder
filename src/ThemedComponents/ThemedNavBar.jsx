@@ -86,7 +86,13 @@ export default function Navbar() {
             if (item.name === "Log out") {
               if (!user) return null; // hide logout if not logged in
               return (
-                <button key={idx} onClick={() => {logOut(); playNav();}} className="cursor-pointer">
+                <button
+                  key={idx}
+                  onClick={() => {
+                    logOut();
+                    playNav();
+                  }}
+                  className="cursor-pointer">
                   {/* Log out */}
                   {item.name}
                 </button>
@@ -96,13 +102,10 @@ export default function Navbar() {
             if (item.name === "Log in") {
               if (user) return null; // hide login if logged in
               return (
-                <button onClick={playNav}
-                type='button'>
-                <NavLink key={idx} to="log-in-page">
+                <NavLink key={idx} to="log-in-page" onClick={playNav}>
                   {/* Log in */}
                   {item.name}
                 </NavLink>
-                </button>
               );
             }
 

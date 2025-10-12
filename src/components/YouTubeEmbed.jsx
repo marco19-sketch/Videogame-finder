@@ -30,7 +30,7 @@ export default function YouTubeEmbed({
 
       // rel: 1,
       // loop: 1, //don't need loop + playlist, new fetch on video end.
-      playlist: `${videoId},yWMu6JeT2g8`,
+      // playlist: `${videoId},yWMu6JeT2g8`,
       start: 60, // YouTube needs this for loop
     },
   };

@@ -4,8 +4,12 @@
  * @param {string} query - opzionale, stringa con parametri RAWG, es: "page=1&page_size=16"
  */
 
-export async function fetchRAWG(endpoint, query = "") {
+
+export async function fetchRAWG(endpoint, query = "", USE_MOCK = false) {
+  
   if (!endpoint) throw new Error("Missing RAWG endpoint");
+
+  if (USE_MOCK) return;
 
   function toQueryString(params) {
     return new URLSearchParams(params).toString();

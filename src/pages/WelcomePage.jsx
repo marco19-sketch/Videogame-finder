@@ -1,14 +1,20 @@
 import { useEffect, useRef, useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AppContext } from "../context/contextsCreation";
-import { getTrending } from "../lib/getTrending";
+//mock objects fetch
+// import { getTrending } from "../lib/getTrending";
+import { getTrending } from "../temp/mockGetTrending";
 import YouTubeEmbed from "../components/YouTubeEmbed";
-import { findVideoIds } from "../lib/youtube";
+
+//mock id fetch
+// import { findVideoIds } from "../lib/youtube";
+import { findVideoIds } from "../temp/mockYTidfetch";
+
 import GhqLogo from "../ThemedComponents/GhqLogo";
 import PrivacySettings from "../components/PrivacySettings";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
-import useEntrySound from '../customHooks/useEntrySound';
+import useEntrySound from "../customHooks/useEntrySound";
 
 export default function WelcomePage() {
   const videoRef = useRef(null);
@@ -17,7 +23,7 @@ export default function WelcomePage() {
   const [ids, setIds] = useState([]);
   const [featuredGame, setFeaturedGame] = useState(0);
   const [videoEnd, setVideoEnd] = useState(false);
-  const { handleFetchTrailers } = useContext(AppContext);
+  const { handleFetchTrailers, setUSE_MOCK } = useContext(AppContext);
   const playEntry = useEntrySound();
 
   useEffect(() => {
@@ -31,9 +37,15 @@ export default function WelcomePage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // this function gets a random game object
   useEffect(() => {
     async function fetchTrending() {
-      const data = await getTrending("-added", 1);
+      const randomPage = Math.floor(Math.random() * 10) + 1;
+      const data = await getTrending("-added", randomPage);
+
+      console.log("mock data", data);
+
+      // const data = await getTrending("-added", 1);
       // const data = await getTrending("-rating", 1);
 
       setFeaturedGame(data[Math.floor(Math.random() * data.length)]);
@@ -41,24 +53,40 @@ export default function WelcomePage() {
     fetchTrending();
   }, [videoEnd]);
 
+  console.log("video end", videoEnd);
+
+  console.log("featuredGame", featuredGame);
+
+  setUSE_MOCK(true);//this state is used to block the fetchRAWG calls to the 
+  // RAWG API in apiClient.js in order to not waste quota during tests; the mock fetches use 
+  // the /temp/mockGetTrending.js as well;
+
+
+
+  //this function gets the trailer from RAWG of the id for YouTubeEmbed
   useEffect(() => {
     const fetchTrailer = async () => {
       if (!featuredGame || !featuredGame.id) return;
-
+     
       const trailers = await handleFetchTrailers(featuredGame);
+      
+      console.log("trailers", trailers);
       let videoIds;
       if (trailers && trailers.length > 0) {
-        const url = trailers[0].data.max || trailers[0].data["480"];
-        setTrailer(url);
-        setIds([]);
+      const url = trailers[0].data.max || trailers[0].data["480"];
+      setTrailer(url);
+      setIds([]);
       } else {
-        videoIds = await findVideoIds(featuredGame.name, "official trailer");
+      videoIds = await findVideoIds("L.A. Noire 4K Trailer");//using the mock mockYTidfetch.js
+      // videoIds = await findVideoIds(featuredGame.name, "official trailer");//the real call
+      console.log("videoIds", videoIds);
       }
       if (videoIds && videoIds.length > 0) {
         setTrailer(null);
         setIds(videoIds);
       } else {
         setIds([]);
+
         setTrailer(
           "https://steamcdn-a.akamaihd.net/steam/apps/256693661/movie_max.mp4"
         );
@@ -80,57 +108,75 @@ export default function WelcomePage() {
     }
   }, [trailer, featuredGame]);
 
- 
-
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-fit flex flex-col">
       {/* Section with parallax video */}
       <section className="relative h-screen overflow-hidden">
         {/* Background video */}
         <div className="absolute inset-0 z-0 rounded-2xl" ref={parallaxDivRef}>
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div initial={false} animate={{ opacity: 1 }}>
-              <AnimatePresence mode="wait">
-                {trailer ? (
-                  <motion.video
-                    key={trailer}
-                    initial={{ scale: 0.7, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.7, opacity: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                    ref={videoRef}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute inset-0 -z-10 top-0 left-0 w-full h-full object-cover will-change-transform">
-                    {/* className="absolute top-0 left-0 w-full h-full object-cover will-change-transform z-0"> */}
-                    <source src={trailer} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </motion.video>
-                ) : (
-                  <motion.div
-                    key={ids[0] || "yt"}
-                    initial={{ scale: 0.7, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.7, opacity: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}>
-                    <YouTubeEmbed
-                      videoId={ids[0]}
-                      title="YouTube video"
-                      playlist={ids}
-                      onVideoEnd={() => setVideoEnd(true)}
-                      customOpts={{ playerVars: { start: 0, end: 30 } }}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+          {/* <AnimatePresence mode="wait"> */}
+          {/* <motion.div initial={false} animate={{ opacity: 1 }}> */}
+          <AnimatePresence mode="wait">
+            {console.log("trailer", trailer)}
+            {trailer ? (
+              <motion.video
+                key={featuredGame.id}
+                // key={trailer}
+                initial={{ scale: 0.7, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.7, opacity: 0 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                ref={videoRef}
+                autoPlay
+                onEnded={() => {
+                  setVideoEnd(true);
+                  setTimeout(() => {
+                    setVideoEnd(false);
+                  }, 500);
+                }}
+                // loop
+
+                muted
+                playsInline //this forces the browser (especially Safari) to play the video inside the page and not in fullscreen
+                className="absolute inset-0 -z-10 top-0 left-0 w-full h-full object-cover will-change-transform">
+                <source src={trailer} type="video/mp4" />
+                Your browser does not support the video tag.
+              </motion.video>
+            ) : (
+              <motion.div
+                key={Date.now()}
+                // key={ids[0]?.videoId || Date.now()}
+                // key={ids[0]?.videoId || "yt"}
+                initial={{ scale: 0.7, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.7, opacity: 0 }}
+                transition={{ duration: 1, ease: "easeOut" }}>
+                {console.log("video id", ids[0]?.videoId)}
+                <YouTubeEmbed
+                  videoId={ids[0]?.videoId}
+                  // videoId={ids[0]}
+                  title="YouTube video"
+                  // playlist={ids}
+                  // onVideoEnd={() => setVideoEnd(!videoEnd)}
+                  // onVideoEnd={() => setVideoEnd(true)}
+                  onVideoEnd={() => {
+                    setVideoEnd(true);
+                    setTimeout(() => {
+                      setVideoEnd(false);
+                    }, 500);
+                  }}
+                  customOpts={{ playerVars: { start: 0 } }}
+                />
+              </motion.div>
+            )}
           </AnimatePresence>
+          {/* </motion.div> */}
+          {/* </AnimatePresence> */}
         </div>
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-black/20 z-0" />
+        <div className="absolute inset-0 bg-transparent z-0" />
+        {/* <div className="absolute inset-0 bg-black/20 z-0" /> */}
 
         {/* Foreground content */}
         <div className="relative  flex flex-col items-center justify-center h-full bg-black/40">
@@ -138,8 +184,7 @@ export default function WelcomePage() {
           <NavLink
             to="/recommendations-page"
             className="flex flex-col justify-center items-center hover:scale-110 transition-scale ease-in-out duration-300"
-            onClick={() => playEntry()}
-            >
+            onClick={() => playEntry()}>
             <h1
               className="text-5xl text-cyan-400 mb-7 font-semibold text-center "
               style={{ textShadow: "2px 2px 6px cyan" }}>
