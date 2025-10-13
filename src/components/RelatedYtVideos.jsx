@@ -1,9 +1,11 @@
 import { useCallback, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
 import useNavSound from "../customHooks/useNavSound";
 import useRadioCheck from "../customHooks/useRadioCheck";
+import useMediaQuery from "../customHooks/useMediaQuery";
+import clsx from "clsx";
 
 export default function RelatedYtVideos({
   playerRef,
@@ -16,6 +18,9 @@ export default function RelatedYtVideos({
   const [isLeft, setIsLeft] = useState(false);
   const playNav = useNavSound();
   const playBlip = useRadioCheck();
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const ArrowUpLeft = isMobile ? ChevronUp : ChevronLeft;
+  const ArrowDownRight = isMobile ? ChevronDown : ChevronRight;
 
   const handleLeft = useCallback(
     e => {
@@ -64,22 +69,33 @@ export default function RelatedYtVideos({
           console.error("Play attempt failed:", err);
         }
       }}
-      className="absolute inset-0 flex justify-center items-center bg-center bg-no-repeat bg-cover border  border-cyan-500/40 rounded-t-2xl cursor-pointer"
-      // className="absolute inset-0 flex basis-12 justify-center items-center bg-center bg-no-repeat bg-cover border  border-cyan-500/40 rounded-t-2xl cursor-pointer"
+      className="absolute inset-0 flex  justify-center  items-center bg-center bg-no-repeat bg-cover border 
+       border-cyan-500/40 rounded-t-2xl cursor-pointer "
       style={{
         backgroundImage: `url(https://img.youtube.com/vi/${videoIds[0].videoId}/hqdefault.jpg)`,
-        // backgroundImage: `url(https://img.youtube.com/vi/${videoIds[currentIndex]}/hqdefault.jpg)`,
       }}>
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, x: isLeft ? 100 : -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: isLeft ? -100 : 100 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="flex gap-4 justify-center items-center w-full">
-          <ChevronLeft
-            className="h-24 w-24 text-white cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
+          initial={{ opacity: 0, 
+            ...(isMobile 
+            ? {y: isLeft ? 100 : - 100}
+            : {x: isLeft ? 100 : -100 })
+          }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={{ opacity: 0,
+            ...(isMobile
+              ? {y: isLeft ? -100 : 100}
+              : {x: isLeft ? -100 : 100 })
+          }}
+          transition={{ duration: 0.5, ease: "easeInOut"}}
+          className={clsx(
+            "flex px-8 sm:px-0 gap-4 justify-center items-center w-full ",
+            isMobile && "flex-col "
+          )}>
+          {/* <ChevronLeft */}
+          <ArrowUpLeft
+            className="h-8 w-8 sm:h-18 sm:w-18  text-white cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
               handleLeft(e);
               e.stopPropagation();
@@ -102,7 +118,7 @@ export default function RelatedYtVideos({
 
                   // Calculate the absolute new index in the array
                   const newIndex = (currentIndex + i) % videoIds.length;
-                
+
                   // Force a re-render by using a two-step update
                   setCurrentIndex(-1); // unmount YouTubeEmbed completely
                   setRelatedVideos(false);
@@ -113,7 +129,7 @@ export default function RelatedYtVideos({
                   }, 0);
                 }}>
                 <img
-                  className="object-cover aspect-video border-4  
+                  className="object-cover aspect-video border-1  
               hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
                   src={`https://img.youtube.com/vi/${object.videoId}/hqdefault.jpg`}
                   alt="Video thumbnail"
@@ -124,8 +140,9 @@ export default function RelatedYtVideos({
 
           {/* </div> */}
 
-          <ChevronRight
-            className="h-24 w-24 text-white cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
+          {/* <ChevronRight */}
+          <ArrowDownRight
+            className="h-8 w-8 sm:h-18 sm:w-18 text-white cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
               handleRight(e);
               e.stopPropagation();

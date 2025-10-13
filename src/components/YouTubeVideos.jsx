@@ -87,7 +87,7 @@ export default function YouTubeVideos({ gameTitle, mode }) {
           : isMobile ? gameTitle : gameTitle + modeUpdated}
       </h3>
       <div ref={containerRef}>
-        <div className="relative aspect-video w-auto mx-auto overflow-hidden rounded-xl shadow-lg">
+        <div className="relative aspect-video w-auto mx-auto overflow rounded-xl shadow-lg">
           {videoIds.length > 0 && (
             <YouTubeEmbed
               customOpts={{

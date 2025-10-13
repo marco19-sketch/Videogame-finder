@@ -56,7 +56,7 @@ export default function OtherRawgVideos({
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="flex justify-center items-center ">
           <ChevronLeft
-            className="text-white h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
+            className="text-white h-8 w-8 sm:h-18 sm:w-18 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
               setIsAnimateLeft(true);
               handleLeftOther(e);
@@ -64,7 +64,7 @@ export default function OtherRawgVideos({
             }}
           />
           {trailers.length >= 2 ? (
-            <div className="relative flex flex-1 gap-4 items-center justify-between">
+            <div className="relative flex flex-1 sm:gap-4 items-center justify-between">
               {trailers.slice(indexA, indexA + 2).map((object, i) => {
                 return (
                   <div className="basis-1/2" key={object.id}>
@@ -91,10 +91,7 @@ export default function OtherRawgVideos({
                         results[0]?.short_screenshots[i]?.image ||
                         trailers[currentIndex]?.preview
                       }
-                      // src={
-                      //   results[0]?.short_screenshots[trailers.indexOf(object)]
-                      //     ?.image || trailers[currentIndex]?.preview
-                      // }
+                     
                       alt="Video thumbnail"
                     />
                   </div>
@@ -105,7 +102,7 @@ export default function OtherRawgVideos({
             <p>No related video</p>
           )}
           <ChevronRight
-            className="text-white h-24 w-24 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
+            className="text-white h-8 w-8 sm:h-18 sm:w-18 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
               setIsAnimateLeft(false);
               handleRightOther(e);
