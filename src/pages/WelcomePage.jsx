@@ -45,19 +45,11 @@ export default function WelcomePage() {
       const randomPage = Math.floor(Math.random() * 10) + 1;
       const data = await getTrending("-added", randomPage);
 
-      console.log("mock data", data);
-      console.log('trending page', randomPage)
-      // const data = await getTrending("-added", 1);
-      // const data = await getTrending("-rating", 1);
 
       setFeaturedGame(data[Math.floor(Math.random() * data.length)]);
     }
     fetchTrending();
   }, [videoEnd]);
-
-  
-
-  console.log("featuredGame", featuredGame);
 
   setUSE_MOCK(false);//this state is used to block the fetchRAWG calls to the 
   // RAWG API in apiClient.js in order to not waste quota during tests; the mock fetches use 
@@ -72,7 +64,6 @@ export default function WelcomePage() {
      
       const trailers = await handleFetchTrailers(featuredGame);
       
-      console.log("trailers", trailers);
       let videoIds;
       if (trailers && trailers.length > 0) {
       const url = trailers[0].data.max || trailers[0].data["480"];
@@ -87,7 +78,7 @@ export default function WelcomePage() {
           'official trailer'
         );
 
-      console.log("videoIds", videoIds);
+      
       }
       if (videoIds && videoIds.length > 0) {
         setTrailer(null);
@@ -125,7 +116,7 @@ export default function WelcomePage() {
           {/* <AnimatePresence mode="wait"> */}
           {/* <motion.div initial={false} animate={{ opacity: 1 }}> */}
           <AnimatePresence mode="wait">
-            {console.log("trailer", trailer)}
+            
             {trailer ? (
               <motion.video
                 key={featuredGame.id}
