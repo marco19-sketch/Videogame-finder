@@ -57,7 +57,7 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
         
       <div
         className="grid grid-cols-1 *:border-1 *:border-cyan-400 *:rounded-[8px] *:p-4 *:shadow-lg *:shadow-black sm:grid-cols-2 
-      gap-4 items-start text-xl mb-8">
+      gap-4 items-start text-xl mb-8 max-w-7xl">
         <p className="font-bold text-cyan-300">
           Genres:{" "}
           {game.genres.map((g, index) => (
@@ -165,10 +165,7 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
       )}
 
       <button
-        // className="mb-1 rounded-lg px-4 py-2 bg-transparent
-        // underline text-yellow-200 text-xl
-        //  hover:text-yellow-400   font-semibold
-        //  shadow-md transition duration-200 cursor-pointer"
+       
         className="relative text-yellow-300 font-bold flex items-center p-2 rounded-xl
              after:content-[''] after:absolute after:left-0 after:bottom-0 
              after:h-[2px] after:bg-yellow-300 after:w-0 

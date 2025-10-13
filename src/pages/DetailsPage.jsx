@@ -116,7 +116,7 @@ export default function DetailsPage() {
         {/* Button section */}
         <div
           className="w-full mt-8 sm:w-2/3 flex flex-col justify-center items-center 
-         [@media(min-width:860px)]:flex-row md:justify-between">
+         [@media(min-width:860px)]:flex-row md:justify-between max-w-3xl">
           <ThemedButton
             type="button"
             onClick={() => {
