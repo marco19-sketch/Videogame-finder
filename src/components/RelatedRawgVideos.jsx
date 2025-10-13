@@ -1,9 +1,11 @@
-import { useCallback, useState, useContext, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCallback, useState, useContext } from "react";
+import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import useNavSound from "../customHooks/useNavSound";
 import { AppContext } from "../context/contextsCreation";
+import useMediaQuery from "../customHooks/useMediaQuery";
+import clsx from "clsx";
 
 export default function OtherRawgVideos({
   setCurrentIndex, // lifted to parent
@@ -12,9 +14,11 @@ export default function OtherRawgVideos({
   handleOnPlay, // ???
 }) {
   const { trailers, indexA, setIndexA, results } = useContext(AppContext);
-
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [isAnimateLeft, setIsAnimateLeft] = useState(false);
   const playNav = useNavSound();
+  const ArrowUpLeft = isMobile ? ChevronUp : ChevronLeft;
+  const ArrowDownRight = isMobile ? ChevronDown : ChevronRight;
 
   const handleLeftOther = useCallback(
     e => {
@@ -50,12 +54,21 @@ export default function OtherRawgVideos({
         {/*animates the exit*/}
         <motion.div
           key={trailers[indexA].id}
-          initial={{ opacity: 0, x: isAnimateLeft ? 100 : -100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: isAnimateLeft ? -100 : 100 }}
+          initial={{ opacity: 0,
+            ...(isMobile 
+              ? {y: isAnimateLeft ? 100 : - 100}
+               : {x: isAnimateLeft ? 100 : -100 })
+
+               }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={{ opacity: 0,
+            ...(isMobile
+              ? {y: isAnimateLeft ? - 100 : 100}
+               : {x: isAnimateLeft ? -100 : 100 })
+              }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="flex justify-center items-center ">
-          <ChevronLeft
+          className={clsx("flex justify-center items-center ", isMobile && 'flex-col')}>
+          <ArrowUpLeft
             className="text-white h-8 w-8 sm:h-18 sm:w-18 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
               setIsAnimateLeft(true);
@@ -64,7 +77,9 @@ export default function OtherRawgVideos({
             }}
           />
           {trailers.length >= 2 ? (
-            <div className="relative flex flex-1 sm:gap-4 items-center justify-between">
+            <div className={clsx("relative flex flex-1 p-4 sm:p-0 gap-4 items-center justify-between",
+              isMobile && 'flex-col'
+            )}>
               {trailers.slice(indexA, indexA + 2).map((object, i) => {
                 return (
                   <div className="basis-1/2" key={object.id}>
@@ -101,7 +116,7 @@ export default function OtherRawgVideos({
           ) : (
             <p>No related video</p>
           )}
-          <ChevronRight
+          <ArrowDownRight
             className="text-white h-8 w-8 sm:h-18 sm:w-18 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
               setIsAnimateLeft(false);
