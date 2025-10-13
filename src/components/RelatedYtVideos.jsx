@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import useNavSound from '../customHooks/useNavSound';
-import useRadioCheck from '../customHooks/useRadioCheck';
+import useNavSound from "../customHooks/useNavSound";
+import useRadioCheck from "../customHooks/useRadioCheck";
 
 export default function RelatedYtVideos({
   playerRef,
@@ -24,7 +24,7 @@ export default function RelatedYtVideos({
       setAutoplay(0);
       playNav();
       const timer = setTimeout(() => {
-      setCurrentIndex(prev => (prev - 2 + videoIds.length) % videoIds.length);
+        setCurrentIndex(prev => (prev - 2 + videoIds.length) % videoIds.length);
       }, 50);
       return () => clearTimeout(timer);
     },
@@ -38,13 +38,12 @@ export default function RelatedYtVideos({
       setAutoplay(0);
       playNav();
       const timer = setTimeout(() => {
-      setCurrentIndex(prev => (prev + 2) % videoIds.length);
+        setCurrentIndex(prev => (prev + 2) % videoIds.length);
       }, 50);
       return () => clearTimeout(timer);
     },
     [videoIds, setAutoplay, setCurrentIndex, playNav]
   );
- 
 
   return (
     <div
@@ -71,7 +70,7 @@ export default function RelatedYtVideos({
         backgroundImage: `url(https://img.youtube.com/vi/${videoIds[0].videoId}/hqdefault.jpg)`,
         // backgroundImage: `url(https://img.youtube.com/vi/${videoIds[currentIndex]}/hqdefault.jpg)`,
       }}>
-      <AnimatePresence mode='wait'>
+      <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
           initial={{ opacity: 0, x: isLeft ? 100 : -100 }}
@@ -87,58 +86,42 @@ export default function RelatedYtVideos({
             }}
           />
 
-          
           {/* {videoIds.slice(currentIndex, currentIndex + 2).map((object, i) => ( */}
           {[0, 1].map(i => {
-  const object = videoIds[(currentIndex + i) % videoIds.length];
-  console.log('object.videoId', object.videoId)
-  return (
+            const object = videoIds[(currentIndex + i) % videoIds.length];
 
-            <button
-              key={object.videoId}
-              type="button"
-              className="cursor-pointer basis-1/2"
-              onClick={e => {
-                e.stopPropagation();
-                setAutoplay(1);
-                playBlip();
+            return (
+              <button
+                key={object.videoId}
+                type="button"
+                className="cursor-pointer basis-1/2"
+                onClick={e => {
+                  e.stopPropagation();
+                  setAutoplay(1);
+                  playBlip();
 
-                // Calculate the absolute new index in the array
-                const newIndex = (currentIndex + i) % videoIds.length;
-                console.log("new index", newIndex);
+                  // Calculate the absolute new index in the array
+                  const newIndex = (currentIndex + i) % videoIds.length;
+                
+                  // Force a re-render by using a two-step update
+                  setCurrentIndex(-1); // unmount YouTubeEmbed completely
+                  setRelatedVideos(false);
 
-                // if (newIndex !== -1) {
-                //   setCurrentIndex(prev => {
-                //     if (prev === newIndex) {
-                //       // 🔁 force re-trigger by temporarily setting -1
-                //       console.log('prev', prev)
-                //       return -1;
-                //     }
-                //     console.log('newIndex inside setCurrent', newIndex)
-                //     return newIndex;
-                //   });
-                //   // setCurrentIndex(newIndex); // <-- THIS switches the video
-                //   setRelatedVideos(false); // hide the overlay
-                // }
-
-                // Force a re-render by using a two-step update
-                setCurrentIndex(-1); // unmount YouTubeEmbed completely
-                setRelatedVideos(false);
-
-                // Give React a moment to process the unmount
-                setTimeout(() => {
-                  setCurrentIndex(newIndex); // mount new video
-                }, 0);
-              }}>
-              <img
-                className="object-cover aspect-video border-4  
+                  // Give React a moment to process the unmount
+                  setTimeout(() => {
+                    setCurrentIndex(newIndex); // mount new video
+                  }, 0);
+                }}>
+                <img
+                  className="object-cover aspect-video border-4  
               hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
-                src={`https://img.youtube.com/vi/${object.videoId}/hqdefault.jpg`}
-                alt="Video thumbnail"
-              />
-            </button>
-          )})}
-          
+                  src={`https://img.youtube.com/vi/${object.videoId}/hqdefault.jpg`}
+                  alt="Video thumbnail"
+                />
+              </button>
+            );
+          })}
+
           {/* </div> */}
 
           <ChevronRight

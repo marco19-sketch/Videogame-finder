@@ -19,9 +19,6 @@ export default function YouTubeEmbed({
     return null;
   }
 
-  console.log('videoId', videoId)
-  // if (!videoId) return null;
-
   const defaultOpts = {
     width: "100%",
     height: "100%",
