@@ -132,7 +132,7 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
               {dev.name || "N/A"}{" "}
             </span>
           ))}
-          {console.log("episodes", details)}
+          
         </p>
         {details?.game_series_count > 0 && (
           <p>

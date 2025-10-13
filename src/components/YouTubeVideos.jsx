@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useRef, useContext } from "react";
-import { findVideoIds } from "../lib/youtube";
+// import { findVideoIds } from "../lib/youtube";
+import { getCachedVideoIds } from '../lib/getCachedVideoIds';
 import YouTubeEmbed from "./YouTubeEmbed";
 import FullScreenBtn from "./FullScreenBtn";
 import RelatedYtVideos from "./RelatedYtVideos";
@@ -22,16 +23,20 @@ export default function YouTubeVideos({ gameTitle, mode }) {
   const handlePlayerReady = useCallback(event => {
     playerRef.current = event.target;
   }, []);
+ 
 
   useEffect(() => {
-    if (!gameTitle) return;
+    
+    if (!gameObj.id || !gameTitle) return; 
+
     const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {
         setStatus("loading");
         // Nudge relevance by appending "trailer"
-
-        const ids = await findVideoIds(gameTitle, mode);
+       
+        const ids = await getCachedVideoIds(gameObj.id, gameTitle, mode);
+        // const ids = await findVideoIds(gameTitle, mode);
         setVideoIds(ids);
         setCurrentIndex(0);
         setUnMuted(true);
@@ -44,7 +49,7 @@ export default function YouTubeVideos({ gameTitle, mode }) {
       controller.abort();
       clearTimeout(timer);
     };
-  }, [gameTitle, mode]);
+  }, [gameTitle, mode, gameObj]);
 
   const modeUpdated =
     mode === "official trailer"
@@ -86,7 +91,7 @@ export default function YouTubeVideos({ gameTitle, mode }) {
               }}
               unMuted={unMuted}
               // videoId={videoIds[currentIndex]}
-              videoId={videoIds[currentIndex].videoId}
+              videoId={videoIds[currentIndex]?.videoId}
               title={
                 videoIds[currentIndex]?.title
                   ? `${videoIds[currentIndex]?.title.slice(0, 5)} ${mode}`

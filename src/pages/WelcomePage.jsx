@@ -1,14 +1,16 @@
 import { useEffect, useRef, useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AppContext } from "../context/contextsCreation";
-//mock objects fetch
-// import { getTrending } from "../lib/getTrending";
-import { getTrending } from "../temp/mockGetTrending";
+//mock objects fetch needed in the fetchTrending function
+import { getTrending } from "../lib/getTrending";
+// import { getTrending } from "../temp/mockGetTrending";
 import YouTubeEmbed from "../components/YouTubeEmbed";
+import { getCachedVideoIds } from "../lib/getCachedVideoIds"; // adjust path if needed
+
 
 //mock id fetch
 // import { findVideoIds } from "../lib/youtube";
-import { findVideoIds } from "../temp/mockYTidfetch";
+// import { findVideoIds } from "../temp/mockYTidfetch";
 
 import GhqLogo from "../ThemedComponents/GhqLogo";
 import PrivacySettings from "../components/PrivacySettings";
@@ -44,7 +46,7 @@ export default function WelcomePage() {
       const data = await getTrending("-added", randomPage);
 
       console.log("mock data", data);
-
+      console.log('trending page', randomPage)
       // const data = await getTrending("-added", 1);
       // const data = await getTrending("-rating", 1);
 
@@ -53,11 +55,11 @@ export default function WelcomePage() {
     fetchTrending();
   }, [videoEnd]);
 
-  console.log("video end", videoEnd);
+  
 
   console.log("featuredGame", featuredGame);
 
-  setUSE_MOCK(true);//this state is used to block the fetchRAWG calls to the 
+  setUSE_MOCK(false);//this state is used to block the fetchRAWG calls to the 
   // RAWG API in apiClient.js in order to not waste quota during tests; the mock fetches use 
   // the /temp/mockGetTrending.js as well;
 
@@ -77,8 +79,14 @@ export default function WelcomePage() {
       setTrailer(url);
       setIds([]);
       } else {
-      videoIds = await findVideoIds("L.A. Noire 4K Trailer");//using the mock mockYTidfetch.js
+      // videoIds = await findVideoIds("L.A. Noire 4K Trailer");//using the mock mockYTidfetch.js
       // videoIds = await findVideoIds(featuredGame.name, "official trailer");//the real call
+         videoIds = await getCachedVideoIds(
+          featuredGame.id,
+          featuredGame.name,
+          'official trailer'
+        );
+
       console.log("videoIds", videoIds);
       }
       if (videoIds && videoIds.length > 0) {
@@ -151,7 +159,7 @@ export default function WelcomePage() {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.7, opacity: 0 }}
                 transition={{ duration: 1, ease: "easeOut" }}>
-                {console.log("video id", ids[0]?.videoId)}
+               
                 <YouTubeEmbed
                   videoId={ids[0]?.videoId}
                   // videoId={ids[0]}

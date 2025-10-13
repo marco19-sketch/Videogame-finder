@@ -90,6 +90,58 @@ src/
 
 ---
 
+
+## 🗄️ Caching Implementation
+
+To improve performance and reduce unnecessary API calls, **Game Quest Hub** implements caching for both RAWG and YouTube API requests using **Firebase Firestore**:
+
+* **Firestore Caching**
+  API responses are stored in a dedicated `cache` collection in Firestore. Each cached document contains:
+
+  * `key` — a unique identifier for the request (e.g., game ID or search query)
+  * `data` — the API response
+  * `timestamp` — when the data was cached
+
+* **Cache Expiration**
+  Cached entries are considered valid for a predefined time (e.g., 24 hours). When fetching data:
+
+  * If a valid cache exists in Firestore, the app returns the cached data.
+  * If the cache is missing or expired, the app fetches fresh data from the API and updates Firestore.
+
+* **How it works**
+
+  1. Check Firestore `cache` collection for the requested key.
+  2. If a cached document exists and is not expired, return the cached data.
+  3. Otherwise, fetch from the API and store/update the document in Firestore.
+
+* **Benefits**
+
+  * Reduces API calls and avoids hitting rate limits
+  * Enables faster load times for repeated searches or game detail requests
+  * Ensures consistent data across devices for the same user
+
+* **Example helper function** (simplified):
+
+```js
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
+
+const fetchWithFirestoreCache = async (key, fetchFunction, ttl = 86400000) => {
+  const cacheRef = doc(db, "cache", key);
+  const cacheSnap = await getDoc(cacheRef);
+
+  if (cacheSnap.exists()) {
+    const { data, timestamp } = cacheSnap.data();
+    if (Date.now() - timestamp < ttl) return data;
+  }
+
+  const data = await fetchFunction();
+  await setDoc(cacheRef, { data, timestamp: Date.now() });
+  return data;
+};
+```
+
+
 ## 📷 Screenshots
 
 *(Add screenshots here — e.g., homepage, search results, game modal, favorites page, etc.)*

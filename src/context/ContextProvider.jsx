@@ -86,7 +86,7 @@ export default function ContextProvider({ children }) {
         clearTimeout(timer);
       };
     },
-    [setShowTrailer, setLoading, setShowModal, setTrailers]
+    [setShowTrailer, setLoading, setShowModal, setTrailers, USE_MOCK]
   );
   
 

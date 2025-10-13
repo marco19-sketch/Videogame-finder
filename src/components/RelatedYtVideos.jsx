@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import useNavSound from '../customHooks/useNavSound';
+import useRadioCheck from '../customHooks/useRadioCheck';
 
 export default function RelatedYtVideos({
   playerRef,
@@ -14,6 +15,7 @@ export default function RelatedYtVideos({
 }) {
   const [isLeft, setIsLeft] = useState(false);
   const playNav = useNavSound();
+  const playBlip = useRadioCheck();
 
   const handleLeft = useCallback(
     e => {
@@ -42,11 +44,7 @@ export default function RelatedYtVideos({
     },
     [videoIds, setAutoplay, setCurrentIndex, playNav]
   );
-
-  useEffect(() => {
-    console.log("isLeft", isLeft, Date.now() / 1000);
-    console.log('currentIndex', currentIndex, Date.now() / 1000);
-  }, [currentIndex, isLeft]);
+ 
 
   return (
     <div
@@ -89,9 +87,13 @@ export default function RelatedYtVideos({
             }}
           />
 
-          {/* <div className="flex flex-1 gap-4 items-center justify-between"> */}
-          {/* <div className="basis-10/12 flex flex-1 gap-4 items-center justify-between"> */}
-          {videoIds.slice(currentIndex, currentIndex + 2).map((object, i) => (
+          
+          {/* {videoIds.slice(currentIndex, currentIndex + 2).map((object, i) => ( */}
+          {[0, 1].map(i => {
+  const object = videoIds[(currentIndex + i) % videoIds.length];
+  console.log('object.videoId', object.videoId)
+  return (
+
             <button
               key={object.videoId}
               type="button"
@@ -99,14 +101,34 @@ export default function RelatedYtVideos({
               onClick={e => {
                 e.stopPropagation();
                 setAutoplay(1);
+                playBlip();
 
-                // find the index of the clicked video in your array
-                const newIndex = i;
-                // const newIndex = videoIds.indexOf(id);
-                if (newIndex !== -1) {
-                  setCurrentIndex(newIndex); // <-- THIS switches the video
-                  setRelatedVideos(false); // hide the overlay
-                }
+                // Calculate the absolute new index in the array
+                const newIndex = (currentIndex + i) % videoIds.length;
+                console.log("new index", newIndex);
+
+                // if (newIndex !== -1) {
+                //   setCurrentIndex(prev => {
+                //     if (prev === newIndex) {
+                //       // 🔁 force re-trigger by temporarily setting -1
+                //       console.log('prev', prev)
+                //       return -1;
+                //     }
+                //     console.log('newIndex inside setCurrent', newIndex)
+                //     return newIndex;
+                //   });
+                //   // setCurrentIndex(newIndex); // <-- THIS switches the video
+                //   setRelatedVideos(false); // hide the overlay
+                // }
+
+                // Force a re-render by using a two-step update
+                setCurrentIndex(-1); // unmount YouTubeEmbed completely
+                setRelatedVideos(false);
+
+                // Give React a moment to process the unmount
+                setTimeout(() => {
+                  setCurrentIndex(newIndex); // mount new video
+                }, 0);
               }}>
               <img
                 className="object-cover aspect-video border-4  
@@ -115,7 +137,8 @@ export default function RelatedYtVideos({
                 alt="Video thumbnail"
               />
             </button>
-          ))}
+          )})}
+          
           {/* </div> */}
 
           <ChevronRight

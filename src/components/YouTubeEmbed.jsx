@@ -6,13 +6,20 @@ export default function YouTubeEmbed({
   videoId,
   title = "YouTube video",
   unMuted = false,
-  onVideoEnd = "",
+  onVideoEnd,
+  // onVideoEnd = "",
   customOpts = {},
   onStateChange,
   onReady,
 }) {
   const [loading, setLoading] = useState(true);
 
+  // 🛑 If videoId is -1 or empty, don't render anything
+  if (videoId === -1 || !videoId) {
+    return null;
+  }
+
+  console.log('videoId', videoId)
   // if (!videoId) return null;
 
   const defaultOpts = {
@@ -48,6 +55,8 @@ export default function YouTubeEmbed({
     if (typeof onReady === "function") onReady(event); // forward it
   };
 
+ 
+
   return (
     <div className="relative aspect-video w-full h-full overflow-hidden bg-black">
       {loading && (
@@ -61,6 +70,7 @@ export default function YouTubeEmbed({
        to implement a different-game-trailers-loop instead of a same-game-trailers-loop (with iframe) and using a thumbnail as a video preview */}
 
       <YouTube
+        key={videoId}
         videoId={videoId}
         className=" w-full h-full"
         opts={opts}

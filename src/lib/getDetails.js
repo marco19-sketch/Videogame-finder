@@ -5,7 +5,7 @@ export async function getDetails(gameId) {
   if (!gameId) throw new Error("Invalid or missing game ID");
   try {
     const data = await fetchRAWG(`games/${gameId}`, "");
-    console.log('data', data)
+    
     return data;
   } catch (err) {
     console.error(
