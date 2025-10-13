@@ -24,7 +24,7 @@ export default function RawgVideos() {
 
 
   return (
-    <div className=" bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-4 max-w-3xl mx-auto">
+    <div className=" bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl  max-w-3xl mx-auto">
       <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
         {trailers[indexA]?.name}
       </h3>

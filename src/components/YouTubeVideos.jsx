@@ -82,9 +82,11 @@ export default function YouTubeVideos({ gameTitle, mode }) {
         {/* title from the youtube video */}
         {videoIds[currentIndex]?.title
           ? isMobile
-            ? videoIds[currentIndex]?.title.slice(0, 25) + '...'
+            ? videoIds[currentIndex]?.title.slice(0, 25) + "..."
             : `${videoIds[currentIndex]?.title.slice(0, 60)}...${modeUpdated}`
-          : isMobile ? gameTitle : gameTitle + modeUpdated}
+          : isMobile
+          ? gameTitle
+          : gameTitle + modeUpdated}
       </h3>
       <div ref={containerRef}>
         <div className="relative aspect-video w-auto mx-auto overflow rounded-xl shadow-lg">
