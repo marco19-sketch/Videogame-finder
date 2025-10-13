@@ -23,6 +23,7 @@ import RatingStars from "../components/RatingStars";
 import useNavSound from "../customHooks/useNavSound";
 import useBlipVideoSound from "../customHooks/useBlipVideoSound";
 import { scrollTo } from '../lib/scrollTo';
+import AmazonButton from '../components/AmazonButton';
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
@@ -193,11 +194,12 @@ export default function RecommendationsPage() {
                   <div className="justify-self-center self-center">
                     {gameplayList}
                   </div>
-                  {/* <div className="col-span-full">{gameplayList}</div> */}
-
+                  <div className='flex flex-col items-center'>
+                  <AmazonButton title={recommendationsList[index].title} />
                   {/* slideshow */}
                   <div
-                    className="relative place-self-center w-full sm:w-4/5 md:w-full lg:w-4/5 cursor-pointer hover:scale-105 transition-scale duration-300 ease-in-out"
+                    className="relative place-self-end w-full sm:w-4/5 md:w-full mt-4
+                     lg:w-4/5 cursor-pointer hover:scale-105 transition-scale duration-300 ease-in-out"
                     onClick={() => {
                       handleFetchTrailers(game); //dummy fetch to start YouTubeVideos
                       setMode("official trailer");
@@ -213,7 +215,7 @@ export default function RecommendationsPage() {
                       className="top-2.5 right-2.5"
                     />
                   </div>
-
+                    </div>
                   {/* description spans full width */}
                   <p className="col-span-full">
                     <strong>Game description:</strong>{" "}
@@ -241,7 +243,7 @@ export default function RecommendationsPage() {
               </button>
             </div>
 
-            <div className="text-2xl flex justify-between max-w-xl mx-auto">
+            <div className="text-2xl flex justify-between max-w-xl mx-auto ">
               <ThemedButton
                 type="button"
                 onClick={() => {

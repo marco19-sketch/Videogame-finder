@@ -7,6 +7,7 @@ import RelatedYtVideos from "./RelatedYtVideos";
 import { AppContext } from "../context/contextsCreation";
 import FavoritesSetter from './FavoritesSetter';
 import {fetchRAWG} from '../api/apiClient';
+import useMediaQuery from '../customHooks/useMediaQuery';
 
 
 export default function YouTubeVideos({ gameTitle, mode }) {
@@ -19,6 +20,7 @@ export default function YouTubeVideos({ gameTitle, mode }) {
   const playerRef = useRef(null);
   const containerRef = useRef(null);
   const [gameObj, setGameObj] = useState({});
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const { autoplay, setAutoplay } = useContext(AppContext);
   const handlePlayerReady = useCallback(event => {
     playerRef.current = event.target;
@@ -76,11 +78,13 @@ export default function YouTubeVideos({ gameTitle, mode }) {
 
   return (
     <div className="w-full h-full bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl p-0.5 mx-auto">
-      <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
+      <h3 className="text-cyan-400 text-sm sm:text-lg font-semibold mb-3 text-center">
         {/* title from the youtube video */}
         {videoIds[currentIndex]?.title
-          ? `${videoIds[currentIndex]?.title.slice(0, 30)}... ${modeUpdated}`
-          : gameTitle + modeUpdated}
+          ? isMobile
+            ? videoIds[currentIndex]?.title.slice(0, 25) + '...'
+            : `${videoIds[currentIndex]?.title.slice(0, 60)}...${modeUpdated}`
+          : isMobile ? gameTitle : gameTitle + modeUpdated}
       </h3>
       <div ref={containerRef}>
         <div className="relative aspect-video w-auto mx-auto overflow-hidden rounded-xl shadow-lg">
@@ -128,8 +132,9 @@ export default function YouTubeVideos({ gameTitle, mode }) {
               currentIndex={currentIndex}
             />
           )}
-          {Object.keys(gameObj).length !== 0 && <FavoritesSetter game={gameObj} />} 
-         
+          {Object.keys(gameObj).length !== 0 && (
+            <FavoritesSetter game={gameObj} />
+          )}
         </div>
         <div className="hidden md:block">
           <FullScreenBtn container={containerRef} />
