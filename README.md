@@ -139,6 +139,12 @@ const fetchWithFirestoreCache = async (key, fetchFunction, ttl = 86400000) => {
 Homepage (search page)
 ![Homepage](./screenshots/Home.png)
 
+Avatar page
+![Avatar] (./screenshots/avatar.png)
+
+Details page
+![DetailsPage](./screenshots/DetailsPage.webp)
+
 ## Live Demo
 
 > "https://gamequesthub.netlify.app/"
