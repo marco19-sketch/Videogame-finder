@@ -137,13 +137,19 @@ const fetchWithFirestoreCache = async (key, fetchFunction, ttl = 86400000) => {
 ## 📷 Screenshots
 
 Homepage (search page)
-![Homepage](./screenshots/Home.png)
+![Homepage](./screenshots/Home.webp)
 
 Avatar page
-![Avatar] (./screenshots/avatar.png)
+![Avatar] (./screenshots/avatar.webp)
 
 Details page
 ![DetailsPage](./screenshots/DetailsPage.webp)
+
+Welcome page
+![WelcomePage](./screenshots/WelcomePage.webp)
+
+Mobile
+![Mobile](./screenshots/mobile-view.webp)
 
 ## Live Demo
 
