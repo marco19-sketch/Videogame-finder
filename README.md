@@ -4,7 +4,6 @@
 **Game Quest Hub** is a modern React web application that allows users to explore, discover, and save their favorite video games.
 It integrates real-time data from the **RAWG Video Games Database API** and **YouTube**, enabling users to search for games, watch official trailers, and manage their personalized game lists.
 
-
 ## 🚀 Features
 
 * **Game Search** — Find games by title with detailed information including release date, genres, platforms, and more.
@@ -16,7 +15,6 @@ It integrates real-time data from the **RAWG Video Games Database API** and **Yo
 * **Accessibility Settings** — Improved readability, ARIA roles, and keyboard navigation.
 * **Responsive Design** — Fully optimized for desktop and mobile using **Tailwind CSS**.
 
-
 ## 🧱 Tech Stack
 
 | Category               | Technologies                                          |
@@ -26,7 +24,6 @@ It integrates real-time data from the **RAWG Video Games Database API** and **Yo
 | **Build Tool**         | Vite                                                  |
 | **Backend / Database** | Firebase Authentication, Firestore                    |
 | **APIs**               | RAWG API (for games), YouTube Data API (for trailers) |
-
 
 ## ⚙️ Installation
 
@@ -66,10 +63,8 @@ npx netlify dev
 This command emulates the Netlify environment locally, including redirects, environment variables, and serverless functions.
    ```
 
-
 ## 🧩 Project Structure
 
-```
 src/
 ├── components/        # Reusable UI components (Navbar, Footer, GameCard, etc.)
 ├── pages/             # App pages (Home, MyList, Recommendations, Contact, etc.)
@@ -78,18 +73,16 @@ src/
 ├── customHooks/       # Reusable React hooks
 ├── assets/            # Images and icons
 └── App.jsx            # Main app component
-```
 
 ---
 
-##  Authentication
+## Authentication
 
 * Sign up and login handled by **Firebase Auth**.
 * User data (e.g., username, avatar) stored in **Firestore**.
 * Protected routes ensure users can only access their own lists.
 
 ---
-
 
 ## 🗄️ Caching Implementation
 
@@ -141,31 +134,26 @@ const fetchWithFirestoreCache = async (key, fetchFunction, ttl = 86400000) => {
 };
 ```
 
-
 ## 📷 Screenshots
-
-*(Add screenshots here — e.g., homepage, search results, game modal, favorites page, etc.)*
 
 Homepage (search page)
 ![Homepage](./screenshots/Home.png)
 
-##  Live Demo
+## Live Demo
 
 > "https://gamequesthub.netlify.app/"
 
 ---
 
-##  Future Improvements
+## Future Improvements
 
 * Implement dark/light mode toggle
 * Display user game statistics
 * Add community reviews and ratings
 
-
-##  License
+## License
 
 This project is open source and available under the **MIT License**.
-
 
 ### Affiliate Disclosure
 
