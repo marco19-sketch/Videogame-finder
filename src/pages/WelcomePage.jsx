@@ -17,6 +17,7 @@ import PrivacySettings from "../components/PrivacySettings";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import useEntrySound from "../customHooks/useEntrySound";
+import { scrollTo } from '../lib/scrollTo';
 
 export default function WelcomePage() {
   const videoRef = useRef(null);
@@ -27,6 +28,10 @@ export default function WelcomePage() {
   const [videoEnd, setVideoEnd] = useState(false);
   const { handleFetchTrailers, setUSE_MOCK } = useContext(AppContext);
   const playEntry = useEntrySound();
+
+  useEffect(() => {
+    scrollTo(100);
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {

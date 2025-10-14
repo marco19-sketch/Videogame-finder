@@ -1,5 +1,5 @@
 import GhqLogo from "./GhqLogo";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { IoMail } from "react-icons/io5";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaFacebookF } from "react-icons/fa";
@@ -7,8 +7,21 @@ import { FaGithub } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import { FaFreeCodeCamp } from "react-icons/fa";
 import { scrollTo } from "../lib/scrollTo";
+import { useCallback } from "react";
+import useRadioCheck from "../customHooks/useRadioCheck";
 
 export default function Footer() {
+  const location = useLocation();
+  const playBlip = useRadioCheck();
+
+  const onLogoClick = useCallback(() => {
+    console.log("onLogoClick fired");
+    if (location.pathname === "/") {
+      scrollTo(0);
+      playBlip();
+    }
+  }, [location, playBlip]);
+
   return (
     <footer className="bg-gray-900 text-cyan-400 py-10 px-6 mt-">
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -67,7 +80,7 @@ export default function Footer() {
           <p className="mt-3 text-sm text-gray-400">
             Built with ❤️ using React + Tailwind.
           </p>
-          <NavLink to="/" className="inline-flex">
+          <NavLink to="/" className="inline-flex" onClick={onLogoClick}>
             {" "}
             <GhqLogo
               className="mt-4 md:mt-6"
