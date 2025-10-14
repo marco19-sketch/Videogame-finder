@@ -146,7 +146,8 @@ const fetchWithFirestoreCache = async (key, fetchFunction, ttl = 86400000) => {
 
 *(Add screenshots here — e.g., homepage, search results, game modal, favorites page, etc.)*
 
----
+Homepage (search page)
+![Homepage](./screenshots/Home.png)
 
 ##  Live Demo
 

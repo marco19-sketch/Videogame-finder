@@ -9,7 +9,7 @@ export default function ContactPage() {
   return (
     <div
       className="min-h-1/2 bg-gradient-to-b from-gray-900 via-gray-800
-     to-black flex flex-col items-start py-8 px-8 text-white">
+     to-black flex flex-col items-center py-8 px-8 text-white ">
       <h1 className="text-2xl text-cyan-400 font-bold">
         Contacts & social media
       </h1>
