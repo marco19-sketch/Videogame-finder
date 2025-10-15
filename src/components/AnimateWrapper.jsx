@@ -15,15 +15,10 @@ export default function AnimateWrapper({
       onExitComplete={() => {
         if (results.length > 0 && isMobile) {
           const delay = 500;
-          console.log("doc height:", document.documentElement.scrollHeight);
-          console.log(
-            "max scroll:",
-            document.documentElement.scrollHeight - window.innerHeight
-          );
+          
 
           scrollTo(animationLeft ? 1600 : 0, delay);
-          console.log("scroll height", window.scrollY, Date.now() / 1000);
-          console.log("✅ exit animation completed → scrolled");
+         
         }
       }}>
       <motion.div

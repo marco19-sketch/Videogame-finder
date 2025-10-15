@@ -13,7 +13,7 @@ import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen si
 import RatingStars from "../components/RatingStars";
 import AnimateWrapper from "../components/AnimateWrapper";
 import useNavSound from "../customHooks/useNavSound";
-import useSelectSound from '../customHooks/useSelectSound';
+import useSelectSound from "../customHooks/useSelectSound";
 
 export default function ResultsPage() {
   const { results, page, setPage, handleFetch, loading, setLoading } =
@@ -41,17 +41,16 @@ export default function ResultsPage() {
   }, [results]);
 
   const handleNext = useCallback(() => {
-    if (!results.length < 8) setPage(prevPage => prevPage + 1);
+    if (results.length >= 8) setPage(prevPage => prevPage + 1);
+    // if (!results.length < 8) setPage(prevPage => prevPage + 1);
   }, [setPage, results.length]);
-
+  console.log("results length", results.length);
   useEffect(() => {
     const timer = setTimeout(() => {
       handleFetch(page);
     }, 2000);
     return () => clearTimeout(timer);
   }, [page, handleFetch]);
-
-  
 
   return (
     <div

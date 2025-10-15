@@ -37,6 +37,7 @@ export default function ContextProvider({ children }) {
   const [formUrl, setFormUrl] = useState(false);
   const [message, setMessage] = useState("");
   const [USE_MOCK, setUSE_MOCK] = useState(false);
+
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -48,7 +49,6 @@ export default function ContextProvider({ children }) {
     }
   });
 
- 
   //Getting trailers using gameId
   const handleFetchTrailers = useCallback(
     async game => {
@@ -59,10 +59,15 @@ export default function ContextProvider({ children }) {
         try {
           setLoading(true);
 
-          const data = await fetchRAWG(`/games/${game.id}/movies`, '', USE_MOCK, {
-            signal: controller.signal,
-          });
-        
+          const data = await fetchRAWG(
+            `/games/${game.id}/movies`,
+            "",
+            USE_MOCK,
+            {
+              signal: controller.signal,
+            }
+          );
+
           setTrailers(data.results);
 
           setShowTrailer(Boolean(data.results?.length));
@@ -73,7 +78,6 @@ export default function ContextProvider({ children }) {
           // }, 300);
           return data.results;
         } catch (err) {
-         
           if (err.name === "AbortError") return; // fetch was cancelled
           console.error("Error trying to fetch game trailers:", err);
         } finally {
@@ -88,7 +92,6 @@ export default function ContextProvider({ children }) {
     },
     [setShowTrailer, setLoading, setShowModal, setTrailers, USE_MOCK]
   );
-  
 
   //authentication context
   useEffect(() => {
@@ -98,7 +101,7 @@ export default function ContextProvider({ children }) {
     });
     return () => unsubscribe();
   }, []);
- 
+
   const isFavoritesPage = location.pathname === "/favorites-page";
 
   const handleFetch = useCallback(
@@ -291,7 +294,7 @@ export default function ContextProvider({ children }) {
     }),
     [user, setUser, loading, setLoading, email, setEmail, password, setPassword]
   );
- 
+
   return (
     <AuthContext.Provider value={AuthContextValues}>
       <AppContext.Provider value={AppContextValues}>

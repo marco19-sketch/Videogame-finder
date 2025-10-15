@@ -2,7 +2,6 @@ import { useContext, useCallback, useEffect, useState } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
 import { getTrending } from "../lib/getTrending";
-import FavoritesSetter from "../components/FavoritesSetter";
 import clsx from "clsx";
 import {
   ChevronLeft,
@@ -10,10 +9,10 @@ import {
   ChevronUp,
   ChevronDown,
 } from "lucide-react";
-import RatingStars from "../components/RatingStars";
 import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen size change
 import AnimateWrapper from "../components/AnimateWrapper";
 import useNavSound from "../customHooks/useNavSound";
+import GameGrid from "../components/GameGrid";
 
 export default function TrendingPage(sortBy) {
   const { trendingGames, setTrendingGames } = useContext(AppContext);
@@ -85,50 +84,9 @@ export default function TrendingPage(sortBy) {
             )}
           />
         </button>
-        {/* Games grid */}
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
-          {trendingGames?.map(game => (
-            <li
-              key={game.id}
-              className="relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 transition duration-300 transform hover:-translate-y-1 hover:scale-105">
-              <Link to={`/details-page/${game.id}`} className="block">
-                {/* Immagine con overlay */}
-                <div className="relative">
-                  <img
-                    className="w-full h-52 object-cover"
-                    src={game.short_screenshots[0].image}
-                    alt={`screenshot of ${game.name}`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
-                </div>
-                <FavoritesSetter game={game} />
-                {/* Info card */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                  <h2 className="text-lg font-bold text-cyan-400 group-hover:text-white transition truncate">
-                    {game.name}
-                  </h2>
-                  <p className="text-sm text-gray-300">
-                    Released:{" "}
-                    <span className="font-medium text-white">
-                      {game.released || "N/A"}
-                    </span>
-                  </p>
 
-                  <p className="text-sm text-gray-300 flex items-center gap-1">
-                    Rating:{" "}
-                    <span className="font-medium text-yellow-400 flex items-center gap-1">
-                      {game.rating || "N/A"}
-                      {game.rating && (
-                        <span className="ml-1 text-yellow-400">★</span>
-                      )}
-                    </span>
-                  </p>
-                  <RatingStars rating={game.rating} className="text-sm" />
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <GameGrid results={trendingGames} />
+
         <button
           disabled={page === 6}
           type="button"

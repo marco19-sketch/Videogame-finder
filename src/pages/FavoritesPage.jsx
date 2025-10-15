@@ -1,7 +1,6 @@
 import { useContext, useCallback, useState } from "react";
 import { AppContext, AuthContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
-import FavoritesSetter from "../components/FavoritesSetter";
 import clsx from "clsx";
 import {
   ChevronLeft,
@@ -11,12 +10,14 @@ import {
 } from "lucide-react";
 import useMediaQuery from "../customHooks/useMediaQuery";
 import AnimateWrapper from "../components/AnimateWrapper";
-// flushSync forces an immediate render so the animatePresence key is forced to change before the isAnimationLeft. In this way
+// flushSync forces an immediate render so the animatePresence key is
+// forced to change before the isAnimationLeft. In this way
 // the animation starts always with the right direction.
 import { flushSync } from "react-dom";
 import useNavSound from "../customHooks/useNavSound";
 import useUsername from "../customHooks/useUsername";
 import UserAvatar from "../components/UserAvatar";
+import GameGrid from "../components/GameGrid";
 
 export default function MyListPage() {
   // const { favorites, page, setPage, handleFetch } = useContext(AppContext);
@@ -105,41 +106,7 @@ export default function MyListPage() {
           />
         </button>
 
-        {/* Games grid */}
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full max-w-7xl">
-          {visibleFavorites?.map(fav => (
-            <li
-              key={fav.id}
-              className={clsx(
-                "relative group rounded-2xl overflow-hidden shadow-lg hover:shadow-cyan-500/40 transition duration-300 transform hover:-translate-y-1 hover:scale-105",
-                fav.removing && "opacity-0 scale-95 transition-all duration-300"
-              )}>
-              <Link to={`/details-page/${fav.id}`} className="block">
-                <div className="relative">
-                  <img
-                    className="w-full h-52 object-cover "
-                    src={fav?.short_screenshots[1].image}
-                    alt={`screenshot of ${fav.name}`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition duration-300" />
-                  <FavoritesSetter game={fav} />
-                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                    <h2 className="text-lg font-bold text-cyan-400 group-hover:text-white transition truncate">
-                      {fav.name}
-                    </h2>
-                    <p className="text-sm text-gray-300">
-                      Rating:{" "}
-                      <span className="font-medium text-white">
-                        {" "}
-                        {fav.rating || "N/A"}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <GameGrid results={visibleFavorites} />
 
         <button
           type="button"
