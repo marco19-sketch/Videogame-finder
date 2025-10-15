@@ -37,7 +37,7 @@ export default function ContextProvider({ children }) {
   const [formUrl, setFormUrl] = useState(false);
   const [message, setMessage] = useState("");
   const [USE_MOCK, setUSE_MOCK] = useState(false);
-
+  const [url, setUrl] = useState('');
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -220,6 +220,8 @@ export default function ContextProvider({ children }) {
       setMessage,
       USE_MOCK,
       setUSE_MOCK,
+      url,
+      setUrl,
     }),
     [
       results,
@@ -278,6 +280,8 @@ export default function ContextProvider({ children }) {
       setMessage,
       USE_MOCK,
       setUSE_MOCK,
+      url,
+      setUrl,
     ]
   );
 

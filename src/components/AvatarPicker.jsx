@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useContext } from "react";
 import useRadioCheck from "../customHooks/useRadioCheck";
-import { AppContext } from '../context/contextsCreation';
-import { AuthContext } from '../context/contextsCreation';
+import { AppContext } from "../context/contextsCreation";
+import { AuthContext } from "../context/contextsCreation";
 
 const avatarArray = [
   "/avatar/doom.avif",
@@ -16,40 +16,39 @@ const avatarArray = [
 
 //this component just renders the avatar imgs and sets the selected one
 export default function AvatarPicker() {
-  const { avatar, setAvatar, setMessage } = useContext(AppContext);
+  const { avatar, setAvatar, setMessage, setUrl } = useContext(AppContext);
   const { user } = useContext(AuthContext);
   const playBlip = useRadioCheck();
-  const [url, setUrl] = useState('');
+  const [selected, setSelected] = useState(avatar || "");
 
-  
   useEffect(() => {
-    if (!user) return
+    if (!user) return;
     const savedAvatar = localStorage.getItem(`avatar_${user.uid}`);
     // Only apply the saved avatar if context doesn't already have one
     if (!avatar && savedAvatar) {
       setAvatar(savedAvatar);
-      setUrl(savedAvatar);
+      console.log("saved avatar", savedAvatar);
       // ❌ DO NOT call onSelect here, it will trigger Firestore writes on every render
     }
-  }, [user]);
-  // }, [avatar, setAvatar, user]);
+  }, [user, avatar, setAvatar]);
 
   useEffect(() => {
-    setMessage('');
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    setMessage("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleClick = useCallback(
-    avatar => {
-      setAvatar(avatar); //update context
-      setMessage('');//reset msg
+    pic => {
+      setSelected(pic);
+      setUrl(pic);
+      setMessage(""); //reset msg
       playBlip();
     },
-    [setAvatar, setMessage, playBlip]
+    [setMessage, playBlip, setUrl]
   );
- 
+
   return (
-  <>
+    <>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 cursor-pointer max-w-7xl">
         {avatarArray.map(pic => (
           <img
@@ -57,18 +56,13 @@ export default function AvatarPicker() {
             src={pic}
             alt={`${pic.replace("/avatar/", "").slice(0, -5)} avatar`}
             className={`object-cover rounded-full w-32 h-32 border-4 
-            ${avatar === pic ? "border-cyan-400" : "border-transparent"}`}
-            // ${selected === pic ? "border-cyan-400" : "border-transparent"}`}
+            ${selected === pic ? "border-cyan-400" : "border-transparent"}`}
             onClick={() => {
-              // setSelected(pic);
               handleClick(pic);
-              // setUrl(pic);
-              // playBlip();
             }}
           />
         ))}
-        
       </div>
-   </>
+    </>
   );
 }

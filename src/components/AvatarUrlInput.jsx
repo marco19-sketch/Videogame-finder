@@ -9,8 +9,9 @@ import { AppContext } from "../context/contextsCreation";
 import { AuthContext } from "../context/contextsCreation";
 
 
-export default function AvatarUrlInput({ url, setUrl }) {
-  const { setAvatar, setFormUrl, avatar, message, setMessage } = useContext(AppContext);
+export default function AvatarUrlInput() {
+  const { setAvatar, setFormUrl, avatar, message, setMessage, url, setUrl } =
+    useContext(AppContext);
   const { user, loading } = useContext(AuthContext);
   const playError = useErrorSound();
   const prevAvatarRef = useRef(null);
@@ -34,15 +35,11 @@ export default function AvatarUrlInput({ url, setUrl }) {
       setMessage("🧹 Avatar cleared.");
       return;
     }
-    // onSubmit(); //triggers avatarPage.handleAvatarSelect
-    // localStorage.setItem(`avatar_${user.uid}`, url); // persist
     try {
       const res = await fetch(url, { method: "HEAD" });
       const contentType = res.headers.get("content-type");
 
-      // if (!res.ok) {
       if (!res.ok || !contentType?.includes("image/")) {
-        console.log('res', res)
         playError();
         throw new Error("Not a valid image");
         
@@ -53,7 +50,6 @@ export default function AvatarUrlInput({ url, setUrl }) {
         { photoURL: url }, // save in firestore
         { merge: true } // keep other data like username
       );
-      console.log('code reached')
       setMessage("✅ Avatar saved successfully!");
       setAvatar(url); //updates context
       prevAvatarRef.current = url;
