@@ -13,7 +13,6 @@ import useMediaQuery from '../customHooks/useMediaQuery';
 export default function YouTubeVideos({ gameTitle, mode }) {
   const [videoIds, setVideoIds] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [status, setStatus] = useState("idle"); // idle | loading | empty | error
   const [unMuted, setUnMuted] = useState(false);
   const [relatedVideos, setRelatedVideos] = useState(false);
   const pauseTimeout = useRef(null);
@@ -34,16 +33,13 @@ export default function YouTubeVideos({ gameTitle, mode }) {
     const controller = new AbortController();
     const timer = setTimeout(async () => {
       try {
-        setStatus("loading");
-        // Nudge relevance by appending "trailer"
-       
         const ids = await getCachedVideoIds(gameObj.id, gameTitle, mode);
         // const ids = await findVideoIds(gameTitle, mode);
         setVideoIds(ids);
         setCurrentIndex(0);
         setUnMuted(true);
-      } catch {
-        setStatus("error");
+      } catch (err) {
+        console.error('Error getting video id', err)
       }
     }, 300); // debounce
 
@@ -90,13 +86,13 @@ export default function YouTubeVideos({ gameTitle, mode }) {
       </h3>
       <div ref={containerRef}>
         <div className="relative aspect-video w-auto mx-auto overflow rounded-xl shadow-lg">
+          
           {videoIds.length > 0 && (
             <YouTubeEmbed
               customOpts={{
                 playerVars: { start: 0, autoplay, playlist: null },
               }}
               unMuted={unMuted}
-              // videoId={videoIds[currentIndex]}
               videoId={videoIds[currentIndex]?.videoId}
               title={
                 videoIds[currentIndex]?.title

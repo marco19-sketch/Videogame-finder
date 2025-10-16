@@ -75,8 +75,7 @@ export default function WelcomePage() {
       setTrailer(url);
       setIds([]);
       } else {
-      // videoIds = await findVideoIds("L.A. Noire 4K Trailer");//using the mock mockYTidfetch.js
-      // videoIds = await findVideoIds(featuredGame.name, "official trailer");//the real call
+      
          videoIds = await getCachedVideoIds(
           featuredGame.id,
           featuredGame.name,

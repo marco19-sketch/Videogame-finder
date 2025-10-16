@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo, useContext, useRef } from "react";
 import { recommendationsList } from "../lib/recommendationsList";
 import YouTubeVideos from "../components/YouTubeVideos";
-import { fetchRAWG } from "../api/apiClient";
 import clsx from "clsx";
 import Modal from "../components/Modal";
 import {
@@ -24,6 +23,7 @@ import useNavSound from "../customHooks/useNavSound";
 import useBlipVideoSound from "../customHooks/useBlipVideoSound";
 import { scrollTo } from '../lib/scrollTo';
 import AmazonButton from '../components/AmazonButton';
+import {getCachedGameData} from '../lib/getCachedGameData';
 
 export default function RecommendationsPage() {
   const [index, setIndex] = useState(0);
@@ -64,18 +64,20 @@ export default function RecommendationsPage() {
   useEffect(() => {
     const handleFetchBg = async () => {
       try {
-        const query = `page=1&page_size=1&title&search=${encodeURIComponent(
-          recommendationsList[index].title
-        )}`;
-        const data = await fetchRAWG("games", query);
+        const currentTitle = recommendationsList[index].title;
+        const query = `page=1&page_size=1&search=${encodeURIComponent(currentTitle)}`;
+         const gameData = await getCachedGameData(currentTitle, query);
+        console.log('gameData', gameData)
+        if (gameData) {
+          setBg(gameData[0].background_image);
+          setGame(gameData[0]);
+          setSlides(gameData[0].short_screenshots);
+        }
 
-        // setDataResults(data.results);
-        setBg(data.results[0].background_image);
-        // store the full game object so FavoritesSetter receives the expected shape
-        setGame(data.results[0]);
-        setSlides(data.results[0].short_screenshots);
+        
+        
       } catch (err) {
-        console.error("Error trying to get screenshots from RAWG", err);
+        console.error("Error trying to get cached/fetched game data", err);
       }
     };
     handleFetchBg();

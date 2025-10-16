@@ -1,7 +1,6 @@
 import { useContext, useCallback, useEffect, useState } from "react";
 import { AppContext } from "../context/contextsCreation";
 import { Link } from "react-router-dom";
-import { getTrending } from "../lib/getTrending";
 import clsx from "clsx";
 import {
   ChevronLeft,
@@ -13,6 +12,7 @@ import useMediaQuery from "../customHooks/useMediaQuery"; //listens to screen si
 import AnimateWrapper from "../components/AnimateWrapper";
 import useNavSound from "../customHooks/useNavSound";
 import GameGrid from "../components/GameGrid";
+import { getCachedGameData } from '../lib/getCachedGameData';
 
 export default function TrendingPage(sortBy) {
   const { trendingGames, setTrendingGames } = useContext(AppContext);
@@ -36,9 +36,12 @@ export default function TrendingPage(sortBy) {
     }
   }, [setPage, page]);
 
+
   useEffect(() => {
     async function fetchTrending() {
-      const data = await getTrending(sortBy, page);
+      const query = `&ordering=${sortBy}&page=${page}&page_size=8`;
+      const data = await getCachedGameData('', query)
+      // const data = await getTrending(sortBy, page);
       setTrendingGames(data);
     }
     fetchTrending();

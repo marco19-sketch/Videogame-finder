@@ -129,7 +129,7 @@ export default function SearchBar({
           handleFetch();
           playSearch();
         }}
-        // onClick={() => handleFetch()}
+      
         className="w-full sm:w-1/2 mx-auto my-4 block py-2 rounded-xl
          bg-cyan-500 hover:bg-cyan-400 text-black font-semibold 
          cursor-pointer shadow-lg shadow-cyan-500/30 transition">

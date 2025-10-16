@@ -42,16 +42,17 @@ export default function ResultsPage() {
 
   const handleNext = useCallback(() => {
     if (results.length >= 8) setPage(prevPage => prevPage + 1);
-    // if (!results.length < 8) setPage(prevPage => prevPage + 1);
+    
   }, [setPage, results.length]);
   console.log("results length", results.length);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       handleFetch(page);
     }, 2000);
     return () => clearTimeout(timer);
   }, [page, handleFetch]);
-
+console.log('page', page)
   return (
     <div
       className="h-fit pb-30 pt-16 px-4 bg-gradient-to-b from-gray-900 via-gray-800

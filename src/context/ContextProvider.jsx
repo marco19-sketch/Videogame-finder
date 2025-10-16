@@ -4,6 +4,7 @@ import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate, useLocation } from "react-router-dom";
 import { fetchRAWG } from "../api/apiClient";
+import { getCachedGameData } from '../lib/getCachedGameData';
 
 export default function ContextProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -111,9 +112,6 @@ export default function ContextProvider({ children }) {
         navigate("/results-page");
       }
 
-      // let url = `https://api.rawg.io/api/games?key=${rawgKey}&page=${pageToFetch}&page_size=16&search=${encodeURIComponent(
-      //   gameName
-      // )}`;
       // Creiamo i parametri per RAWG come query string
       let query = `page=${pageToFetch}&page_size=8&search=${encodeURIComponent(
         gameName
@@ -133,14 +131,17 @@ export default function ContextProvider({ children }) {
         const formattedEnd = endDate?.toISOString().split("T")[0];
         query += `&dates=${formattedStart},${formattedEnd}`;
       }
-
+      
       try {
-        // const res = await fetch(url);
-        // const data = await res.json();
+      
         setLoading(true);
-        const data = await fetchRAWG("games", query);
+        const data = await getCachedGameData('games', query);
+        console.log('data results', data)
+        console.log('query', query)
+        // const data = await fetchRAWG("games", query);
 
-        setResults(data.results);
+        setResults(data);
+        // setResults(data.results);
       } catch (err) {
         console.error("Error trying to fetch data:", err);
       } finally {
