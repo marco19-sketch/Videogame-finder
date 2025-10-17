@@ -29,13 +29,13 @@ export async function fetchRAWG(endpoint, query = "", USE_MOCK = false) {
 export async function fetchYouTube(gameTitle, mode = "") {
   if (!gameTitle) return null;
 
+  const query = `${gameTitle} ${mode} -movie -film`;
   const res = await fetch(
     `/.netlify/functions/youtubeNet?gameTitle=${encodeURIComponent(
-      gameTitle
-    )} ${encodeURIComponent(mode)}&videoCategory=20`
+      query
+    )}&videoCategory=20`
   );
 
-  
   const data = await res.json();
 
   if (!res.ok) throw new Error("Failed to fetch YouTube");

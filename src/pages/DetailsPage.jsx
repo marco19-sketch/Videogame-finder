@@ -104,7 +104,7 @@ export default function DetailsPage() {
               navigate(-1);
               playNav();
             }}
-            className="hover:text-cyan-300 transition text-xl">
+            className="hover:text-cyan-300 transition text-xl cursor-pointer">
             ⬅️ Back
           </button>
         </div>

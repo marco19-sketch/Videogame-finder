@@ -46,7 +46,7 @@ export default function OtherRawgVideos({
     [trailers, setIndexA]
   );
 
-  console.log("results", results);
+  
   return (
     <div
       className="absolute inset-0 flex justify-center items-center rounded-t-2xl cursor-pointer"
@@ -99,17 +99,20 @@ export default function OtherRawgVideos({
                         if (newIndex !== -1) {
                           setCurrentIndex(newIndex); // <-- THIS switches the video
                           setRelatedRawgVideos(false); // hides the overlay and starts the rawg video
+                          console.log('newIndex', newIndex)
                         }
                       }}
+                      
                       className="object-cover aspect-video border-1  
                      hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
                       src={
-                        results[0]?.short_screenshots[i]?.image ||
+                        results[0]?.short_screenshots[indexA + i]?.image ||
                         trailers[indexA + i]?.preview
                       }
                       alt="Video thumbnail"
                     />
-                    <h3 className="absolute top-0 left-10 text-white text-sm">
+                    {console.log('currentIndex', currentIndex)}
+                    <h3 className="absolute bottom-1 left-10 rounded-[4px] px-2 text-white text-sm bg-black/60">
                       {trailers[indexA + i]?.name}
                     </h3>
                   </div>

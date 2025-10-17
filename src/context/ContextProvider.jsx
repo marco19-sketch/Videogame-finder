@@ -153,7 +153,7 @@ export default function ContextProvider({ children }) {
       location.pathname,
     ]
   );
-console.log('results', results)
+
   const AppContextValues = useMemo(
     () => ({
       results,
