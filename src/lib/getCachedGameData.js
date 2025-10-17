@@ -50,7 +50,7 @@ export async function getCachedGameData(apiEndpoint, gameTitle, query) {
           
     // 🎬 If endpoint includes "/movies", RAWG returns { results: [...] }
     const gameData = res?.results ?? res;
-    console.log('gameData', gameData)
+   
 
     if (gameData) {
       await setDoc(cacheRef, {

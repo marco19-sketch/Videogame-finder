@@ -44,7 +44,7 @@ export default function ResultsPage() {
     if (results.length >= 8) setPage(prevPage => prevPage + 1);
     
   }, [setPage, results.length]);
-  console.log("results length", results.length);
+ 
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -52,7 +52,7 @@ export default function ResultsPage() {
     }, 500);
     return () => clearTimeout(timer);
   }, [page, handleFetch]);
-console.log('page', page)
+
 
   return (
     <div

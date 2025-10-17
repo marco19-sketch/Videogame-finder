@@ -14,7 +14,6 @@ import clsx from "clsx";
 
 export default function OtherRawgVideos({
   setCurrentIndex, // lifted to parent
-  currentIndex, //lifted to parent
   setRelatedRawgVideos, //lifting to parent
   handleOnPlay, // ???
 }) {
@@ -99,7 +98,7 @@ export default function OtherRawgVideos({
                         if (newIndex !== -1) {
                           setCurrentIndex(newIndex); // <-- THIS switches the video
                           setRelatedRawgVideos(false); // hides the overlay and starts the rawg video
-                          console.log('newIndex', newIndex)
+                          
                         }
                       }}
                       
@@ -111,7 +110,7 @@ export default function OtherRawgVideos({
                       }
                       alt="Video thumbnail"
                     />
-                    {console.log('currentIndex', currentIndex)}
+                   
                     <h3 className="absolute bottom-1 left-10 rounded-[4px] px-2 text-white text-sm bg-black/60">
                       {trailers[indexA + i]?.name}
                     </h3>
