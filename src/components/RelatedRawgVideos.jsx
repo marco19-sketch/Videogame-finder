@@ -1,5 +1,10 @@
 import { useCallback, useState, useContext } from "react";
-import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-react";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import useNavSound from "../customHooks/useNavSound";
@@ -23,10 +28,9 @@ export default function OtherRawgVideos({
   const handleLeftOther = useCallback(
     e => {
       e.stopPropagation();
-      const timer = setTimeout(() => {
-      setIndexA(prev => (prev - 2 + trailers.length) % trailers.length);
-      }, 50)
-      return () => clearTimeout(timer)
+      setTimeout(() => {
+        setIndexA(prev => (prev - 2 + trailers.length) % trailers.length);
+      }, 50);
     },
     [trailers, setIndexA]
   );
@@ -35,16 +39,14 @@ export default function OtherRawgVideos({
     e => {
       e.stopPropagation();
       setIsAnimateLeft(false);
-      const timer = setTimeout(() => {
-      setIndexA(prev => (prev + 2) % trailers.length);
+      setTimeout(() => {
+        setIndexA(prev => (prev + 2) % trailers.length);
       }, 50);
-      return () => clearTimeout(timer)
     },
     [trailers, setIndexA]
   );
 
-
-
+  console.log("results", results);
   return (
     <div
       className="absolute inset-0 flex justify-center items-center rounded-t-2xl cursor-pointer"
@@ -54,20 +56,24 @@ export default function OtherRawgVideos({
         {/*animates the exit*/}
         <motion.div
           key={trailers[indexA].id}
-          initial={{ opacity: 0,
-            ...(isMobile 
-              ? {y: isAnimateLeft ? 100 : - 100}
-               : {x: isAnimateLeft ? 100 : -100 })
-
-               }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          exit={{ opacity: 0,
+          initial={{
+            opacity: 0,
             ...(isMobile
-              ? {y: isAnimateLeft ? - 100 : 100}
-               : {x: isAnimateLeft ? -100 : 100 })
-              }}
+              ? { y: isAnimateLeft ? 100 : -100 }
+              : { x: isAnimateLeft ? 100 : -100 }),
+          }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          exit={{
+            opacity: 0,
+            ...(isMobile
+              ? { y: isAnimateLeft ? -100 : 100 }
+              : { x: isAnimateLeft ? -100 : 100 }),
+          }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={clsx("flex justify-center items-center ", isMobile && 'flex-col')}>
+          className={clsx(
+            "flex justify-center items-center ",
+            isMobile && "flex-col"
+          )}>
           <ArrowUpLeft
             className="text-white h-8 w-8 sm:h-18 sm:w-18 cursor-pointer hover:drop-shadow-[0_0_8px_blue] hover:scale-110 transition-all duration-300"
             onClick={e => {
@@ -77,38 +83,35 @@ export default function OtherRawgVideos({
             }}
           />
           {trailers.length >= 2 ? (
-            <div className={clsx("relative flex flex-1 p-4 sm:p-0 gap-4 items-center justify-between",
-              isMobile && 'flex-col'
-            )}>
+            <div
+              className={clsx(
+                "relative flex flex-1 p-4 sm:p-0 gap-4 items-center justify-between",
+                isMobile && "flex-col"
+              )}>
               {trailers.slice(indexA, indexA + 2).map((object, i) => {
                 return (
-                  <div className="basis-1/2" key={object.id}>
+                  <div className="relative basis-1/2" key={object.id}>
                     <img
                       onClick={e => {
                         e.stopPropagation();
-
                         // find the indexA of the clicked video in your array
-
                         const newIndex = indexA + i;
-                        // const newIndex = i;
-
-                        // const newIndex = trailers.indexOf(object);
-
                         if (newIndex !== -1) {
                           setCurrentIndex(newIndex); // <-- THIS switches the video
                           setRelatedRawgVideos(false); // hides the overlay and starts the rawg video
-                          // setOtherVideos(false); // hides the overlay
                         }
                       }}
                       className="object-cover aspect-video border-1  
-                  hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
+                     hover:shadow-[0_0_40px_cyan] hover:scale-110 border-cyan-400 rounded-2xl transition-all duration-300"
                       src={
                         results[0]?.short_screenshots[i]?.image ||
-                        trailers[currentIndex]?.preview
+                        trailers[indexA + i]?.preview
                       }
-                     
                       alt="Video thumbnail"
                     />
+                    <h3 className="absolute top-0 left-10 text-white text-sm">
+                      {trailers[indexA + i]?.name}
+                    </h3>
                   </div>
                 );
               })}

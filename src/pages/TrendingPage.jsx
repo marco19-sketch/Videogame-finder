@@ -40,8 +40,7 @@ export default function TrendingPage(sortBy) {
   useEffect(() => {
     async function fetchTrending() {
       const query = `&ordering=${sortBy}&page=${page}&page_size=8`;
-      const data = await getCachedGameData('', query)
-      // const data = await getTrending(sortBy, page);
+      const data = await getCachedGameData('/games', '', query)
       setTrendingGames(data);
     }
     fetchTrending();

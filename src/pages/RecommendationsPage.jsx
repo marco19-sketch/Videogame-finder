@@ -66,7 +66,7 @@ export default function RecommendationsPage() {
       try {
         const currentTitle = recommendationsList[index].title;
         const query = `page=1&page_size=1&search=${encodeURIComponent(currentTitle)}`;
-         const gameData = await getCachedGameData(currentTitle, query);
+         const gameData = await getCachedGameData('/games', currentTitle, query);
         console.log('gameData', gameData)
         if (gameData) {
           setBg(gameData[0].background_image);

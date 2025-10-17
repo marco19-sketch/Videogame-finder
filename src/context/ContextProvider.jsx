@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback, useEffect } from "react";
+import { useMemo, useState, useCallback, useEffect, useRef } from "react";
 import { AppContext, AuthContext } from "./contextsCreation";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -38,6 +38,7 @@ export default function ContextProvider({ children }) {
   const [message, setMessage] = useState("");
   const [USE_MOCK, setUSE_MOCK] = useState(false);
   const [url, setUrl] = useState("");
+  const trailerController = useRef(null);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -54,15 +55,16 @@ export default function ContextProvider({ children }) {
     async game => {
       if (!game || !game.id) return null;
 
+      // Abort previous fetch if still running
+      if (trailerController.current) {
+        trailerController.current.abort();
+      }
+
       const controller = new AbortController();
-      // const timer = setTimeout(async () => {
+      trailerController.current = controller;
+
       try {
         setLoading(true);
-
-        // const data = await fetchRAWG(
-        //   `/games/${game.id}/movies`,
-        //   "",
-
         const data = await getCachedGameData(
           `/games/${game.id}/movies`,
           "",
@@ -73,13 +75,9 @@ export default function ContextProvider({ children }) {
         );
 
         setTrailers(data || []);
-
         setShowTrailer(Boolean(data?.length));
-
         setShowModal(true);
-        // setTimeout(() => {
         setLoading(false);
-        // }, 300);
         return data;
       } catch (err) {
         if (err.name === "AbortError") return; // fetch was cancelled
@@ -87,15 +85,11 @@ export default function ContextProvider({ children }) {
       } finally {
         setLoading(false);
       }
-      // }, 300); //debounce
-
-      return () => controller.abort();
-      // clearTimeout(timer);
     },
     [setShowTrailer, setLoading, setShowModal, setTrailers]
   );
 
-
+  
   //authentication context
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, u => {
@@ -139,7 +133,6 @@ export default function ContextProvider({ children }) {
         const data = await getCachedGameData("/games", "", query);
 
         setResults(data);
-        // setResults(data.results);
       } catch (err) {
         console.error("Error trying to fetch data:", err);
       } finally {
@@ -160,7 +153,7 @@ export default function ContextProvider({ children }) {
       location.pathname,
     ]
   );
-
+console.log('results', results)
   const AppContextValues = useMemo(
     () => ({
       results,

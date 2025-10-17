@@ -26,31 +26,27 @@ export default function RawgVideos() {
   return (
     <div className=" bg-gray-900 border border-cyan-500/40 rounded-2xl shadow-xl  max-w-3xl mx-auto">
       <h3 className="text-cyan-400 text-lg font-semibold mb-3 text-center">
-        {trailers[indexA]?.name}
+        {trailers[currentIndex]?.name}
       </h3>
-      <div ref={containerRef}>  
+      <div ref={containerRef}>
         <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg">
           <video
             ref={videoRef}
             controls
-            // autoPlay
+            aria-label={trailers[currentIndex]?.name}
             autoPlay={!relatedRawgVideos}
-            // muted
             onPause={() => setRelatedRawgVideos(true)}
             onPlay={() => setRelatedRawgVideos(false)}
             poster={trailers[currentIndex]?.preview}
-            // poster={trailers[indexA]?.preview}
             width="100%"
             key={trailers[currentIndex]?.id}
             className="w-full h-full">
-            {/* className="w-auto h-auto"> */}
-
             <source
               src={trailers[currentIndex]?.data["max"]}
               type="video/mp4"
             />
           </video>
-         
+
           {relatedRawgVideos && (
             <RelatedRawgVideos
               trailers={trailers}
@@ -59,14 +55,13 @@ export default function RawgVideos() {
               setCurrentIndex={setCurrentIndex}
               setIndexA={setIndexA}
               results={results}
-              // setOhterVideos={setRelatedRawgVideos}
               setRelatedRawgVideos={setRelatedRawgVideos}
               handleOnPlay={handleOnPlay}
             />
           )}
         </div>
-        <div className='hidden md:block'>
-        <FullScreenBtn container={containerRef} />
+        <div className="hidden md:block">
+          <FullScreenBtn container={containerRef} />
         </div>
       </div>
     </div>
