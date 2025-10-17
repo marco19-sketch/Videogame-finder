@@ -41,7 +41,7 @@ export async function getCachedGameData(apiEndpoint, gameTitle, query) {
       (apiEndpoint === "/games"
         ? `page=1&page_size=1&search=${encodeURIComponent(gameTitle)}`
         : "");
-
+   console.log('working on bug in production build')
     console.log(
       `⚡ Fetching RAWG data from: ${apiEndpoint} with query:`,
       finalQuery
