@@ -2,13 +2,17 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { fetchRAWG } from "../api/apiClient"; 
 
-export async function getCachedGameData(gameTitle, query) {
+export async function getCachedGameData(apiEndpoint, gameTitle, query) {
   try {
+    const safeTitle = (gameTitle || '').toLowerCase().replace((/\s+/g, '_'));
     // Use a normalized cache key
     // Include query in the cache key for uniqueness
-    const cacheKey = `${gameTitle
+    const cacheKey = `${apiEndpoint
       .toLowerCase()
-      .replace(/\s+/g, "_")}_${encodeURIComponent(query)}`;
+      .replace(/\s+/g, "_")
+      .replace(/\//g, "_")}_${safeTitle
+      }_${encodeURIComponent(query)}`;
+
     const cacheRef = doc(db, "gameCache", cacheKey);
     const snapshot = await getDoc(cacheRef);
 
@@ -26,14 +30,27 @@ export async function getCachedGameData(gameTitle, query) {
 
     // ⚡ Otherwise, fetch new ones
     console.log("⚡ Fetching new RAWG data for:", gameTitle);
+   
+
     // ✅ Only define a fallback query if none was passed
+    // 🧠 Rebuild correct API endpoint (restore slashes for RAWG)
+   
+    apiEndpoint = apiEndpoint.trim().replace(/_/g, "/");
     const finalQuery =
-      query || `page=1&page_size=1&search=${encodeURIComponent(gameTitle)}`;
-    const res = await fetchRAWG("games", finalQuery);
-    console.log("res", res?.results);
-    const gameData = res?.results;
-    
-    console.log("query & finalQuery", query, finalQuery);
+      query ||
+      (apiEndpoint === "/games"
+        ? `page=1&page_size=1&search=${encodeURIComponent(gameTitle)}`
+        : "");
+
+    console.log(
+      `⚡ Fetching RAWG data from: ${apiEndpoint} with query:`,
+      finalQuery
+    );
+      const res = await fetchRAWG(apiEndpoint, finalQuery, '');
+          
+    // 🎬 If endpoint includes "/movies", RAWG returns { results: [...] }
+    const gameData = res?.results ?? res;
+    console.log('gameData', gameData)
 
     if (gameData) {
       await setDoc(cacheRef, {

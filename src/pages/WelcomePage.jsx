@@ -1,23 +1,17 @@
 import { useEffect, useRef, useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AppContext } from "../context/contextsCreation";
-//mock objects fetch needed in the fetchTrending function
-import { getTrending } from "../lib/getTrending";
-// import { getTrending } from "../temp/mockGetTrending";
 import YouTubeEmbed from "../components/YouTubeEmbed";
-import { getCachedVideoIds } from "../lib/getCachedVideoIds"; // adjust path if needed
+import { getCachedVideoIds } from "../lib/getCachedVideoIds";
+import { getCachedGameData } from "../lib/getCachedGameData";
 
-
-//mock id fetch
-// import { findVideoIds } from "../lib/youtube";
-// import { findVideoIds } from "../temp/mockYTidfetch";
 
 import GhqLogo from "../ThemedComponents/GhqLogo";
 import PrivacySettings from "../components/PrivacySettings";
 // eslint-disable-next-line no-unused-vars
 import { AnimatePresence, motion } from "framer-motion";
 import useEntrySound from "../customHooks/useEntrySound";
-import { scrollTo } from '../lib/scrollTo';
+import { scrollTo } from "../lib/scrollTo";
 
 export default function WelcomePage() {
   const videoRef = useRef(null);
@@ -31,7 +25,7 @@ export default function WelcomePage() {
 
   useEffect(() => {
     scrollTo(100);
-  }, [])
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,42 +41,34 @@ export default function WelcomePage() {
   // this function gets a random game object
   useEffect(() => {
     async function fetchTrending() {
+      const sortBy = "-added";
       const randomPage = Math.floor(Math.random() * 10) + 1;
-      const data = await getTrending("-added", randomPage);
-
+      const query = `&ordering=${sortBy}&page=${randomPage}&page_size=16`;
+      const data = await getCachedGameData('/games',"", query);
 
       setFeaturedGame(data[Math.floor(Math.random() * data.length)]);
     }
     fetchTrending();
   }, [videoEnd]);
 
-  setUSE_MOCK(false);//this state is used to block the fetchRAWG calls to the 
-  // RAWG API in apiClient.js in order to not waste quota during tests; the mock fetches use 
-  // the /temp/mockGetTrending.js as well;
-
-
-
-  //this function gets the trailer from RAWG of the id for YouTubeEmbed
+  //this function gets the trailer from RAWG or the id for YouTubeEmbed
   useEffect(() => {
     const fetchTrailer = async () => {
       if (!featuredGame || !featuredGame.id) return;
-     
+
       const trailers = await handleFetchTrailers(featuredGame);
-      
+
       let videoIds;
       if (trailers && trailers.length > 0) {
-      const url = trailers[0].data.max || trailers[0].data["480"];
-      setTrailer(url);
-      setIds([]);
+        const url = trailers[0].data.max || trailers[0].data["480"];
+        setTrailer(url);
+        setIds([]);
       } else {
-      
-         videoIds = await getCachedVideoIds(
+        videoIds = await getCachedVideoIds(
           featuredGame.id,
           featuredGame.name,
-          'official trailer'
+          "official trailer"
         );
-
-      
       }
       if (videoIds && videoIds.length > 0) {
         setTrailer(null);
@@ -120,7 +106,6 @@ export default function WelcomePage() {
           {/* <AnimatePresence mode="wait"> */}
           {/* <motion.div initial={false} animate={{ opacity: 1 }}> */}
           <AnimatePresence mode="wait">
-            
             {trailer ? (
               <motion.video
                 key={featuredGame.id}
@@ -154,7 +139,6 @@ export default function WelcomePage() {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.7, opacity: 0 }}
                 transition={{ duration: 1, ease: "easeOut" }}>
-               
                 <YouTubeEmbed
                   videoId={ids[0]?.videoId}
                   // videoId={ids[0]}

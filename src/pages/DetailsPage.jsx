@@ -28,6 +28,7 @@ export default function DetailsPage() {
     setAutoplay,
   } = useContext(AppContext);
 
+
   const { id } = useParams();
   const navigate = useNavigate();
   const game =

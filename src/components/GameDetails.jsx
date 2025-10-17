@@ -1,4 +1,3 @@
-import { getDetails } from "../lib/getDetails";
 import { useEffect, useState, useContext } from "react";
 import { AppContext } from "../context/contextsCreation";
 // eslint-disable-next-line no-unused-vars
@@ -9,9 +8,9 @@ import RatingStars from "./RatingStars";
 import RatingMsg from "./RatingMsg";
 import useDescriptionSound from "../customHooks/useDescriptionSound";
 import AmazonButton from "./AmazonButton";
+import { getCachedGameData } from "../lib/getCachedGameData";
 
 export default function GameDetails({ gameId, game, setAutoplay }) {
-  // export default function GameDetails({ gameId, game }) {
   const [details, setDetails] = useState({});
   const [showDescription, setShowDescription] = useState(false);
   const {
@@ -34,8 +33,7 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const data = await getDetails(gameId);
-
+        const data = await getCachedGameData(`games/${gameId}`, "");
         setDetails(data);
       } catch (err) {
         console.error("Error fetching details from GameDetails", err);
@@ -50,11 +48,10 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
     <div
       className="flex flex-col justify-center items-center text-cyan-300"
       style={{ textShadow: "3px 3px 6px black" }}>
-    
-        <h1 className="text-3xl font-bold text-cyan-400 mb-8 drop-shadow-lg">
-          {game.name}
-        </h1>
-        
+      <h1 className="text-3xl font-bold text-cyan-400 mb-8 drop-shadow-lg">
+        {game.name}
+      </h1>
+
       <div
         className="grid grid-cols-1 *:border-1 *:border-cyan-400 *:rounded-[8px] *:p-4 *:shadow-lg *:shadow-black sm:grid-cols-2 
       gap-4 items-start text-xl mb-8 max-w-7xl">
@@ -132,7 +129,6 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
               {dev.name || "N/A"}{" "}
             </span>
           ))}
-          
         </p>
         {details?.game_series_count > 0 && (
           <p>
@@ -165,7 +161,6 @@ export default function GameDetails({ gameId, game, setAutoplay }) {
       )}
 
       <button
-       
         className="relative text-yellow-300 font-bold flex items-center p-2 rounded-xl
              after:content-[''] after:absolute after:left-0 after:bottom-0 
              after:h-[2px] after:bg-yellow-300 after:w-0 

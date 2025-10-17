@@ -3,8 +3,7 @@ import { AppContext, AuthContext } from "./contextsCreation";
 import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate, useLocation } from "react-router-dom";
-import { fetchRAWG } from "../api/apiClient";
-import { getCachedGameData } from '../lib/getCachedGameData';
+import { getCachedGameData } from "../lib/getCachedGameData";
 
 export default function ContextProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -38,7 +37,7 @@ export default function ContextProvider({ children }) {
   const [formUrl, setFormUrl] = useState(false);
   const [message, setMessage] = useState("");
   const [USE_MOCK, setUSE_MOCK] = useState(false);
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState("");
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
     try {
@@ -56,43 +55,46 @@ export default function ContextProvider({ children }) {
       if (!game || !game.id) return null;
 
       const controller = new AbortController();
-      const timer = setTimeout(async () => {
-        try {
-          setLoading(true);
+      // const timer = setTimeout(async () => {
+      try {
+        setLoading(true);
 
-          const data = await fetchRAWG(
-            `/games/${game.id}/movies`,
-            "",
-            USE_MOCK,
-            {
-              signal: controller.signal,
-            }
-          );
+        // const data = await fetchRAWG(
+        //   `/games/${game.id}/movies`,
+        //   "",
 
-          setTrailers(data.results);
+        const data = await getCachedGameData(
+          `/games/${game.id}/movies`,
+          "",
+          "",
+          {
+            signal: controller.signal,
+          }
+        );
 
-          setShowTrailer(Boolean(data.results?.length));
+        setTrailers(data || []);
 
-          setShowModal(true);
-          // setTimeout(() => {
-          setLoading(false);
-          // }, 300);
-          return data.results;
-        } catch (err) {
-          if (err.name === "AbortError") return; // fetch was cancelled
-          console.error("Error trying to fetch game trailers:", err);
-        } finally {
-          setLoading(false);
-        }
-      }, 300); //debounce
+        setShowTrailer(Boolean(data?.length));
 
-      return () => {
-        controller.abort();
-        clearTimeout(timer);
-      };
+        setShowModal(true);
+        // setTimeout(() => {
+        setLoading(false);
+        // }, 300);
+        return data;
+      } catch (err) {
+        if (err.name === "AbortError") return; // fetch was cancelled
+        console.error("Error trying to fetch game trailers:", err);
+      } finally {
+        setLoading(false);
+      }
+      // }, 300); //debounce
+
+      return () => controller.abort();
+      // clearTimeout(timer);
     },
-    [setShowTrailer, setLoading, setShowModal, setTrailers, USE_MOCK]
+    [setShowTrailer, setLoading, setShowModal, setTrailers]
   );
+
 
   //authentication context
   useEffect(() => {
@@ -131,14 +133,10 @@ export default function ContextProvider({ children }) {
         const formattedEnd = endDate?.toISOString().split("T")[0];
         query += `&dates=${formattedStart},${formattedEnd}`;
       }
-      
+
       try {
-      
         setLoading(true);
-        const data = await getCachedGameData('games', query);
-        console.log('data results', data)
-        console.log('query', query)
-        // const data = await fetchRAWG("games", query);
+        const data = await getCachedGameData("/games", "", query);
 
         setResults(data);
         // setResults(data.results);

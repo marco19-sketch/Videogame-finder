@@ -49,10 +49,11 @@ export default function ResultsPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       handleFetch(page);
-    }, 2000);
+    }, 500);
     return () => clearTimeout(timer);
   }, [page, handleFetch]);
 console.log('page', page)
+
   return (
     <div
       className="h-fit pb-30 pt-16 px-4 bg-gradient-to-b from-gray-900 via-gray-800

@@ -10,12 +10,17 @@ export default function RatingStars({ rating, className }) {
       {Array.from({ length: rating }).map((_, index) => (
         <IoStar key={index} />
       ))}
-     
-      {star < 0.25 ? <IoStarOutline /> : ( star > 0.75 ? <IoStar /> : <IoStarHalf />)}
-      {Array.from({ length: 5 - Math.ceil(rating) }).map((_, index) => (
+
+      {star < 0.25 ? (
+        <IoStarOutline />
+      ) : star > 0.75 ? (
+        <IoStar />
+      ) : (
+        <IoStarHalf />
+      )}
+      {Array.from({ length: 4 - Math.floor(rating) }).map((_, index) => (
         <IoStarOutline key={index} />
       ))}
-      
     </div>
   );
 }
