@@ -11,15 +11,15 @@ import useErrorSound from "../customHooks/useErrorSound";
 import { sanitizeText } from "../utils/sanitize"; // Fixed path - should be utils not lib
 
 export default function UsernameForm() {
-  const [username, setUsernameInput] = useState("");
+  // const [username, setUsernameInput] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const { loading } = useContext(AuthContext);
-  const { avatar, setMessage } = useContext(AppContext);
+  const { avatar, setMessage, username, setUsernameInput } = useContext(AppContext);
   const playBlip = useRadioCheck();
   const playNav = useNavSound();
   const playError = useErrorSound();
-
+  console.log('username', username)
   const handleSubmit = async e => {
     if (loading) {
       setMessage("⏳ Checking authentication...");
@@ -53,7 +53,7 @@ export default function UsernameForm() {
       }
 
       // Only allow alphanumeric, underscores, and hyphens
-      const usernameRegex = /^[a-zA-Z0-9_-]+$/;
+      const usernameRegex = /^[a-zA-Z0-9_\s*-]+$/;
       if (!usernameRegex.test(cleanUsername)) {
         setError(
           "Username can only contain letters, numbers, underscores, and hyphens"
@@ -100,13 +100,11 @@ export default function UsernameForm() {
           placeholder="Choose your username (3-30 characters)"
           maxLength={30} // Prevent too long inputs
         />
-        <div className="text-sm text-gray-400">
-          Letters, numbers, underscores, and hyphens only
-        </div>
+     
 
         <ThemedButton
           type="submit"
-          className="w-24 p-3"
+          className="w-24 p-3 mt-4"
           disabled={!username.trim() || username.length < 3} // Disable if invalid
         >
           Save

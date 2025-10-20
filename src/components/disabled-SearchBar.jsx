@@ -1,6 +1,3 @@
-//sanitized search field and api fetch
-// to test when rawg api fetch are restored (1/11/25)
-
 import { useCallback, useState, useEffect } from "react";
 import DateRangePicker from "./DateRangePicker";
 import { recommendationsList } from "../lib/recommendationsList";
@@ -11,10 +8,10 @@ import useSearchSound from "../customHooks/useSearchSound";
 import useDescriptionSound from "../customHooks/useDescriptionSound";
 import useCheckSound from "../customHooks/useCheckSound";
 import useUncheckSound from "../customHooks/useUncheckSound";
-import useRadioCheck from "../customHooks/useRadioCheck";
-import useResetSound from "../customHooks/useResetSound";
-import useTypeSound from "../customHooks/useTypeSound";
-import { sanitizeText } from "../utils/sanitize";
+import useRadioCheck from '../customHooks/useRadioCheck';
+import useResetSound from '../customHooks/useResetSound';
+import useTypeSound from '../customHooks/useTypeSound';
+
 
 const genresCheckboxes = [
   "Action",
@@ -91,36 +88,11 @@ export default function SearchBar({
     [setGenres, playCheck, playUncheck]
   );
 
-  // Sanitize search input handler
-  const handleSearchInput = useCallback(
-    value => {
-      const sanitizedValue = sanitizeText(value);
-      setGameName(sanitizedValue);
-      playType();
-    },
-    [setGameName, playType]
-  );
-
-  // Sanitize search before fetching
-  const handleSanitizedFetch = useCallback(() => {
-    const cleanGameName = sanitizeText(gameName);
-
-    // If the sanitized value is different, update it
-    if (cleanGameName !== gameName) {
-      setGameName(cleanGameName);
-    }
-
-    handleFetch();
-    playSearch();
-  }, [gameName, setGameName, handleFetch, playSearch]);
-
   useEffect(() => {
     const fetchBg = async () => {
       try {
-        // Sanitize the recommendation title before using in API call
-        const cleanTitle = sanitizeText(recommendationsList[randomIndex].title);
         const query = `page=1&page_size=1&title&search=${encodeURIComponent(
-          cleanTitle
+          recommendationsList[randomIndex].title
         )}`;
         const data = await fetchRAWG("games", query);
 
@@ -143,21 +115,22 @@ export default function SearchBar({
           type="text"
           value={gameName}
           id="game-name"
-          onChange={e => handleSearchInput(e.target.value)}
+          onChange={e => {setGameName(e.target.value);
+            playType();
+          }}
           className="text-base text-cyan-400 font-semibold w-full sm:w-1/2 block m-auto px-4 py-2 rounded-lg bg-gray-700  placeholder-gray-400 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           placeholder="e.g. The Witcher"
-          maxLength={100} // Prevent extremely long inputs
         />
-        {/* Character count indicator */}
-        <div className="text-xs text-gray-400 mt-1">
-          {gameName.length}/100 characters
-        </div>
       </div>
 
       {/* Search button */}
       <button
         type="button"
-        onClick={handleSanitizedFetch}
+        onClick={() => {
+          handleFetch();
+          playSearch();
+        }}
+      
         className="w-full sm:w-1/2 mx-auto my-4 block py-2 rounded-xl
          bg-cyan-500 hover:bg-cyan-400 text-black font-semibold 
          cursor-pointer shadow-lg shadow-cyan-500/30 transition">
@@ -277,8 +250,7 @@ export default function SearchBar({
                   value="rating"
                   checked={sort === "-rating"}
                   name="radio-btn"
-                  onChange={() => {
-                    setSort("-rating");
+                  onChange={() => {setSort("-rating");
                     playRadio();
                   }}
                   className="accent-cyan-500 cursor-pointer"
@@ -295,8 +267,7 @@ export default function SearchBar({
                   value="released"
                   checked={sort === "-released"}
                   name="radio-btn"
-                  onChange={() => {
-                    setSort("-released");
+                  onChange={() => {setSort("-released");
                     playRadio();
                   }}
                   className="accent-cyan-500 cursor-pointer"
@@ -344,8 +315,7 @@ export default function SearchBar({
       {/* Reset button */}
       <button
         type="button"
-        onClick={() => {
-          handleReset();
+        onClick={() => {handleReset();
           playReset();
         }}
         className="block w-1/2 mx-auto py-2 rounded-xl bg-gray-700 hover:bg-red-500 text-white font-semibold shadow-lg transition">

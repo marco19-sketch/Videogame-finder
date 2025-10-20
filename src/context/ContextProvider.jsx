@@ -38,6 +38,7 @@ export default function ContextProvider({ children }) {
   const [message, setMessage] = useState("");
   const [USE_MOCK, setUSE_MOCK] = useState(false);
   const [url, setUrl] = useState("");
+  const [username, setUsernameInput] = useState("");
   const trailerController = useRef(null);
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("savedGames");
@@ -214,6 +215,8 @@ export default function ContextProvider({ children }) {
       setUSE_MOCK,
       url,
       setUrl,
+      username,
+      setUsernameInput,
     }),
     [
       results,
@@ -274,6 +277,8 @@ export default function ContextProvider({ children }) {
       setUSE_MOCK,
       url,
       setUrl,
+      username,
+      setUsernameInput,
     ]
   );
 

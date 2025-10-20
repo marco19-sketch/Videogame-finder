@@ -11,6 +11,7 @@ import { IoVolumeMute } from "react-icons/io5";
 import { IoVolumeHighSharp } from "react-icons/io5";
 import UserAvatar from "../components/UserAvatar";
 import useNavSound from "../customHooks/useNavSound";
+import useMediaQuery from '../customHooks/useMediaQuery';
 
 const menuItems = [
   {
@@ -51,8 +52,9 @@ export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
   const { user } = useAuth();
   const logOut = useLogOut();
-  const { sound, setSound } = useContext(AppContext);
+  const { sound, setSound, username } = useContext(AppContext);
   const playNav = useNavSound();
+ const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
     <nav className=" bg-gray-900 text-cyan-400 shadow-md relative rounded-2xl z-30">
@@ -77,8 +79,8 @@ export default function Navbar() {
           style={{ textShadow: "2px 2px 6px cyan" }}>
           Game Quest Hub
         </div>
-        {user && <UserAvatar className="w-12 h-12 ml-auto mr-4 sm:mr-0" />}
-
+        {user && <UserAvatar className="w-12 h-12 ml-auto mr-4 sm:mr-2" />}
+         {!isMobile && user && <p>{username}</p>}
         {/* Desktop Links */}
         <div className="hidden md:flex space-x-6 ml-auto">
           {menuItems.map((item, idx) => {
