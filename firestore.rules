@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to validate all items in array are strings
+    function allStrings(arr) {
+      return arr.size() == 0 || arr[0] is string;
+    }
+
+    // Helper function to validate all items in array are maps  
+    function allMaps(arr) {
+      return arr.size() == 0 || arr[0] is map;
+    }
+
+    match /usernames/{username} {
+      allow create: if request.auth != null
+                    && !exists(/databases/$(database)/documents/usernames/$(username));
+      allow read: if true;
+    }
+
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // RAWG GAME CACHE
+    match /gameCache/{docId} {
+      allow read: if true;
+      allow create: if
+        request.resource.data.keys().hasOnly(['gameData', 'timestamp'])
+        && request.resource.data.timestamp is string
+        && request.resource.data.gameData is list
+        && request.resource.data.gameData.size() <= 64
+        && allMaps(request.resource.data.gameData);
+      allow update, delete: if false;
+    }
+
+    // YOUTUBE VIDEO CACHE  
+    match /youtubeCache/{cacheId} {
+      allow read: if true;
+      allow create: if
+        request.resource.data.keys().hasOnly(['videoIds', 'timestamp'])
+        && request.resource.data.timestamp is string
+        && request.resource.data.videoIds is list
+        && request.resource.data.videoIds.size() <= 10
+        && allStrings(request.resource.data.videoIds);
+      allow update, delete: if false;
+    }
+  }
+}
