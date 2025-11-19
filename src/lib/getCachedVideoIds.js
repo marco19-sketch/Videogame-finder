@@ -17,6 +17,8 @@ export async function getCachedVideoIds(gameId, gameTitle, mode = 'official trai
 
       if (cacheAge < oneWeek) {
         console.log("✅ Using cached YouTube IDs for:", gameTitle, 'mode', mode);
+        console.log('data', data)
+        console.log('data videoIds', data.videoIds)
         return data.videoIds;
       }
     }
@@ -26,6 +28,7 @@ export async function getCachedVideoIds(gameId, gameTitle, mode = 'official trai
     const videoIds = await findVideoIds(gameTitle, mode);
 
     if (videoIds?.length) {
+      console.log('uploaded videoIds format', videoIds)
       await setDoc(cacheRef, {
         videoIds,
         timestamp: new Date().toISOString(),

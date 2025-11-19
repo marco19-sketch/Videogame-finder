@@ -11,7 +11,8 @@ import useMediaQuery from '../customHooks/useMediaQuery';
 
 
 export default function YouTubeVideos({ gameTitle, mode }) {
-  const [videoIds, setVideoIds] = useState([]);
+  const [videoIds, setVideoIds] = useState({});
+  // const [videoIds, setVideoIds] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [unMuted, setUnMuted] = useState(false);
   const [relatedVideos, setRelatedVideos] = useState(false);
@@ -86,14 +87,16 @@ export default function YouTubeVideos({ gameTitle, mode }) {
       </h3>
       <div ref={containerRef}>
         <div className="relative aspect-video w-auto mx-auto overflow rounded-xl shadow-lg">
-          
+          {console.log('videoIds in youtubeVideo-jsz', videoIds)}
           {videoIds.length > 0 && (
             <YouTubeEmbed
               customOpts={{
                 playerVars: { start: 0, autoplay, playlist: null },
               }}
               unMuted={unMuted}
+              // videoId={videoIds[currentIndex]}// better modify getCachedVideo return data format
               videoId={videoIds[currentIndex]?.videoId}
+              // videoId={videoIds[currentIndex]?.videoId || videoIds.videoIds[currentIndex]}
               title={
                 videoIds[currentIndex]?.title
                   ? `${videoIds[currentIndex]?.title.slice(0, 5)} ${mode}`
