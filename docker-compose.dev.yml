@@ -1,0 +1,13 @@
+# docker-compose.dev.yml
+services:
+  frontend:
+    container_name: game_quest
+    image: node:22.20.0
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:8888"
+    # run install before starting dev server (use && so second command waits)
+    command: sh -c "npm install && npx netlify dev"
