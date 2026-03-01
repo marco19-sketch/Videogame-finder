@@ -9,9 +9,9 @@ The repository includes a `Dockerfile` that performs a multi-stage build:
    assets (`dist/`), functions, and a simple `server.js` which exposes the
    functions and serves the static files. The container listens on port 3000.
 
-A `docker-compose.prod.yml` file already references this Dockerfile and
-passes through all of the required `VITE_*`, `RAWG_API_KEY` and
-`YOUTUBE_API_KEY` build arguments; it also exposes port 3000:
+A `docker-compose.prod.yml` file already references this Dockerfile and passes
+through all of the required `VITE_*`, `RAWG_API_KEY` and `YOUTUBE_API_KEY` build
+arguments; it also exposes port 3000:
 
 ```yaml
 version: "3.8"
@@ -52,10 +52,9 @@ or, equivalently, build directly with:
 docker build -t game-quest-app .
 ```
 
-Once built, the image contains everything needed to run the application
-without mounting local source files; it is fully self‑contained and can be
-pushed to a registry or run on any compatible host.  To start the container
-from the image:
+Once built, the image contains everything needed to run the application without
+mounting local source files; it is fully self‑contained and can be pushed to a
+registry or run on any compatible host. To start the container from the image:
 
 ```bash
 docker run -p 3000:3000 --env-file .env game-quest-app
@@ -63,19 +62,25 @@ docker run -p 3000:3000 --env-file .env game-quest-app
 
 Your application will be available at http://localhost:3000.
 
+> **IPv6 gotcha:** on some Windows/Docker setups `localhost` resolves to `::1`
+> (IPv6) and connections are reset despite the container listening on IPv4. If
+> you encounter `curl: (56) Connection was reset` or your browser can’t load the
+> page, use `http://127.0.0.1:3000` or add an entry for `localhost` →
+> `127.0.0.1` in your hosts file.
 
 ### Deploying your application to the cloud
 
-First, build your image, e.g.: `docker build -t myapp .`.
-If your cloud uses a different CPU architecture than your development
-machine (e.g., you are on a Mac M1 and your cloud provider is amd64),
-you'll want to build the image for that platform, e.g.:
-`docker build --platform=linux/amd64 -t myapp .`.
+First, build your image, e.g.: `docker build -t myapp .`. If your cloud uses a
+different CPU architecture than your development machine (e.g., you are on a Mac
+M1 and your cloud provider is amd64), you'll want to build the image for that
+platform, e.g.: `docker build --platform=linux/amd64 -t myapp .`.
 
 Then, push it to your registry, e.g. `docker push myregistry.com/myapp`.
 
-Consult Docker's [getting started](https://docs.docker.com/go/get-started-sharing/)
-docs for more detail on building and pushing.
+Consult Docker's
+[getting started](https://docs.docker.com/go/get-started-sharing/) docs for more
+detail on building and pushing.
 
 ### References
-* [Docker's Node.js guide](https://docs.docker.com/language/nodejs/)
+
+- [Docker's Node.js guide](https://docs.docker.com/language/nodejs/)
