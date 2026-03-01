@@ -1,13 +1,20 @@
 # docker-compose.dev.yml
+# Compose file for development environment configuration
 services:
+  # Define a service named "frontend" which will run our client app
   frontend:
+    # Explicit name for the container when created
     container_name: game_quest
+    # Base Docker image - Node.js version 22.20.0 for build/runtime
     image: node:22.20.0
+    # Set working directory inside the container
     working_dir: /usr/src/app
+    # Bind mounts to sync files from host to container and preserve modules
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/usr/src/app     # mount current project directory into container
+      - /usr/src/app/node_modules  # ensure node_modules stays inside container
     ports:
-      - "3000:8888"
-    # run install before starting dev server (use && so second command waits)
+      - "3000:8888"       # map host port 3000 to container port 8888
+    # command to run when the container starts
+    # using sh -c so we can chain npm install before launching dev server
     command: sh -c "npm install && npx netlify dev"
