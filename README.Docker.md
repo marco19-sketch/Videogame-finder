@@ -33,6 +33,10 @@ is not required.
 
 ### Building and running your application
 
+> **Note:** on the `containerization` branch I'm going to try building a
+> portable image so the app can run anywhere without source code mounts.  The
+> instructions below will evolve as that experiment progresses.
+
 When you're ready, start your application by running:
 `docker compose up --build`.
 
